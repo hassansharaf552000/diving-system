@@ -1,4 +1,4 @@
-name: Build Angular and push output to target branch
+name: Deploy Angular to GitHub Pages
 
 on:
   push:
@@ -8,39 +8,29 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: build-to-target-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  build-and-push:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      # If your build script differs, adjust it.
-      # This will run the Angular CLI build from package.json scripts.
-      - name: Build Angular (production)
-        run: npm run build -- --configuration production
+      - name: Build with correct base-href
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          npm run build -- --configuration production --base-href "/${REPO_NAME}/"
 
-      - name: Push build output to target branch
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: target
+          publish_branch: gh-pages
           publish_dir: ./dist/diving-system/browser
           force_orphan: true
-          commit_message: "chore: build from ${{ github.sha }}"
