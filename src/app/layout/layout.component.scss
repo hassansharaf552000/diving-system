@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  height: calc(100vh - 80px);
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Bubbles */
+.bubble {
+  position: absolute;
+  bottom: -100px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  animation: rise 15s infinite ease-in;
+  backdrop-filter: blur(5px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes rise {
+  0% { bottom: -100px; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { bottom: 110%; opacity: 0; }
+}

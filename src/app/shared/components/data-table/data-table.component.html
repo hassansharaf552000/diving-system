@@ -1,0 +1,45 @@
+<div class="table-container">
+  <div class="search-box" *ngIf="showSearch">
+    <span class="search-icon">🔍</span>
+    <input type="text"
+           [(ngModel)]="searchTerm"
+           (ngModelChange)="onSearchChange()"
+           placeholder="Search...">
+  </div>
+
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th *ngFor="let col of columns"
+              [class.sortable]="col.sortable"
+              (click)="sort(col)">
+            {{ col.label }}
+            <span class="sort-arrow" *ngIf="col.sortable">
+              {{ sortColumn === col.key ? (sortDirection === 'asc' ? '▲' : '▼') : '▼' }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of pagedData; let i = index"
+            [class.selected]="selectedIndex === i"
+            (click)="selectRow(item, i)">
+          <td *ngFor="let col of columns">{{ item[col.key] }}</td>
+        </tr>
+        <tr *ngIf="pagedData.length === 0">
+          <td [attr.colspan]="columns.length" class="empty-row">No records found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-footer">
+    <span class="records-info">{{ recordsInfo }}</span>
+    <div class="pagination">
+      <button class="page-nav" (click)="prevPage()" [disabled]="currentPage === 1">‹</button>
+      <button class="page-btn active">{{ currentPage }}</button>
+      <button class="page-nav" (click)="nextPage()" [disabled]="currentPage === totalPages">›</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<div class="code-page">
+  <div class="code-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <button class="back-btn" (click)="goBack()">←</button>
+        <h2>🏢 Code Agent</h2>
+        <span class="record-count">{{ filtered.length }} records</span>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn-add" (click)="openAdd()">＋ Add New Agent</button>
+      </div>
+    </div>
+    <div class="code-table-wrap">
+      <div class="table-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Search agents...">
+      </div>
+      <table class="code-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Agent Name</th>
+            <th>Nationality</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th style="width:90px">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filtered">
+            <td>{{ item.agentCode }}</td>
+            <td><strong>{{ item.agentName }}</strong></td>
+            <td>{{ item.nationality }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.phone }}</td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn edit-btn" (click)="openEdit(item)">✏️</button>
+                <button class="action-btn delete-btn" (click)="confirmDelete(item)">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filtered.length === 0">
+            <td colspan="6" class="empty-row">No agents found</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span class="records-info">Showing {{ filtered.length }} of {{ items.length }} records</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Modal -->
+  <app-modal [title]="isEdit ? 'Edit Agent' : 'Add New Agent'" [isOpen]="isModalOpen" (closed)="closeModal()" size="medium">
+    <div class="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Agent Code</label>
+          <input type="text" [(ngModel)]="model.agentCode" placeholder="Enter code">
+        </div>
+        <div class="form-group">
+          <label>Agent Name *</label>
+          <input type="text" [(ngModel)]="model.agentName" placeholder="Enter agent name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nationality</label>
+          <input type="text" [(ngModel)]="model.nationality" placeholder="Enter nationality">
+        </div>
+        <div class="form-group">
+          <label>E-Mail</label>
+          <input type="email" [(ngModel)]="model.email" placeholder="Enter email">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Vat No</label>
+          <input type="text" [(ngModel)]="model.vatNo" placeholder="Enter VAT number">
+        </div>
+        <div class="form-group">
+          <label>File No</label>
+          <input type="text" [(ngModel)]="model.fileNo" placeholder="Enter file number">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" [(ngModel)]="model.address" placeholder="Enter address">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" [(ngModel)]="model.phone" placeholder="Enter phone">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-save" (click)="save()">{{ isEdit ? '💾 Update Agent' : '＋ Add Agent' }}</button>
+      <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
+    </div>
+  </app-modal>
+
+  <!-- Delete Confirmation -->
+  <app-confirm-dialog
+    [isOpen]="showDeleteConfirm"
+    [itemName]="deleteTarget?.agentName || ''"
+    (confirmed)="onDeleteConfirmed()"
+    (cancelled)="onDeleteCancelled()">
+  </app-confirm-dialog>
+</div>

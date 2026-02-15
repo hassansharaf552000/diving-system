@@ -1,0 +1,25 @@
+<div class="confirm-overlay" *ngIf="isOpen" (click)="onCancel()">
+  <div class="confirm-card" (click)="$event.stopPropagation()">
+    <!-- Danger Icon -->
+    <div class="danger-icon-wrap">
+      <div class="danger-icon">
+        <span class="icon-exclaim">!</span>
+      </div>
+      <div class="danger-pulse"></div>
+    </div>
+
+    <!-- Content -->
+    <h3 class="confirm-title">{{ title }}</h3>
+    <p class="confirm-message">{{ message }}</p>
+    <p class="confirm-item" *ngIf="itemName">
+      <span class="item-label">{{ itemName }}</span>
+    </p>
+    <p class="confirm-warning">This action cannot be undone.</p>
+
+    <!-- Buttons -->
+    <div class="confirm-actions">
+      <button class="btn-cancel" (click)="onCancel()">{{ cancelText }}</button>
+      <button class="btn-confirm" (click)="onConfirm()">🗑️ {{ confirmText }}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="page-section">
+  <h2>📊 Reports & Analytics</h2>
+  <p>Comprehensive reports about center performance</p>
+  <div class="stats-container">
+    <div class="stat-card" *ngFor="let stat of stats" [style.background]="stat.gradient">
+      <div class="stat-number">{{ stat.value }}</div>
+      <div class="stat-label">{{ stat.label }}</div>
+    </div>
+  </div>
+</div>

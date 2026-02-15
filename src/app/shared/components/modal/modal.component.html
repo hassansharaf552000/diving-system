@@ -1,0 +1,14 @@
+<div class="modal-overlay"
+     [class.show]="isOpen"
+     (click)="onOverlayClick($event)">
+  <div class="modal-container"
+       [ngClass]="'modal-' + size">
+    <div class="modal-header">
+      <h2>{{ title }}</h2>
+      <button class="close-btn" (click)="close()">✕</button>
+    </div>
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

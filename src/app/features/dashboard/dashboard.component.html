@@ -1,0 +1,13 @@
+<div class="welcome-section">
+  <h2>🌊 Welcome to Dive UP</h2>
+  <p>Professional diving center management system for all your operations</p>
+
+  <div class="stats-container">
+    <div class="stat-card"
+         *ngFor="let stat of stats"
+         [style.background]="stat.gradient">
+      <div class="stat-number">{{ stat.value }}</div>
+      <div class="stat-label">{{ stat.label }}</div>
+    </div>
+  </div>
+</div>

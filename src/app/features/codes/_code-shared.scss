@@ -1,0 +1,361 @@
+// ============================================
+// SHARED STYLES FOR ALL CODE COMPONENTS
+// ============================================
+
+.code-page {
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.4s ease-out;
+  padding: 0 10px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// ---- Card ----
+.code-card {
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 18px;
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.09);
+  overflow: hidden;
+}
+
+// ---- Toolbar ----
+.code-toolbar {
+  background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+  padding: 18px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .back-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+    }
+
+    h2 {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    .record-count {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+
+  .toolbar-right {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+// ---- Toolbar Buttons ----
+.btn-add {
+  background: linear-gradient(135deg, #43e97b 0%, #38d06e 100%);
+  color: white;
+  border: none;
+  padding: 9px 22px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(67, 233, 123, 0.4);
+  }
+}
+
+// ---- Table Section ----
+.code-table-wrap {
+  padding: 20px 24px;
+}
+
+.code-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  thead {
+    background: #f6f8fb;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  th {
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: #444;
+    border-bottom: 2px solid #e2e5ea;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    user-select: none;
+    white-space: nowrap;
+
+    &.sortable {
+      cursor: pointer;
+      &:hover { background: #edf0f4; }
+    }
+  }
+
+  .sort-arrow {
+    font-size: 10px;
+    margin-left: 4px;
+    color: #999;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #f0f1f3;
+    transition: background 0.2s;
+
+    &:hover { background: #e8f0fe; }
+    &.selected { background: #bbdefb; }
+  }
+
+  td {
+    padding: 11px 14px;
+    color: #555;
+  }
+
+  .empty-row {
+    text-align: center;
+    color: #999;
+    padding: 40px 14px;
+    font-style: italic;
+  }
+}
+
+// ---- Actions column ----
+.actions-cell {
+  display: flex;
+  gap: 6px;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: all 0.25s;
+
+  &.edit-btn {
+    background: #e3f2fd;
+    color: #1e88e5;
+    &:hover { background: #bbdefb; transform: scale(1.1); }
+  }
+
+  &.delete-btn {
+    background: #fce4ec;
+    color: #e53935;
+    &:hover { background: #ffcdd2; transform: scale(1.1); }
+  }
+}
+
+// ---- Search in table ----
+.table-search {
+  position: relative;
+  margin-bottom: 16px;
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: #999;
+  }
+
+  input {
+    width: 100%;
+    max-width: 340px;
+    padding: 10px 14px 10px 42px;
+    border: 1px solid #e0e3e8;
+    border-radius: 9px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.25s;
+    background: #f8f9fa;
+    font-family: inherit;
+
+    &:focus {
+      border-color: #2a5298;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+    }
+  }
+}
+
+// ---- Table Footer ----
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid #e8eaee;
+  margin-top: 8px;
+
+  .records-info { font-size: 13px; color: #777; }
+}
+
+.pagination {
+  display: flex;
+  gap: 5px;
+
+  button {
+    padding: 6px 12px;
+    border: 1px solid #d0d0d0;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.25s;
+    font-family: inherit;
+
+    &:hover:not(:disabled) {
+      background: #2a5298;
+      color: white;
+      border-color: #2a5298;
+    }
+
+    &:disabled { opacity: 0.4; cursor: not-allowed; }
+    &.active { background: #2a5298; color: white; border-color: #2a5298; }
+  }
+}
+
+// ============================================
+// MODAL FORM STYLES
+// ============================================
+.modal-form {
+  padding: 28px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #556;
+    font-weight: 500;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid #d3d7dc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.25s;
+    background: white;
+    font-family: inherit;
+
+    &:focus {
+      border-color: #2a5298;
+      box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+    }
+  }
+
+  .readonly-input {
+    background: #e9ecef !important;
+    cursor: not-allowed;
+    color: #6c757d;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 20px 28px;
+  background: #f8f9fa;
+  border-top: 1px solid #e8eaee;
+}
+
+.btn-save,
+.btn-cancel-modal {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #17a2b8, #138496);
+  color: white;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(23, 162, 184, 0.35);
+  }
+}
+
+.btn-cancel-modal {
+  background: #e8ecf1;
+  color: #556;
+
+  &:hover { background: #d5dbe3; }
+}
+
+@media (max-width: 768px) {
+  .code-toolbar {
+    padding: 14px 18px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

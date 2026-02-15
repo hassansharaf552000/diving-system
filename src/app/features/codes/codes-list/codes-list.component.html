@@ -1,0 +1,54 @@
+<div class="codes-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>🏷️ System Codes</h1>
+      <p>Manage all system codes and configuration tables</p>
+    </div>
+    <div class="header-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Search codes...">
+    </div>
+  </div>
+
+  <!-- Summary Bar -->
+  <div class="summary-bar">
+    <div class="summary-stat">
+      <span class="stat-val">{{ codes.length }}</span>
+      <span class="stat-lbl">Total Code Types</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-val">{{ filteredCodes.length }}</span>
+      <span class="stat-lbl">Showing</span>
+    </div>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="codes-grid">
+    <div class="code-card" *ngFor="let code of filteredCodes; let i = index"
+         (click)="openCode(code)"
+         [style.animation-delay]="i * 0.04 + 's'">
+      <div class="card-accent" [style.background]="code.gradient"></div>
+      <div class="card-body">
+        <div class="card-icon-wrap" [style.background]="code.gradient">
+          <span class="card-icon">{{ code.icon }}</span>
+        </div>
+        <div class="card-info">
+          <h3>{{ code.label }}</h3>
+          <p>{{ code.desc }}</p>
+        </div>
+        <div class="card-meta">
+          <span class="record-badge" *ngIf="code.count > 0">{{ code.count }} records</span>
+          <span class="arrow-circle">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredCodes.length === 0">
+    <span class="empty-icon">🔍</span>
+    <h3>No codes found</h3>
+    <p>Try adjusting your search term</p>
+  </div>
+</div>

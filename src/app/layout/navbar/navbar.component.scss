@@ -1,0 +1,153 @@
+.header {
+  background: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  position: relative;
+  height: 80px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #1e88e5, #1565c0);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+}
+
+.logo-icon {
+  font-size: 26px;
+}
+
+.logo-text h1 {
+  font-size: 18px;
+  color: #1e3c72;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.logo-text p {
+  font-size: 12px;
+  color: #8896a8;
+  font-weight: 400;
+}
+
+.header-center {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 40px;
+}
+
+.system-title {
+  text-align: center;
+  color: #1e3c72;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon-btn {
+  background: #f5f7fa;
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  font-size: 18px;
+}
+
+.icon-btn:hover {
+  background: #e8ecf1;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.notification-btn {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: linear-gradient(135deg, #f44336, #e91e63);
+  color: white;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(244, 67, 54, 0.4);
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 10px;
+  transition: background 0.25s ease;
+}
+
+.user-section:hover {
+  background: #f5f7fa;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.35);
+}
+
+.user-name {
+  color: #333;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .header-center {
+    margin: 0 16px;
+  }
+  .system-title {
+    font-size: 14px;
+  }
+  .user-name {
+    display: none;
+  }
+}

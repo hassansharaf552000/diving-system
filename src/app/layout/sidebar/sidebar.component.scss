@@ -1,0 +1,63 @@
+.sidebar {
+  width: 250px;
+  min-width: 250px;
+  background: rgba(30, 60, 114, 0.95);
+  padding: 20px 12px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 20px;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 400;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(4px);
+  }
+
+  &.active {
+    background: rgba(42, 128, 185, 0.8);
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(42, 128, 185, 0.3);
+  }
+}
+
+.menu-icon {
+  font-size: 20px;
+  width: 28px;
+  text-align: center;
+}
+
+.menu-label {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 70px;
+    min-width: 70px;
+    padding: 20px 8px;
+  }
+  .menu-label {
+    display: none;
+  }
+  .menu-item {
+    justify-content: center;
+    padding: 14px;
+    gap: 0;
+  }
+}
