@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { PriceList } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-price-list', standalone: false, templateUrl: './code-price-list.component.html', styleUrl: './code-price-list.component.scss' })
 export class CodePriceListComponent implements OnInit {
-  items: PriceList[] = []; model: PriceList = { priceListName: '' }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: PriceList[] = []; model: PriceList = { priceListName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
   showDeleteConfirm = false; deleteTarget: PriceList | null = null;
-  constructor(private svc: CodeService, private router: Router) { }
+  constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
-  loadData(): void { this.svc.getPriceLists().subscribe(d => this.items = d); }
+  loadData(): void { this.svc.getPriceLists().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): PriceList[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.priceListName || '').toLowerCase().includes(t)); }
-  openAdd(): void { this.model = { priceListName: '' }; this.isEdit = false; this.isModalOpen = true; }
+  openAdd(): void { this.model = { priceListName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: PriceList): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; }
   save(): void {

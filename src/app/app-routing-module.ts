@@ -22,6 +22,7 @@ import { CodeTransportationTypeComponent } from './features/codes/code-transport
 import { CodeTransportationSupplierComponent } from './features/codes/code-transportation-supplier/code-transportation-supplier.component';
 import { CodeTransportationCostComponent } from './features/codes/code-transportation-cost/code-transportation-cost.component';
 import { CodeVoucherComponent } from './features/codes/code-voucher/code-voucher.component';
+import { CodeExcursionCostSellingComponent } from './features/codes/code-excursion-cost-selling/code-excursion-cost-selling.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,7 @@ const routes: Routes = [
       { path: 'codes/transportation-supplier', component: CodeTransportationSupplierComponent },
       { path: 'codes/transportation-cost', component: CodeTransportationCostComponent },
       { path: 'codes/voucher', component: CodeVoucherComponent },
+      { path: 'codes/excursion-cost-selling', component: CodeExcursionCostSellingComponent },
       { path: 'reports', component: ReportsComponent },
       { path: 'help', component: HelpComponent },
       { path: '**', redirectTo: 'dashboard' }

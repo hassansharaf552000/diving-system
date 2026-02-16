@@ -15,8 +15,7 @@ export interface Agent {
 export interface Boat {
   id?: number;
   boatName: string;
-  capacity?: number;
-  status?: string;
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -26,6 +25,7 @@ export interface Excursion {
   excursionName: string;
   supplierId?: number;
   supplierName?: string;       // populated by GET response
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -33,6 +33,12 @@ export interface Excursion {
 export interface ExcursionSupplier {
   id?: number;
   supplierName: string;
+  vatNo?: string;
+  fileNo?: string;
+  email?: string;
+  address?: string;
+  phone?: string;
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -42,6 +48,7 @@ export interface Guide {
   guideName: string;
   address?: string;
   phone?: string;
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -49,6 +56,7 @@ export interface Guide {
 export interface HotelDestination {
   id?: number;
   destinationName: string;
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -58,6 +66,7 @@ export interface Hotel {
   hotelName: string;
   destinationId?: number;
   destinationName?: string;    // populated by GET response
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -65,6 +74,7 @@ export interface Hotel {
 export interface Nationality {
   id?: number;
   nationalityName: string;
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -72,6 +82,7 @@ export interface Nationality {
 export interface PriceList {
   id?: number;
   priceListName: string;
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -91,6 +102,9 @@ export interface Rep {
   repName: string;
   agentId?: number;
   agentName?: string;          // populated by GET response
+  address?: string;
+  phone?: string;
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -100,6 +114,7 @@ export interface TransportationType {
   typeName: string;
   supplierId?: number;
   supplierName?: string;       // populated by GET response
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
@@ -107,29 +122,77 @@ export interface TransportationType {
 export interface TransportationSupplier {
   id?: number;
   supplierName: string;
+  vatNo?: string;
+  fileNo?: string;
+  email?: string;
+  address?: string;
+  phone?: string;
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }
 
 export interface TransportationCost {
   id?: number;
-  typeId?: number;
-  typeName?: string;           // populated by GET response
-  costValue?: number;
-  currency?: string;
-  fromDate?: string;
-  toDate?: string;
+  supplierId?: number;
+  supplierName?: string;       // populated by GET response
+  carTypeId?: number;
+  carTypeName?: string;        // populated by GET response
+  destinationId?: number;
+  destinationName?: string;    // populated by GET response
+  roundType?: string;
+  costEGP?: number;
   recordBy?: string;
   recordTime?: string;
 }
 
 export interface Voucher {
   id?: number;
-  voucherFrom?: string;
-  voucherTo?: string;
-  voucherCount?: number;
   repId?: number;
   repName?: string;            // populated by GET response
+  fromNumber?: number;
+  toNumber?: number;
   recordBy?: string;
   recordTime?: string;
+}
+
+export interface ExcursionCostSelling {
+  id?: number;
+  priceListId?: number;
+  priceListName?: string;        // populated by GET response
+  excursionId?: number;
+  excursionName?: string;        // populated by GET response
+  destinationId?: number;
+  destinationName?: string;      // populated by GET response
+  agentId?: number;
+  agentName?: string;            // populated by GET response
+  supplierId?: number;
+  supplierName?: string;         // populated by GET response
+  sellingAdlEGP?: number;
+  sellingAdlUSD?: number;
+  sellingAdlEUR?: number;
+  sellingAdlGBP?: number;
+  sellingChdEGP?: number;
+  sellingChdUSD?: number;
+  sellingChdEUR?: number;
+  sellingChdGBP?: number;
+  costAdlEGP?: number;
+  costAdlUSD?: number;
+  costAdlEUR?: number;
+  costAdlGBP?: number;
+  costChdEGP?: number;
+  costChdUSD?: number;
+  costChdEUR?: number;
+  costChdGBP?: number;
+  nationalFeeAdlEGP?: number;
+  nationalFeeAdlUSD?: number;
+  nationalFeeChdEGP?: number;
+  nationalFeeChdUSD?: number;
+  recordBy?: string;
+  recordTime?: string;
+}
+
+export interface CodeDefinition {
+  key: string;
+  displayName: string;
 }

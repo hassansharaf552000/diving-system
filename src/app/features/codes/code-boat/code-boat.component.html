@@ -1,13 +1,13 @@
 <div class="code-page"><div class="code-card">
   <div class="code-toolbar"><div class="toolbar-left"><button class="back-btn" (click)="goBack()">←</button><h2>🚢 Code Boat</h2><span class="record-count">{{ filtered.length }} records</span></div><div class="toolbar-right"><button class="btn-add" (click)="openAdd()">＋ Add New Boat</button></div></div>
   <div class="code-table-wrap"><div class="table-search"><span class="search-icon">🔍</span><input type="text" [(ngModel)]="searchTerm" placeholder="Search boats..."></div>
-    <table class="code-table"><thead><tr><th>Boat Name</th><th>Capacity</th><th>Status</th><th style="width:90px">Actions</th></tr></thead><tbody>
-      <tr *ngFor="let item of filtered"><td><strong>{{ item.boatName }}</strong></td><td>{{ item.capacity }}</td><td>{{ item.status }}</td><td><div class="actions-cell"><button class="action-btn edit-btn" (click)="openEdit(item)">✏️</button><button class="action-btn delete-btn" (click)="confirmDelete(item)">🗑️</button></div></td></tr>
-      <tr *ngIf="filtered.length === 0"><td colspan="4" class="empty-row">No boats found</td></tr></tbody></table>
+    <table class="code-table"><thead><tr><th>Boat Name</th><th>Status</th><th style="width:90px">Actions</th></tr></thead><tbody>
+      <tr *ngFor="let item of filtered"><td><strong>{{ item.boatName }}</strong></td><td><span [class]="item.isActive ? 'status-active' : 'status-inactive'">{{ item.isActive ? 'Active' : 'Inactive' }}</span></td><td><div class="actions-cell"><button class="action-btn edit-btn" (click)="openEdit(item)">✏️</button><button class="action-btn delete-btn" (click)="confirmDelete(item)">🗑️</button></div></td></tr>
+      <tr *ngIf="filtered.length === 0"><td colspan="3" class="empty-row">No boats found</td></tr></tbody></table>
     <div class="table-footer"><span class="records-info">Showing {{ filtered.length }} of {{ items.length }} records</span></div></div>
 </div>
 <app-modal [title]="isEdit ? 'Edit Boat' : 'Add New Boat'" [isOpen]="isModalOpen" (closed)="closeModal()" size="small">
-  <div class="modal-form"><div class="form-group"><label>Boat Name *</label><input type="text" [(ngModel)]="model.boatName" placeholder="Enter boat name"></div><div class="form-row"><div class="form-group"><label>Capacity</label><input type="number" [(ngModel)]="model.capacity" placeholder="Capacity"></div><div class="form-group"><label>Status</label><select [(ngModel)]="model.status"><option value="Active">Active</option><option value="Maintenance">Maintenance</option><option value="Inactive">Inactive</option></select></div></div></div>
+  <div class="modal-form"><div class="form-group"><label>Boat Name *</label><input type="text" [(ngModel)]="model.boatName" placeholder="Enter boat name"></div><div class="form-group"><label class="checkbox-label"><input type="checkbox" [(ngModel)]="model.isActive"> Active</label></div></div>
   <div class="modal-footer"><button class="btn-save" (click)="save()">{{ isEdit ? '💾 Update' : '＋ Add' }}</button><button class="btn-cancel-modal" (click)="closeModal()">Cancel</button></div>
 </app-modal>
 <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="deleteTarget?.boatName || ''" (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()"></app-confirm-dialog></div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { Rate } from '../../../core/interfaces/code.interfaces';
@@ -7,9 +7,9 @@ import { Rate } from '../../../core/interfaces/code.interfaces';
 export class CodeRateComponent implements OnInit {
   items: Rate[] = []; model: Rate = {}; isModalOpen = false; isEdit = false; searchTerm = '';
   showDeleteConfirm = false; deleteTarget: Rate | null = null;
-  constructor(private svc: CodeService, private router: Router) { }
+  constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
-  loadData(): void { this.svc.getRates().subscribe(d => this.items = d); }
+  loadData(): void { this.svc.getRates().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Rate[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.currency || '').toLowerCase().includes(t)); }
   openAdd(): void { this.model = {}; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Rate): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }

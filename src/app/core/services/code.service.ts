@@ -6,7 +6,7 @@ import {
   Agent, Boat, Excursion, ExcursionSupplier, Guide,
   Hotel, HotelDestination, Nationality, PriceList, Rate,
   Rep, TransportationType, TransportationSupplier,
-  TransportationCost, Voucher
+  TransportationCost, Voucher, ExcursionCostSelling, CodeDefinition
 } from '../interfaces/code.interfaces';
 
 @Injectable({ providedIn: 'root' })
@@ -114,11 +114,21 @@ export class CodeService {
   deleteTransportationCost(id: number): Observable<void> { return this.http.delete<void>(`${this.api}/api/TransportationCosts/${id}`); }
 
   // ========== VOUCHERS ==========
-  getVouchers(): Observable<Voucher[]> { return this.http.get<Voucher[]>(`${this.api}/api/Vouchers`); }
-  getVoucher(id: number): Observable<Voucher> { return this.http.get<Voucher>(`${this.api}/api/Vouchers/${id}`); }
-  createVoucher(data: Voucher): Observable<Voucher> { return this.http.post<Voucher>(`${this.api}/api/Vouchers`, data); }
-  updateVoucher(id: number, data: Voucher): Observable<Voucher> { return this.http.put<Voucher>(`${this.api}/api/Vouchers/${id}`, data); }
-  deleteVoucher(id: number): Observable<void> { return this.http.delete<void>(`${this.api}/api/Vouchers/${id}`); }
+  getVouchers(): Observable<Voucher[]> { return this.http.get<Voucher[]>(`${this.api}/api/RepVouchers`); }
+  getVoucher(id: number): Observable<Voucher> { return this.http.get<Voucher>(`${this.api}/api/RepVouchers/${id}`); }
+  createVoucher(data: Voucher): Observable<Voucher> { return this.http.post<Voucher>(`${this.api}/api/RepVouchers`, data); }
+  updateVoucher(id: number, data: Voucher): Observable<Voucher> { return this.http.put<Voucher>(`${this.api}/api/RepVouchers/${id}`, data); }
+  deleteVoucher(id: number): Observable<void> { return this.http.delete<void>(`${this.api}/api/RepVouchers/${id}`); }
+
+  // ========== EXCURSION COST SELLINGS ==========
+  getExcursionCostSellings(): Observable<ExcursionCostSelling[]> { return this.http.get<ExcursionCostSelling[]>(`${this.api}/api/ExcursionCostSellings`); }
+  getExcursionCostSelling(id: number): Observable<ExcursionCostSelling> { return this.http.get<ExcursionCostSelling>(`${this.api}/api/ExcursionCostSellings/${id}`); }
+  createExcursionCostSelling(data: ExcursionCostSelling): Observable<ExcursionCostSelling> { return this.http.post<ExcursionCostSelling>(`${this.api}/api/ExcursionCostSellings`, data); }
+  updateExcursionCostSelling(id: number, data: ExcursionCostSelling): Observable<ExcursionCostSelling> { return this.http.put<ExcursionCostSelling>(`${this.api}/api/ExcursionCostSellings/${id}`, data); }
+  deleteExcursionCostSelling(id: number): Observable<void> { return this.http.delete<void>(`${this.api}/api/ExcursionCostSellings/${id}`); }
+
+  // ========== CODES (Menu definitions) ==========
+  getCodes(): Observable<CodeDefinition[]> { return this.http.get<CodeDefinition[]>(`${this.api}/api/Codes`); }
 
   // ========== UTILITY ==========
   getCurrentDateTime(): string {

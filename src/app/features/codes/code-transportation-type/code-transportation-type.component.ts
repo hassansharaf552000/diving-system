@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { TransportationType, TransportationSupplier } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-transportation-type', standalone: false, templateUrl: './code-transportation-type.component.html', styleUrl: './code-transportation-type.component.scss' })
 export class CodeTransportationTypeComponent implements OnInit {
-  items: TransportationType[] = []; model: TransportationType = { typeName: '' }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: TransportationType[] = []; model: TransportationType = { typeName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
   suppliers: TransportationSupplier[] = [];
   showDeleteConfirm = false; deleteTarget: TransportationType | null = null;
-  constructor(private svc: CodeService, private router: Router) { }
-  ngOnInit(): void { this.loadData(); this.svc.getTransportationSuppliers().subscribe(d => this.suppliers = d); }
-  loadData(): void { this.svc.getTransportationTypes().subscribe(d => this.items = d); }
+  constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
+  ngOnInit(): void { this.loadData(); this.svc.getTransportationSuppliers().subscribe(d => { this.suppliers = d; this.cdr.detectChanges(); }); }
+  loadData(): void { this.svc.getTransportationTypes().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): TransportationType[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.typeName || '').toLowerCase().includes(t)); }
-  openAdd(): void { this.model = { typeName: '' }; this.isEdit = false; this.isModalOpen = true; }
+  openAdd(): void { this.model = { typeName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: TransportationType): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; }
   save(): void {

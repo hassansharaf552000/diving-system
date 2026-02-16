@@ -1,0 +1,88 @@
+<div class="code-page"><div class="code-card">
+  <div class="code-toolbar"><div class="toolbar-left"><button class="back-btn" (click)="goBack()">←</button><h2>💰 Code Excursion Cost Selling</h2><span class="record-count">{{ filtered.length }} records</span></div><div class="toolbar-right"><button class="btn-add" (click)="openAdd()">＋ Add New Cost Selling</button></div></div>
+  <div class="code-table-wrap"><div class="table-search"><span class="search-icon">🔍</span><input type="text" [(ngModel)]="searchTerm" placeholder="Search cost sellings..."></div>
+    <table class="code-table"><thead><tr><th>Excursion</th><th>Agent</th><th>Destination</th><th>Price List</th><th>Supplier</th><th style="width:90px">Actions</th></tr></thead><tbody>
+      <tr *ngFor="let item of filtered"><td><strong>{{ item.excursionName }}</strong></td><td>{{ item.agentName }}</td><td>{{ item.destinationName }}</td><td>{{ item.priceListName }}</td><td>{{ item.supplierName }}</td><td><div class="actions-cell"><button class="action-btn edit-btn" (click)="openEdit(item)">✏️</button><button class="action-btn delete-btn" (click)="confirmDelete(item)">🗑️</button></div></td></tr>
+      <tr *ngIf="filtered.length === 0"><td colspan="6" class="empty-row">No cost sellings found</td></tr></tbody></table>
+    <div class="table-footer"><span class="records-info">Showing {{ filtered.length }} of {{ items.length }} records</span></div></div>
+</div>
+<app-modal [title]="isEdit ? 'Edit Cost Selling' : 'Add New Cost Selling'" [isOpen]="isModalOpen" (closed)="closeModal()" size="large">
+  <div class="modal-form">
+    <div class="form-row">
+      <div class="form-group"><label>Excursion</label><select [(ngModel)]="model.excursionId"><option [ngValue]="undefined">Select...</option><option *ngFor="let e of excursions" [ngValue]="e.id">{{ e.excursionName }}</option></select></div>
+      <div class="form-group"><label>Agent</label><select [(ngModel)]="model.agentId"><option [ngValue]="undefined">Select...</option><option *ngFor="let a of agents" [ngValue]="a.id">{{ a.agentName }}</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Hotel Destination</label><select [(ngModel)]="model.destinationId"><option [ngValue]="undefined">Select...</option><option *ngFor="let d of destinations" [ngValue]="d.id">{{ d.destinationName }}</option></select></div>
+      <div class="form-group"><label>Supplier</label><select [(ngModel)]="model.supplierId"><option [ngValue]="undefined">Select...</option><option *ngFor="let s of suppliers" [ngValue]="s.id">{{ s.supplierName }}</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Price List</label><select [(ngModel)]="model.priceListId"><option [ngValue]="undefined">Select...</option><option *ngFor="let p of priceLists" [ngValue]="p.id">{{ p.priceListName }}</option></select></div>
+    </div>
+
+    <!-- Selling Section -->
+    <fieldset class="form-fieldset"><legend>💲 Selling</legend>
+      <div class="currency-grid">
+        <div class="grid-header"></div>
+        <div class="grid-header">EGP</div>
+        <div class="grid-header">USD</div>
+        <div class="grid-header">EUR</div>
+        <div class="grid-header">GBP</div>
+
+        <div class="grid-label">ADL</div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.sellingAdlEGP" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.sellingAdlUSD" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.sellingAdlEUR" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.sellingAdlGBP" placeholder="0.00"></div>
+
+        <div class="grid-label">CHD</div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.sellingChdEGP" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.sellingChdUSD" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.sellingChdEUR" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.sellingChdGBP" placeholder="0.00"></div>
+      </div>
+    </fieldset>
+
+    <!-- Cost Section -->
+    <fieldset class="form-fieldset"><legend>📊 Cost</legend>
+      <div class="currency-grid">
+        <div class="grid-header"></div>
+        <div class="grid-header">EGP</div>
+        <div class="grid-header">USD</div>
+        <div class="grid-header">EUR</div>
+        <div class="grid-header">GBP</div>
+
+        <div class="grid-label">ADL</div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.costAdlEGP" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.costAdlUSD" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.costAdlEUR" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.costAdlGBP" placeholder="0.00"></div>
+
+        <div class="grid-label">CHD</div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.costChdEGP" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.costChdUSD" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.costChdEUR" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.costChdGBP" placeholder="0.00"></div>
+      </div>
+    </fieldset>
+
+    <!-- National Fee Section -->
+    <fieldset class="form-fieldset"><legend>🏛️ National Fee</legend>
+      <div class="currency-grid" style="grid-template-columns: auto repeat(2, 1fr);">
+        <div class="grid-header"></div>
+        <div class="grid-header">EGP</div>
+        <div class="grid-header">USD</div>
+
+        <div class="grid-label">ADL</div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.nationalFeeAdlEGP" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.nationalFeeAdlUSD" placeholder="0.00"></div>
+
+        <div class="grid-label">CHD</div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.nationalFeeChdEGP" placeholder="0.00"></div>
+        <div class="grid-cell"><input type="number" [(ngModel)]="model.nationalFeeChdUSD" placeholder="0.00"></div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="modal-footer"><button class="btn-save" (click)="save()">{{ isEdit ? '💾 Update' : '＋ Add' }}</button><button class="btn-cancel-modal" (click)="closeModal()">Cancel</button></div>
+</app-modal>
+<app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="(deleteTarget?.excursionName || '') + ' - ' + (deleteTarget?.agentName || '')" (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()"></app-confirm-dialog></div>

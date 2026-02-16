@@ -18,6 +18,7 @@ import { CodeTransportationTypeComponent } from './code-transportation-type/code
 import { CodeTransportationSupplierComponent } from './code-transportation-supplier/code-transportation-supplier.component';
 import { CodeTransportationCostComponent } from './code-transportation-cost/code-transportation-cost.component';
 import { CodeVoucherComponent } from './code-voucher/code-voucher.component';
+import { CodeExcursionCostSellingComponent } from './code-excursion-cost-selling/code-excursion-cost-selling.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { CodeVoucherComponent } from './code-voucher/code-voucher.component';
     CodeTransportationTypeComponent,
     CodeTransportationSupplierComponent,
     CodeTransportationCostComponent,
-    CodeVoucherComponent
+    CodeVoucherComponent,
+    CodeExcursionCostSellingComponent
   ],
   imports: [
     SharedModule,

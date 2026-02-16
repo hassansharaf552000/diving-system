@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { Boat } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-boat', standalone: false, templateUrl: './code-boat.component.html', styleUrl: './code-boat.component.scss' })
 export class CodeBoatComponent implements OnInit {
-  items: Boat[] = []; model: Boat = { boatName: '' }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: Boat[] = []; model: Boat = { boatName: '', isActive: true }; isModalOpen = false; isEdit = false; searchTerm = '';
   showDeleteConfirm = false; deleteTarget: Boat | null = null;
-  constructor(private svc: CodeService, private router: Router) { }
+  constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
-  loadData(): void { this.svc.getBoats().subscribe(d => this.items = d); }
+  loadData(): void { this.svc.getBoats().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Boat[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.boatName || '').toLowerCase().includes(t)); }
-  openAdd(): void { this.model = { boatName: '' }; this.isEdit = false; this.isModalOpen = true; }
+  openAdd(): void { this.model = { boatName: '', isActive: true }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Boat): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; }
   save(): void {

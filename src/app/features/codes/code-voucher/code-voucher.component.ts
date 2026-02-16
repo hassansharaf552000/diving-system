@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { Voucher, Rep } from '../../../core/interfaces/code.interfaces';
@@ -8,10 +8,10 @@ export class CodeVoucherComponent implements OnInit {
   items: Voucher[] = []; model: Voucher = {}; isModalOpen = false; isEdit = false; searchTerm = '';
   reps: Rep[] = [];
   showDeleteConfirm = false; deleteTarget: Voucher | null = null;
-  constructor(private svc: CodeService, private router: Router) { }
-  ngOnInit(): void { this.loadData(); this.svc.getReps().subscribe(d => this.reps = d); }
-  loadData(): void { this.svc.getVouchers().subscribe(d => this.items = d); }
-  get filtered(): Voucher[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.repName || '').toLowerCase().includes(t) || (i.voucherFrom || '').toLowerCase().includes(t)); }
+  constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
+  ngOnInit(): void { this.loadData(); this.svc.getReps().subscribe(d => { this.reps = d; this.cdr.detectChanges(); }); }
+  loadData(): void { this.svc.getVouchers().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
+  get filtered(): Voucher[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.repName || '').toLowerCase().includes(t) || String(i.fromNumber || '').includes(t)); }
   openAdd(): void { this.model = {}; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Voucher): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; }

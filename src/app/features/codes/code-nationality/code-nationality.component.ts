@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { Nationality } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-nationality', standalone: false, templateUrl: './code-nationality.component.html', styleUrl: './code-nationality.component.scss' })
 export class CodeNationalityComponent implements OnInit {
-  items: Nationality[] = []; model: Nationality = { nationalityName: '' }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: Nationality[] = []; model: Nationality = { nationalityName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
   showDeleteConfirm = false; deleteTarget: Nationality | null = null;
-  constructor(private svc: CodeService, private router: Router) { }
+  constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
-  loadData(): void { this.svc.getNationalities().subscribe(d => this.items = d); }
+  loadData(): void { this.svc.getNationalities().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Nationality[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.nationalityName || '').toLowerCase().includes(t)); }
-  openAdd(): void { this.model = { nationalityName: '' }; this.isEdit = false; this.isModalOpen = true; }
+  openAdd(): void { this.model = { nationalityName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Nationality): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; }
   save(): void {

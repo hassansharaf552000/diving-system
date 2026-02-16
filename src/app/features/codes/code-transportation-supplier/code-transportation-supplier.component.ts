@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { TransportationSupplier } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-transportation-supplier', standalone: false, templateUrl: './code-transportation-supplier.component.html', styleUrl: './code-transportation-supplier.component.scss' })
 export class CodeTransportationSupplierComponent implements OnInit {
-  items: TransportationSupplier[] = []; model: TransportationSupplier = { supplierName: '' }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: TransportationSupplier[] = []; model: TransportationSupplier = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
   showDeleteConfirm = false; deleteTarget: TransportationSupplier | null = null;
-  constructor(private svc: CodeService, private router: Router) { }
+  constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
-  loadData(): void { this.svc.getTransportationSuppliers().subscribe(d => this.items = d); }
+  loadData(): void { this.svc.getTransportationSuppliers().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): TransportationSupplier[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.supplierName || '').toLowerCase().includes(t)); }
-  openAdd(): void { this.model = { supplierName: '' }; this.isEdit = false; this.isModalOpen = true; }
+  openAdd(): void { this.model = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: TransportationSupplier): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; }
   save(): void {

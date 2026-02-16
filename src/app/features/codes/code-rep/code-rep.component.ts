@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { Rep, Agent } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-rep', standalone: false, templateUrl: './code-rep.component.html', styleUrl: './code-rep.component.scss' })
 export class CodeRepComponent implements OnInit {
-  items: Rep[] = []; model: Rep = { repName: '' }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: Rep[] = []; model: Rep = { repName: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
   agents: Agent[] = [];
   showDeleteConfirm = false; deleteTarget: Rep | null = null;
-  constructor(private svc: CodeService, private router: Router) { }
-  ngOnInit(): void { this.loadData(); this.svc.getAgents().subscribe(d => this.agents = d); }
-  loadData(): void { this.svc.getReps().subscribe(d => this.items = d); }
+  constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
+  ngOnInit(): void { this.loadData(); this.svc.getAgents().subscribe(d => { this.agents = d; this.cdr.detectChanges(); }); }
+  loadData(): void { this.svc.getReps().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Rep[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.repName || '').toLowerCase().includes(t) || (i.agentName || '').toLowerCase().includes(t)); }
-  openAdd(): void { this.model = { repName: '' }; this.isEdit = false; this.isModalOpen = true; }
+  openAdd(): void { this.model = { repName: '', address: '', phone: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Rep): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; }
   save(): void {

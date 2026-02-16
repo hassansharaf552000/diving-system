@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { ExcursionSupplier } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-excursion-supplier', standalone: false, templateUrl: './code-excursion-supplier.component.html', styleUrl: './code-excursion-supplier.component.scss' })
 export class CodeExcursionSupplierComponent implements OnInit {
-  items: ExcursionSupplier[] = []; model: ExcursionSupplier = { supplierName: '' }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: ExcursionSupplier[] = []; model: ExcursionSupplier = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
   showDeleteConfirm = false; deleteTarget: ExcursionSupplier | null = null;
-  constructor(private svc: CodeService, private router: Router) { }
+  constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
-  loadData(): void { this.svc.getExcursionSuppliers().subscribe(d => this.items = d); }
+  loadData(): void { this.svc.getExcursionSuppliers().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): ExcursionSupplier[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.supplierName || '').toLowerCase().includes(t)); }
-  openAdd(): void { this.model = { supplierName: '' }; this.isEdit = false; this.isModalOpen = true; }
+  openAdd(): void { this.model = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: ExcursionSupplier): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; }
   save(): void {
