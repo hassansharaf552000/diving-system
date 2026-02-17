@@ -1,31 +1,53 @@
 <div class="entries-page">
-  <div class="entries-card">
-    <div class="card-header">
-      <h2>📋 Entries</h2>
-      <p>Manage all entry types and invoices</p>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>📋 Entries</h1>
+      <p>Manage all entry types and transactions</p>
     </div>
+    <div class="header-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Search entries...">
+    </div>
+  </div>
 
-    <div class="card-body">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text"
-               [(ngModel)]="searchTerm"
-               placeholder="Search entries...">
-      </div>
+  <!-- Summary Bar -->
+  <div class="summary-bar">
+    <div class="summary-stat">
+      <span class="stat-val">{{ entries.length }}</span>
+      <span class="stat-lbl">Total Entry Types</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-val">{{ filteredEntries.length }}</span>
+      <span class="stat-lbl">Showing</span>
+    </div>
+  </div>
 
-      <div class="entries-list">
-        <div class="entry-item"
-             *ngFor="let entry of filteredEntries"
-             (click)="openEntry(entry)">
-          <span class="entry-icon">{{ entry.icon }}</span>
-          <span class="entry-label">{{ entry.label }}</span>
-          <span class="arrow">›</span>
+  <!-- Cards Grid -->
+  <div class="entries-grid">
+    <div class="entry-card" *ngFor="let entry of filteredEntries; let i = index"
+         (click)="openEntry(entry)"
+         [style.animation-delay]="i * 0.04 + 's'">
+      <div class="card-accent" [style.background]="entry.gradient"></div>
+      <div class="card-body">
+        <div class="card-icon-wrap" [style.background]="entry.gradient">
+          <span class="card-icon">{{ entry.icon }}</span>
         </div>
-
-        <div class="empty-state" *ngIf="filteredEntries.length === 0">
-          No entries match your search.
+        <div class="card-info">
+          <h3>{{ entry.label }}</h3>
+          <p>{{ entry.desc }}</p>
+        </div>
+        <div class="card-meta">
+          <span class="arrow-circle">→</span>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredEntries.length === 0">
+    <span class="empty-icon">🔍</span>
+    <h3>No entries found</h3>
+    <p>Try adjusting your search term</p>
   </div>
 </div>

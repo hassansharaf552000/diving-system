@@ -4,6 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { EntriesComponent } from './features/entries/entries.component';
+import { EntryTransactionComponent } from './features/entries/entry-transaction/entry-transaction.component';
+import { EntryTrafficComponent } from './features/entries/entry-traffic/entry-traffic.component';
+import { EntryRevenueComponent } from './features/entries/entry-revenue/entry-revenue.component';
+import { EntryGuideAllowanceComponent } from './features/entries/entry-guide-allowance/entry-guide-allowance.component';
+import { EntryRepCommissionComponent } from './features/entries/entry-rep-commission/entry-rep-commission.component';
+import { EntryBoatCoastComponent } from './features/entries/entry-boat-coast/entry-boat-coast.component';
 import { ReportsComponent } from './features/reports/reports.component';
 import { HelpComponent } from './features/help/help.component';
 import { CodesListComponent } from './features/codes/codes-list/codes-list.component';
@@ -32,6 +38,12 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'entries', component: EntriesComponent },
+      { path: 'entries/transaction', component: EntryTransactionComponent },
+      { path: 'entries/traffic', component: EntryTrafficComponent },
+      { path: 'entries/revenue', component: EntryRevenueComponent },
+      { path: 'entries/guide-allowance', component: EntryGuideAllowanceComponent },
+      { path: 'entries/rep-commission', component: EntryRepCommissionComponent },
+      { path: 'entries/boat-coast', component: EntryBoatCoastComponent },
       { path: 'codes', component: CodesListComponent },
       { path: 'codes/agent', component: CodeAgentComponent },
       { path: 'codes/boat', component: CodeBoatComponent },
