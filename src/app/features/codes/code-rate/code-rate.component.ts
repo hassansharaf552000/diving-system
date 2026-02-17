@@ -5,7 +5,7 @@ import { Rate } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-rate', standalone: false, templateUrl: './code-rate.component.html', styleUrl: './code-rate.component.scss' })
 export class CodeRateComponent implements OnInit {
-  items: Rate[] = []; model: Rate = {}; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: Rate[] = []; model: Rate = {}; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   showDeleteConfirm = false; deleteTarget: Rate | null = null;
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
@@ -13,13 +13,14 @@ export class CodeRateComponent implements OnInit {
   get filtered(): Rate[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.currency || '').toLowerCase().includes(t)); }
   openAdd(): void { this.model = {}; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Rate): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
-  closeModal(): void { this.isModalOpen = false; }
+  closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
+    this.saving = true;
     this.model.recordBy = 'Ibram Wahib';
     if (this.isEdit && this.model.id) {
-      this.svc.updateRate(this.model.id, this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.updateRate(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {
-      this.svc.createRate(this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.createRate(this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     }
   }
   confirmDelete(item: Rate): void { this.deleteTarget = item; this.showDeleteConfirm = true; }

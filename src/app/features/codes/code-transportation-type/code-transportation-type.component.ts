@@ -5,7 +5,7 @@ import { TransportationType, TransportationSupplier } from '../../../core/interf
 
 @Component({ selector: 'app-code-transportation-type', standalone: false, templateUrl: './code-transportation-type.component.html', styleUrl: './code-transportation-type.component.scss' })
 export class CodeTransportationTypeComponent implements OnInit {
-  items: TransportationType[] = []; model: TransportationType = { typeName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: TransportationType[] = []; model: TransportationType = { typeName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   suppliers: TransportationSupplier[] = [];
   showDeleteConfirm = false; deleteTarget: TransportationType | null = null;
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
@@ -14,14 +14,15 @@ export class CodeTransportationTypeComponent implements OnInit {
   get filtered(): TransportationType[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.typeName || '').toLowerCase().includes(t)); }
   openAdd(): void { this.model = { typeName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: TransportationType): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
-  closeModal(): void { this.isModalOpen = false; }
+  closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
     if (!this.model.typeName) { alert('⚠️ Required'); return; }
+    this.saving = true;
     this.model.recordBy = 'Ibram Wahib';
     if (this.isEdit && this.model.id) {
-      this.svc.updateTransportationType(this.model.id, this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.updateTransportationType(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {
-      this.svc.createTransportationType(this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.createTransportationType(this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     }
   }
   confirmDelete(item: TransportationType): void { this.deleteTarget = item; this.showDeleteConfirm = true; }

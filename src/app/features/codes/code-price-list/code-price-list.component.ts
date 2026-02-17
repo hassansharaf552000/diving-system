@@ -5,7 +5,7 @@ import { PriceList } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-price-list', standalone: false, templateUrl: './code-price-list.component.html', styleUrl: './code-price-list.component.scss' })
 export class CodePriceListComponent implements OnInit {
-  items: PriceList[] = []; model: PriceList = { priceListName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: PriceList[] = []; model: PriceList = { priceListName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   showDeleteConfirm = false; deleteTarget: PriceList | null = null;
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
@@ -13,14 +13,15 @@ export class CodePriceListComponent implements OnInit {
   get filtered(): PriceList[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.priceListName || '').toLowerCase().includes(t)); }
   openAdd(): void { this.model = { priceListName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: PriceList): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
-  closeModal(): void { this.isModalOpen = false; }
+  closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
     if (!this.model.priceListName) { alert('⚠️ Required'); return; }
+    this.saving = true;
     this.model.recordBy = 'Ibram Wahib';
     if (this.isEdit && this.model.id) {
-      this.svc.updatePriceList(this.model.id, this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.updatePriceList(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {
-      this.svc.createPriceList(this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.createPriceList(this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     }
   }
   confirmDelete(item: PriceList): void { this.deleteTarget = item; this.showDeleteConfirm = true; }

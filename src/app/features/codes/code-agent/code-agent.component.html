@@ -96,7 +96,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-save" (click)="save()">{{ isEdit ? '💾 Update Agent' : '＋ Add Agent' }}</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Agent' : '＋ Add Agent' }}</button>
       <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
     </div>
   </app-modal>

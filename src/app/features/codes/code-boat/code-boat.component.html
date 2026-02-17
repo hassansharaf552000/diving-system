@@ -8,6 +8,6 @@
 </div>
 <app-modal [title]="isEdit ? 'Edit Boat' : 'Add New Boat'" [isOpen]="isModalOpen" (closed)="closeModal()" size="small">
   <div class="modal-form"><div class="form-group"><label>Boat Name *</label><input type="text" [(ngModel)]="model.boatName" placeholder="Enter boat name"></div><div class="form-group"><label class="checkbox-label"><input type="checkbox" [(ngModel)]="model.isActive"> Active</label></div></div>
-  <div class="modal-footer"><button class="btn-save" (click)="save()">{{ isEdit ? '💾 Update' : '＋ Add' }}</button><button class="btn-cancel-modal" (click)="closeModal()">Cancel</button></div>
+  <div class="modal-footer"><button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update' : '＋ Add' }}</button><button class="btn-cancel-modal" (click)="closeModal()">Cancel</button></div>
 </app-modal>
 <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="deleteTarget?.boatName || ''" (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()"></app-confirm-dialog></div>

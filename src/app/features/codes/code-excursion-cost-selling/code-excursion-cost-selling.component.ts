@@ -5,7 +5,7 @@ import { ExcursionCostSelling, Excursion, HotelDestination, Agent, ExcursionSupp
 
 @Component({ selector: 'app-code-excursion-cost-selling', standalone: false, templateUrl: './code-excursion-cost-selling.component.html', styleUrl: './code-excursion-cost-selling.component.scss' })
 export class CodeExcursionCostSellingComponent implements OnInit {
-  items: ExcursionCostSelling[] = []; model: ExcursionCostSelling = {}; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: ExcursionCostSelling[] = []; model: ExcursionCostSelling = {}; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   excursions: Excursion[] = [];
   destinations: HotelDestination[] = [];
   agents: Agent[] = [];
@@ -25,14 +25,15 @@ export class CodeExcursionCostSellingComponent implements OnInit {
   get filtered(): ExcursionCostSelling[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.excursionName || '').toLowerCase().includes(t) || (i.agentName || '').toLowerCase().includes(t) || (i.destinationName || '').toLowerCase().includes(t) || (i.supplierName || '').toLowerCase().includes(t) || (i.priceListName || '').toLowerCase().includes(t)); }
   openAdd(): void { this.model = {}; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: ExcursionCostSelling): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
-  closeModal(): void { this.isModalOpen = false; }
+  closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
+    this.saving = true;
     this.model.recordBy = 'Ibram Wahib';
     this.closeModal();
     if (this.isEdit && this.model.id) {
-      this.svc.updateExcursionCostSelling(this.model.id, this.model).subscribe(() => { this.loadData(); });
+      this.svc.updateExcursionCostSelling(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); });
     } else {
-      this.svc.createExcursionCostSelling(this.model).subscribe(() => { this.loadData(); });
+      this.svc.createExcursionCostSelling(this.model).subscribe(() => { this.saving = false; this.loadData(); });
     }
   }
   confirmDelete(item: ExcursionCostSelling): void { this.deleteTarget = item; this.showDeleteConfirm = true; }

@@ -5,7 +5,7 @@ import { Guide } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-guide', standalone: false, templateUrl: './code-guide.component.html', styleUrl: './code-guide.component.scss' })
 export class CodeGuideComponent implements OnInit {
-  items: Guide[] = []; model: Guide = { guideName: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: Guide[] = []; model: Guide = { guideName: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   showDeleteConfirm = false; deleteTarget: Guide | null = null;
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
@@ -13,14 +13,15 @@ export class CodeGuideComponent implements OnInit {
   get filtered(): Guide[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.guideName || '').toLowerCase().includes(t)); }
   openAdd(): void { this.model = { guideName: '', address: '', phone: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Guide): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
-  closeModal(): void { this.isModalOpen = false; }
+  closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
     if (!this.model.guideName) { alert('⚠️ Required'); return; }
+    this.saving = true;
     this.model.recordBy = 'Ibram Wahib';
     if (this.isEdit && this.model.id) {
-      this.svc.updateGuide(this.model.id, this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.updateGuide(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {
-      this.svc.createGuide(this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.createGuide(this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     }
   }
   confirmDelete(item: Guide): void { this.deleteTarget = item; this.showDeleteConfirm = true; }

@@ -5,7 +5,7 @@ import { TransportationSupplier } from '../../../core/interfaces/code.interfaces
 
 @Component({ selector: 'app-code-transportation-supplier', standalone: false, templateUrl: './code-transportation-supplier.component.html', styleUrl: './code-transportation-supplier.component.scss' })
 export class CodeTransportationSupplierComponent implements OnInit {
-  items: TransportationSupplier[] = []; model: TransportationSupplier = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: TransportationSupplier[] = []; model: TransportationSupplier = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   showDeleteConfirm = false; deleteTarget: TransportationSupplier | null = null;
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
@@ -13,14 +13,15 @@ export class CodeTransportationSupplierComponent implements OnInit {
   get filtered(): TransportationSupplier[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.supplierName || '').toLowerCase().includes(t)); }
   openAdd(): void { this.model = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: TransportationSupplier): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
-  closeModal(): void { this.isModalOpen = false; }
+  closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
     if (!this.model.supplierName) { alert('⚠️ Required'); return; }
+    this.saving = true;
     this.model.recordBy = 'Ibram Wahib';
     if (this.isEdit && this.model.id) {
-      this.svc.updateTransportationSupplier(this.model.id, this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.updateTransportationSupplier(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {
-      this.svc.createTransportationSupplier(this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.createTransportationSupplier(this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     }
   }
   confirmDelete(item: TransportationSupplier): void { this.deleteTarget = item; this.showDeleteConfirm = true; }

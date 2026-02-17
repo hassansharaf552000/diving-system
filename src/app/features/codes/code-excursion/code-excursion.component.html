@@ -12,6 +12,6 @@
     <div class="form-group"><label>Supplier</label><select [(ngModel)]="model.supplierId"><option [ngValue]="undefined">Select...</option><option *ngFor="let s of suppliers" [ngValue]="s.id">{{ s.supplierName }}</option></select></div>
     <div class="form-group"><label class="checkbox-label"><input type="checkbox" [(ngModel)]="model.isActive"> Active</label></div>
   </div>
-  <div class="modal-footer"><button class="btn-save" (click)="save()">{{ isEdit ? '💾 Update' : '＋ Add' }}</button><button class="btn-cancel-modal" (click)="closeModal()">Cancel</button></div>
+  <div class="modal-footer"><button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update' : '＋ Add' }}</button><button class="btn-cancel-modal" (click)="closeModal()">Cancel</button></div>
 </app-modal>
 <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="deleteTarget?.excursionName || ''" (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()"></app-confirm-dialog></div>

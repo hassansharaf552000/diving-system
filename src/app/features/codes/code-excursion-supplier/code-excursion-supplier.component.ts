@@ -5,7 +5,7 @@ import { ExcursionSupplier } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-excursion-supplier', standalone: false, templateUrl: './code-excursion-supplier.component.html', styleUrl: './code-excursion-supplier.component.scss' })
 export class CodeExcursionSupplierComponent implements OnInit {
-  items: ExcursionSupplier[] = []; model: ExcursionSupplier = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: ExcursionSupplier[] = []; model: ExcursionSupplier = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   showDeleteConfirm = false; deleteTarget: ExcursionSupplier | null = null;
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
@@ -13,14 +13,15 @@ export class CodeExcursionSupplierComponent implements OnInit {
   get filtered(): ExcursionSupplier[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.supplierName || '').toLowerCase().includes(t)); }
   openAdd(): void { this.model = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: ExcursionSupplier): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
-  closeModal(): void { this.isModalOpen = false; }
+  closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
     if (!this.model.supplierName) { alert('⚠️ Required'); return; }
+    this.saving = true;
     this.model.recordBy = 'Ibram Wahib';
     if (this.isEdit && this.model.id) {
-      this.svc.updateExcursionSupplier(this.model.id, this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.updateExcursionSupplier(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {
-      this.svc.createExcursionSupplier(this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.createExcursionSupplier(this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     }
   }
   confirmDelete(item: ExcursionSupplier): void { this.deleteTarget = item; this.showDeleteConfirm = true; }

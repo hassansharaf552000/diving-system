@@ -16,6 +16,6 @@
       <div class="form-group"><label>Cost (EGP)</label><input type="number" [(ngModel)]="model.costEGP" placeholder="Enter cost"></div>
     </div>
   </div>
-  <div class="modal-footer"><button class="btn-save" (click)="save()">{{ isEdit ? '💾 Update' : '＋ Add' }}</button><button class="btn-cancel-modal" (click)="closeModal()">Cancel</button></div>
+  <div class="modal-footer"><button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update' : '＋ Add' }}</button><button class="btn-cancel-modal" (click)="closeModal()">Cancel</button></div>
 </app-modal>
 <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="(deleteTarget?.supplierName || '') + ' - ' + (deleteTarget?.carTypeName || '')" (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()"></app-confirm-dialog></div>

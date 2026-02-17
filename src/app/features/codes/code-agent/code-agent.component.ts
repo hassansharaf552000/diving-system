@@ -6,6 +6,7 @@ import { Agent } from '../../../core/interfaces/code.interfaces';
 @Component({ selector: 'app-code-agent', standalone: false, templateUrl: './code-agent.component.html', styleUrl: './code-agent.component.scss' })
 export class CodeAgentComponent implements OnInit {
   items: Agent[] = [];
+  saving = false;
   model: Agent = { agentName: '' };
   isModalOpen = false;
   isEdit = false;
@@ -43,15 +44,16 @@ export class CodeAgentComponent implements OnInit {
     this.isModalOpen = true;
   }
 
-  closeModal(): void { this.isModalOpen = false; }
+  closeModal(): void { this.isModalOpen = false; this.saving = false; }
 
   save(): void {
     if (!this.model.agentName) { alert('⚠️ Please fill in Agent Name'); return; }
+    this.saving = true;
     this.model.recordBy = 'Ibram Wahib';
     if (this.isEdit && this.model.id) {
-      this.svc.updateAgent(this.model.id, this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.updateAgent(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {
-      this.svc.createAgent(this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.createAgent(this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     }
   }
 

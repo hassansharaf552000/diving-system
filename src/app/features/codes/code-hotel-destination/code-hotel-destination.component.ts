@@ -5,7 +5,7 @@ import { HotelDestination } from '../../../core/interfaces/code.interfaces';
 
 @Component({ selector: 'app-code-hotel-destination', standalone: false, templateUrl: './code-hotel-destination.component.html', styleUrl: './code-hotel-destination.component.scss' })
 export class CodeHotelDestinationComponent implements OnInit {
-  items: HotelDestination[] = []; model: HotelDestination = { destinationName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = '';
+  items: HotelDestination[] = []; model: HotelDestination = { destinationName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   showDeleteConfirm = false; deleteTarget: HotelDestination | null = null;
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
@@ -13,14 +13,15 @@ export class CodeHotelDestinationComponent implements OnInit {
   get filtered(): HotelDestination[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.destinationName || '').toLowerCase().includes(t)); }
   openAdd(): void { this.model = { destinationName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: HotelDestination): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
-  closeModal(): void { this.isModalOpen = false; }
+  closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
     if (!this.model.destinationName) { alert('⚠️ Required'); return; }
+    this.saving = true;
     this.model.recordBy = 'Ibram Wahib';
     if (this.isEdit && this.model.id) {
-      this.svc.updateHotelDestination(this.model.id, this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.updateHotelDestination(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {
-      this.svc.createHotelDestination(this.model).subscribe(() => { this.loadData(); this.closeModal(); });
+      this.svc.createHotelDestination(this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     }
   }
   confirmDelete(item: HotelDestination): void { this.deleteTarget = item; this.showDeleteConfirm = true; }
