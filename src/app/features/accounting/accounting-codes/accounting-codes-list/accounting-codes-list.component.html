@@ -1,0 +1,33 @@
+<div class="component-container">
+  <h2>Accounting Codes</h2>
+  
+  @if (loading()) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading accounting codes...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-container">
+      <p class="error-message">{{ error() }}</p>
+      <button class="retry-btn" (click)="loadAccountingCodes()">Retry</button>
+    </div>
+  } @else {
+    <div class="codes-grid">
+      <a *ngFor="let code of accountingCodes()" 
+         class="code-card" 
+         [routerLink]="'/accounting/codes/' + code.key">
+        <div class="card-header">
+          <span class="card-icon">🏷️</span>
+          <h3>{{ code.displayName }}</h3>
+        </div>
+        <p>{{ code.key }}</p>
+      </a>
+    </div>
+    
+    @if (accountingCodes().length === 0) {
+      <div class="empty-state">
+        <p>No accounting codes available.</p>
+      </div>
+    }
+  }
+</div>

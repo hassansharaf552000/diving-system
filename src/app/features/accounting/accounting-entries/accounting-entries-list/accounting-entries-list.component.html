@@ -1,0 +1,33 @@
+<div class="component-container">
+  <h2>Accounting Entries</h2>
+  
+  @if (loading()) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading accounting entries...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-container">
+      <p class="error-message">{{ error() }}</p>
+      <button class="retry-btn" (click)="loadAccountingEntries()">Retry</button>
+    </div>
+  } @else {
+    <div class="entries-grid">
+      <a *ngFor="let entry of accountingEntries()" 
+         class="entry-card" 
+         [routerLink]="'/accounting/entries/' + entry.key">
+        <div class="card-header">
+          <span class="card-icon">📋</span>
+          <h3>{{ entry.displayName }}</h3>
+        </div>
+        <p>{{ entry.key }}</p>
+      </a>
+    </div>
+    
+    @if (accountingEntries().length === 0) {
+      <div class="empty-state">
+        <p>No accounting entries available.</p>
+      </div>
+    }
+  }
+</div>

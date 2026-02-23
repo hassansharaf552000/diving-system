@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountingService, OperationEntry } from '../../core/services/accounting.service';
 
 interface EntryCard {
   key: string;
@@ -16,29 +17,120 @@ interface EntryCard {
   templateUrl: './entries.component.html',
   styleUrl: './entries.component.scss'
 })
-export class EntriesComponent {
+export class EntriesComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly accountingService = inject(AccountingService);
+  
   searchTerm = '';
+  protected readonly entries = signal<EntryCard[]>([]);
+  protected readonly loading = signal(true);
+  protected readonly error = signal<string | null>(null);
 
-  entries: EntryCard[] = [
-    { key: 'transaction',      label: 'Transaction',       route: '/entries/transaction',      icon: '💳', desc: 'Manage financial transactions',        gradient: 'linear-gradient(135deg, #667eea, #764ba2)' },
-    { key: 'traffic',          label: 'Traffic',            route: '/entries/traffic',          icon: '🚗', desc: 'Track traffic & movement data',        gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
-    { key: 'revenue',          label: 'Revenue',            route: '/entries/revenue',          icon: '💰', desc: 'Revenue records & reporting',           gradient: 'linear-gradient(135deg, #f6d365, #fda085)' },
-    { key: 'guide-allowance',  label: 'Guide Allowance',    route: '/entries/guide-allowance',  icon: '👤', desc: 'Guide allowance & compensation',       gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
-    { key: 'rep-commission',   label: 'Rep Commission',     route: '/entries/rep-commission',   icon: '📝', desc: 'Representative commission entries',     gradient: 'linear-gradient(135deg, #f093fb, #f5576c)' },
-    { key: 'boat-coast',       label: 'Boat Coast',         route: '/entries/boat-coast',       icon: '🚢', desc: 'Boat coast & maritime expenses',        gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
-  ];
+  // Static mapping for visual properties
+  private readonly entryVisuals: Record<string, { icon: string; desc: string; gradient: string }> = {
+    'entryexcursions': { 
+      icon: '🏝️', 
+      desc: 'Manage excursion entries', 
+      gradient: 'linear-gradient(135deg, #667eea, #764ba2)' 
+    },
+    'entrytraffic': { 
+      icon: '🚗', 
+      desc: 'Track traffic & movement data', 
+      gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)' 
+    },
+    'entryrevenue': { 
+      icon: '💰', 
+      desc: 'Revenue records & reporting', 
+      gradient: 'linear-gradient(135deg, #f6d365, #fda085)' 
+    },
+    'entryguideallowance': { 
+      icon: '👤', 
+      desc: 'Guide allowance & compensation', 
+      gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' 
+    },
+    'entryrepcommission': { 
+      icon: '📝', 
+      desc: 'Representative commission entries', 
+      gradient: 'linear-gradient(135deg, #f093fb, #f5576c)' 
+    },
+    'invoiceagent': { 
+      icon: '👨‍💼', 
+      desc: 'Agent invoice management', 
+      gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' 
+    },
+    'invoicesupplierboat': { 
+      icon: '🚢', 
+      desc: 'Boat supplier invoice entries', 
+      gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' 
+    },
+    'invoicesupplierexcursion': { 
+      icon: '🏖️', 
+      desc: 'Excursion supplier invoices', 
+      gradient: 'linear-gradient(135deg, #fa709a, #fee140)' 
+    },
+    'invoicesuppliertransportation': { 
+      icon: '🚌', 
+      desc: 'Transportation supplier invoices', 
+      gradient: 'linear-gradient(135deg, #a8edea, #fed6e3)' 
+    }
+  };
 
-  constructor(private router: Router) {}
+  ngOnInit(): void {
+    this.loadOperationEntries();
+  }
+
+  private loadOperationEntries(): void {
+    this.loading.set(true);
+    this.error.set(null);
+    
+    this.accountingService.getOperationEntries().subscribe({
+      next: (operationEntries) => {
+        const mappedEntries = this.mapApiDataToEntryCards(operationEntries);
+        this.entries.set(mappedEntries);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading operation entries:', err);
+        this.error.set('Failed to load operation entries');
+        this.loading.set(false);
+        // Fallback to empty array or show error state
+      }
+    });
+  }
+
+  private mapApiDataToEntryCards(apiData: OperationEntry[]): EntryCard[] {
+    return apiData.map(entry => {
+      const visual = this.entryVisuals[entry.key] || {
+        icon: '📋',
+        desc: entry.displayName,
+        gradient: 'linear-gradient(135deg, #667eea, #764ba2)'
+      };
+
+      return {
+        key: entry.key,
+        label: entry.displayName,
+        route: `/operation/entries/${entry.key}`,
+        icon: visual.icon,
+        desc: visual.desc,
+        gradient: visual.gradient
+      };
+    });
+  }
 
   get filteredEntries(): EntryCard[] {
-    if (!this.searchTerm) return this.entries;
+    const currentEntries = this.entries();
+    if (!this.searchTerm) return currentEntries;
     const term = this.searchTerm.toLowerCase();
-    return this.entries.filter(e =>
+    return currentEntries.filter(e =>
       e.label.toLowerCase().includes(term) || e.desc.toLowerCase().includes(term)
     );
   }
 
   openEntry(entry: EntryCard): void {
     this.router.navigate([entry.route]);
+  }
+
+  retryLoading(): void {
+    this.loadOperationEntries();
   }
 }
