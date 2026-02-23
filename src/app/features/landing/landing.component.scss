@@ -1,0 +1,389 @@
+/* ============================
+   LANDING PAGE — Diving System
+   Premium ocean-themed design
+   ============================ */
+
+// ---------- Color tokens ----------
+$ocean-deep:     #0b1e3d;
+$ocean-mid:      #163a6a;
+$ocean-light:    #1d5199;
+$accent-teal:    #00d4aa;
+$accent-amber:   #ffb347;
+$glass-white:    rgba(255, 255, 255, 0.07);
+$glass-border:   rgba(255, 255, 255, 0.12);
+$text-primary:   #ffffff;
+$text-secondary: rgba(255, 255, 255, 0.72);
+
+// ---------- Container ----------
+.landing-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem 1rem;
+  background: linear-gradient(160deg, $ocean-deep 0%, $ocean-mid 45%, $ocean-light 100%);
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+// ---------- Particles ----------
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
+  animation: rise linear infinite;
+}
+
+@keyframes rise {
+  0%   { transform: translateY(0) scale(1);   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-110vh) scale(0.4); opacity: 0; }
+}
+
+// ---------- Waves ----------
+.wave-top,
+.wave-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.wave-top {
+  top: 0;
+  height: 120px;
+}
+
+.wave-bottom {
+  bottom: 0;
+  height: 120px;
+}
+
+// ---------- Hero ----------
+.hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeDown 0.8s ease-out both;
+}
+
+.logo-wrapper {
+  margin-bottom: 1.25rem;
+}
+
+.logo-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $accent-teal, lighten($accent-teal, 12%));
+  color: $ocean-deep;
+  box-shadow:
+    0 0 0 6px rgba($accent-teal, 0.18),
+    0 8px 32px rgba(0, 0, 0, 0.25);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &:hover {
+    transform: scale(1.08) rotate(-4deg);
+  }
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: $text-primary;
+  letter-spacing: -0.5px;
+}
+
+.title-main {
+  display: block;
+}
+
+.title-accent {
+  display: block;
+  background: linear-gradient(90deg, $accent-teal, lighten($accent-teal, 18%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+.subtitle {
+  margin-top: 0.6rem;
+  font-size: 1.05rem;
+  color: $text-secondary;
+  font-weight: 400;
+}
+
+.title-divider {
+  margin: 1.25rem auto 0;
+  width: 48px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, $accent-teal, transparent);
+}
+
+// ---------- Cards Section ----------
+.cards-section {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 820px;
+  width: 100%;
+  animation: fadeUp 0.9s 0.2s ease-out both;
+}
+
+// ---------- Module Card ----------
+.module-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 2.2rem 2rem 1.8rem;
+  cursor: pointer;
+  background: $glass-white;
+  border: 1px solid $glass-border;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s ease,
+    border-color 0.3s ease;
+  overflow: hidden;
+  outline: none;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+  }
+
+  &:focus-visible {
+    border-color: $accent-teal;
+  }
+}
+
+.card-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  top: -60px;
+  right: -40px;
+  filter: blur(60px);
+  opacity: 0.25;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.module-card:hover .card-glow {
+  opacity: 0.45;
+}
+
+.operation-glow { background: $accent-teal; }
+.accounting-glow { background: $accent-amber; }
+
+.card-content {
+  position: relative;
+  z-index: 1;
+}
+
+// Icon wrapper
+.card-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  margin-bottom: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.module-card:hover .card-icon-wrapper {
+  transform: scale(1.1) rotate(-4deg);
+}
+
+.operation-icon {
+  background: rgba($accent-teal, 0.15);
+  color: $accent-teal;
+}
+
+.accounting-icon {
+  background: rgba($accent-amber, 0.15);
+  color: $accent-amber;
+}
+
+// Text
+.card-text h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin-bottom: 0.4rem;
+}
+
+.card-description {
+  font-size: 0.88rem;
+  color: $text-secondary;
+  line-height: 1.55;
+  margin: 0 0 1.1rem;
+}
+
+// Features list
+.card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
+  }
+}
+
+.feature-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.operation-dot  { background: $accent-teal; }
+.accounting-dot { background: $accent-amber; }
+
+// Action row
+.card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $text-secondary;
+  transition: color 0.25s ease, gap 0.3s ease;
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+}
+
+.operation-card:hover .card-action,
+.operation-card:focus-visible .card-action {
+  color: $accent-teal;
+}
+
+.accounting-card:hover .card-action,
+.accounting-card:focus-visible .card-action {
+  color: $accent-amber;
+}
+
+.module-card:hover .card-action svg,
+.module-card:focus-visible .card-action svg {
+  transform: translateX(4px);
+}
+
+// ---------- Card accent borders ----------
+.operation-card {
+  border-top: 3px solid $accent-teal;
+}
+
+.accounting-card {
+  border-top: 3px solid $accent-amber;
+}
+
+// ---------- Footer ----------
+.landing-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 3rem;
+  text-align: center;
+
+  p {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 400;
+  }
+}
+
+// ---------- Keyframes ----------
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ---------- Responsive ----------
+@media (max-width: 768px) {
+  .landing-container {
+    padding: 1.5rem 1rem 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .logo-circle {
+    width: 64px;
+    height: 64px;
+
+    svg {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  .cards-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .module-card {
+    padding: 1.8rem 1.5rem 1.5rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .title {
+    font-size: 1.7rem;
+  }
+
+  .subtitle {
+    font-size: 0.92rem;
+  }
+
+  .card-text h2 {
+    font-size: 1.25rem;
+  }
+}
