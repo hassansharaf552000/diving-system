@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '../../shared/shared.module';
 
 // Accounting Codes Components
 import { AccountingCodesListComponent } from './accounting-codes/accounting-codes-list/accounting-codes-list.component';
@@ -46,7 +47,8 @@ import { AccountingPostTransactionsComponent } from './accounting-entries/accoun
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    SharedModule
   ]
 })
 export class AccountingModule { }

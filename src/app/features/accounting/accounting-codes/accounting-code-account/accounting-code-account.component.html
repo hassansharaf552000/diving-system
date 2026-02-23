@@ -1,4 +1,139 @@
-<div class="component-container">
-  <h2>Code Account</h2>
-  <p>Component will be implemented later.</p>
+<div class="code-page">
+  <div class="code-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <button class="back-btn" (click)="goBack()">←</button>
+        <h2>📋 Operation Accounts</h2>
+        <span class="record-count">{{ displayList.length }} records</span>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn-add" (click)="openAddRoot()">＋ Add Root Account</button>
+      </div>
+    </div>
+
+    <div class="code-table-wrap">
+      <div class="table-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Search accounts..."
+               (input)="onSearch()" (keyup.escape)="clearSearch()">
+        <button *ngIf="searchTerm" class="clear-search-btn" (click)="clearSearch()">✕</button>
+      </div>
+
+      <table class="code-table">
+        <thead>
+          <tr>
+            <th style="width: 50px"></th>
+            <th>Account Number</th>
+            <th>Account Name</th>
+            <th>Level</th>
+            <th>Parent Account</th>
+            <th>Status</th>
+            <th style="width: 120px">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of displayList" [class.level-row]="true"
+              [class.root-row]="item.level === 0">
+            <td>
+              <button *ngIf="!isSearching && (item.hasChildren || item.hasChildren === undefined)"
+                      class="expand-btn"
+                      [style.marginLeft]="getIndentPadding(item.level)"
+                      (click)="toggleExpand(item)">
+                <span class="expand-arrow" [class.expanded]="item.expanded">▶</span>
+              </button>
+              <span *ngIf="isSearching || (item.hasChildren === false)"
+                    class="leaf-indent"
+                    [style.marginLeft]="getIndentPadding(item.level)">
+                •
+              </span>
+            </td>
+            <td><strong>{{ item.accountNumber }}</strong></td>
+            <td>
+              <span class="account-name">{{ item.accountName }}</span>
+            </td>
+            <td>
+              <span class="level-badge level-{{ item.level }}">L{{ item.level }}</span>
+            </td>
+            <td>
+              <span *ngIf="item.parentAccountName" class="parent-info">
+                {{ item.parentAccountName }}
+              </span>
+              <span *ngIf="!item.parentAccountName" class="no-parent">—</span>
+            </td>
+            <td>
+              <span [class]="item.isActive ? 'status-active' : 'status-inactive'">
+                {{ item.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button *ngIf="!isSearching" class="action-btn add-child-btn" title="Add Child"
+                        (click)="openAddChild(item)">➕</button>
+                <button class="action-btn edit-btn" title="Edit" (click)="openEdit(item)">✏️</button>
+                <button class="action-btn delete-btn" title="Delete" (click)="confirmDelete(item)">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="displayList.length === 0">
+            <td colspan="7" class="empty-row">
+              {{ isSearching ? 'No accounts found matching your search' : 'No accounts found' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="table-footer">
+        <span class="records-info">
+          Showing {{ displayList.length }} records
+          <span *ngIf="isSearching"> (search results)</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Modal -->
+  <app-modal [title]="isEdit ? 'Edit Account' : (addingChildOf ? 'Add Child Account' : 'Add Root Account')"
+             [isOpen]="isModalOpen" (closed)="closeModal()" size="medium">
+    <div class="modal-form">
+      <div class="form-row" *ngIf="addingChildOf && !isEdit">
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>Parent Account</label>
+          <input type="text" [value]="addingChildOf.accountNumber + ' - ' + addingChildOf.accountName"
+                 class="readonly-input" readonly>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Account Number *</label>
+          <input type="text" [(ngModel)]="model.accountNumber" placeholder="Enter account number">
+        </div>
+        <div class="form-group">
+          <label>Account Name *</label>
+          <input type="text" [(ngModel)]="model.accountName" placeholder="Enter account name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="model.isActive">
+            Active
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-save" (click)="save()" [disabled]="saving">
+        {{ isEdit ? '💾 Update Account' : '＋ Add Account' }}
+      </button>
+      <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
+    </div>
+  </app-modal>
+
+  <!-- Delete Confirmation -->
+  <app-confirm-dialog
+    [isOpen]="showDeleteConfirm"
+    [itemName]="deleteTarget?.accountName || ''"
+    (confirmed)="onDeleteConfirmed()"
+    (cancelled)="onDeleteCancelled()">
+  </app-confirm-dialog>
 </div>

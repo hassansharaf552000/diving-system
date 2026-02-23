@@ -196,3 +196,93 @@ export interface CodeDefinition {
   key: string;
   displayName: string;
 }
+
+export interface OperationAccount {
+  id: number;
+  accountNumber: string;
+  accountName: string;
+  parentId: number | null;
+  parentAccountNumber?: string | null;
+  parentAccountName?: string | null;
+  level: number;
+  isActive: boolean;
+  children?: OperationAccount[];
+  hasChildren?: boolean;
+  createdAt?: string;
+  createdBy?: string;
+  updatedAt?: string | null;
+  updatedBy?: string | null;
+  // UI state
+  expanded?: boolean;
+  childrenLoaded?: boolean;
+}
+
+export interface OperationAccountCreate {
+  accountNumber: string;
+  accountName: string;
+  parentId: number | null;
+  isActive: boolean;
+  createdBy: string;
+}
+
+export interface CodePeriod {
+  periodId?: number;
+  periodName: string;
+  active: boolean;
+  recordBy?: string;
+  recordTime?: string;
+}
+
+export interface CodeBeneficiaryName {
+  beneficiaryId?: number;
+  beneficiaryName: string;
+  beneficiaryTypeId?: number;
+  beneficiaryTypeName?: string;
+  commercialName?: string;
+  vatNo?: string;
+  fileNo?: string;
+  address?: string;
+  phone?: string;
+  active: boolean;
+  recordBy?: string;
+  recordTime?: string;
+}
+
+export interface CodeBeneficiaryType {
+  beneficiaryTypeId?: number;
+  beneficiaryTypeName: string;
+  active: boolean;
+  recordBy?: string;
+  recordTime?: string;
+}
+
+export interface CodeCostCenter {
+  costCenterId?: number;
+  costCenterNumber: string;
+  costCenterName: string;
+  costCenterGroup: string;
+  active: boolean;
+  recordBy?: string;
+  recordTime?: string;
+}
+
+export interface CodeFileNumber {
+  fileId?: number;
+  fileNumber: string;
+  fileName: string;
+  agentId?: number;
+  agentName?: string;
+  periodId?: number;
+  periodName?: string;
+  active: boolean;
+  recordBy?: string;
+  recordTime?: string;
+}
+
+export interface CodeAgent {
+  agentId?: number;
+  agentName: string;
+  active: boolean;
+  recordBy?: string;
+  recordTime?: string;
+}
