@@ -24,22 +24,22 @@ export class CodesListComponent implements OnInit {
   codes: CodeCard[] = [];
 
   private codeMetadata: Record<string, { icon: string; desc: string; gradient: string; route: string }> = {
-    agents:                  { icon: '🏢', desc: 'Manage travel agents & contacts',   gradient: 'linear-gradient(135deg, #667eea, #764ba2)', route: '/codes/agent' },
-    boats:                   { icon: '🚢', desc: 'Boats, capacity & availability',    gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)', route: '/codes/boat' },
-    excursions:              { icon: '🏖️', desc: 'Excursion packages & details',      gradient: 'linear-gradient(135deg, #fa709a, #fee140)', route: '/codes/excursion' },
-    excursionsuppliers:      { icon: '🤝', desc: 'Suppliers for excursion services',  gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)', route: '/codes/excursion-supplier' },
-    excursioncostsellings:   { icon: '💰', desc: 'Excursion cost & selling prices',   gradient: 'linear-gradient(135deg, #f6d365, #fda085)', route: '/codes/excursion-cost-selling' },
-    reps:                    { icon: '👨‍💼', desc: 'Sales representatives',            gradient: 'linear-gradient(135deg, #f093fb, #f5576c)', route: '/codes/rep' },
-    guides:                  { icon: '👤', desc: 'Tour guides & contact info',       gradient: 'linear-gradient(135deg, #ffecd2, #fcb69f)', route: '/codes/guide' },
-    hotels:                  { icon: '🏨', desc: 'Hotel listings & destinations',    gradient: 'linear-gradient(135deg, #a1c4fd, #c2e9fb)', route: '/codes/hotel' },
-    hoteldestinations:       { icon: '📍', desc: 'Destination areas for hotels',     gradient: 'linear-gradient(135deg, #d4fc79, #96e6a1)', route: '/codes/hotel-destination' },
-    nationalities:           { icon: '🌍', desc: 'Customer nationality codes',       gradient: 'linear-gradient(135deg, #84fab0, #8fd3f4)', route: '/codes/nationality' },
-    pricelists:              { icon: '💲', desc: 'Pricing configurations',           gradient: 'linear-gradient(135deg, #fccb90, #d57eeb)', route: '/codes/price-list' },
-    rates:                   { icon: '💱', desc: 'Currency exchange rates',          gradient: 'linear-gradient(135deg, #e0c3fc, #8ec5fc)', route: '/codes/rate' },
-    transportationtypes:     { icon: '🚗', desc: 'Vehicle types & categories',       gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)', route: '/codes/transportation-type' },
-    transportationsuppliers: { icon: '🏗️', desc: 'Transportation service providers', gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)', route: '/codes/transportation-supplier' },
-    transportationcosts:     { icon: '💵', desc: 'Cost per route & vehicle',         gradient: 'linear-gradient(135deg, #fa709a, #fee140)', route: '/codes/transportation-cost' },
-    repvouchers:             { icon: '🎫', desc: 'Voucher numbers & tracking',       gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)', route: '/codes/voucher' }
+    agents:                  { icon: '🏢', desc: 'Manage travel agents & contacts',   gradient: 'linear-gradient(135deg, #667eea, #764ba2)', route: '/operation/codes/agent' },
+    boats:                   { icon: '🚢', desc: 'Boats, capacity & availability',    gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)', route: '/operation/codes/boat' },
+    excursions:              { icon: '🏖️', desc: 'Excursion packages & details',      gradient: 'linear-gradient(135deg, #fa709a, #fee140)', route: '/operation/codes/excursion' },
+    excursionsuppliers:      { icon: '🤝', desc: 'Suppliers for excursion services',  gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)', route: '/operation/codes/excursion-supplier' },
+    excursioncostsellings:   { icon: '💰', desc: 'Excursion cost & selling prices',   gradient: 'linear-gradient(135deg, #f6d365, #fda085)', route: '/operation/codes/excursion-cost-selling' },
+    reps:                    { icon: '👨‍💼', desc: 'Sales representatives',            gradient: 'linear-gradient(135deg, #f093fb, #f5576c)', route: '/operation/codes/rep' },
+    guides:                  { icon: '👤', desc: 'Tour guides & contact info',       gradient: 'linear-gradient(135deg, #ffecd2, #fcb69f)', route: '/operation/codes/guide' },
+    hotels:                  { icon: '🏨', desc: 'Hotel listings & destinations',    gradient: 'linear-gradient(135deg, #a1c4fd, #c2e9fb)', route: '/operation/codes/hotel' },
+    hoteldestinations:       { icon: '📍', desc: 'Destination areas for hotels',     gradient: 'linear-gradient(135deg, #d4fc79, #96e6a1)', route: '/operation/codes/hotel-destination' },
+    nationalities:           { icon: '🌍', desc: 'Customer nationality codes',       gradient: 'linear-gradient(135deg, #84fab0, #8fd3f4)', route: '/operation/codes/nationality' },
+    pricelists:              { icon: '💲', desc: 'Pricing configurations',           gradient: 'linear-gradient(135deg, #fccb90, #d57eeb)', route: '/operation/codes/price-list' },
+    rates:                   { icon: '💱', desc: 'Currency exchange rates',          gradient: 'linear-gradient(135deg, #e0c3fc, #8ec5fc)', route: '/operation/codes/rate' },
+    transportationtypes:     { icon: '🚗', desc: 'Vehicle types & categories',       gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)', route: '/operation/codes/transportation-type' },
+    transportationsuppliers: { icon: '🏗️', desc: 'Transportation service providers', gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)', route: '/operation/codes/transportation-supplier' },
+    transportationcosts:     { icon: '💵', desc: 'Cost per route & vehicle',         gradient: 'linear-gradient(135deg, #fa709a, #fee140)', route: '/operation/codes/transportation-cost' },
+    repvouchers:             { icon: '🎫', desc: 'Voucher numbers & tracking',       gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)', route: '/operation/codes/voucher' }
   };
 
   constructor(private router: Router, private svc: CodeService, private cdr: ChangeDetectorRef) { }
@@ -51,7 +51,7 @@ export class CodesListComponent implements OnInit {
           icon: '📋',
           desc: def.displayName,
           gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
-          route: `/codes/${def.key}`
+          route: `/operation/codes/${def.key}`
         };
         return {
           key: def.key,

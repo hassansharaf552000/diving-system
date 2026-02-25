@@ -1,4 +1,361 @@
-<div class="component-container">
-  <h2>Entry Treasury Transaction</h2>
-  <p>Component will be implemented later.</p>
+<div class="code-page">
+  <div class="code-card">
+    <!-- Toolbar -->
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <button class="back-btn" (click)="goBack()">←</button>
+        <h2>💰 Treasury Transactions</h2>
+        <span class="record-count">{{ filtered.length }} records</span>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn-add" (click)="openAdd()">＋ Add New Transaction</button>
+      </div>
+    </div>
+
+    <!-- Search / Filter Bar -->
+    <div class="code-table-wrap">
+      <div class="search-bar">
+        <div class="table-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" [(ngModel)]="searchTerm" placeholder="Search transactions...">
+        </div>
+        <div class="filter-group">
+          <input type="date" [(ngModel)]="searchFromDate" class="filter-input" placeholder="From Date">
+          <input type="date" [(ngModel)]="searchToDate" class="filter-input" placeholder="To Date">
+          <select [(ngModel)]="searchType" class="filter-select">
+            <option [ngValue]="null">All Types</option>
+            <option *ngFor="let t of transactionTypes" [ngValue]="t.id">{{ t.name }}</option>
+          </select>
+          <button class="btn-filter" (click)="searchTransactions()">🔍 Filter</button>
+        </div>
+      </div>
+
+      <!-- Transactions Table -->
+      <div class="table-scroll-wrap">
+        <table class="code-table">
+          <thead>
+            <tr>
+              <th>Receipt No</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Beneficiary</th>
+              <th>Currency</th>
+              <th>Payment</th>
+              <th>Description</th>
+              <th>Recorded By</th>
+              <th style="width:90px">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tx of filtered"
+                [class.selected]="tx.treasuryTransactionId === selectedTransaction?.treasuryTransactionId"
+                (click)="selectTransaction(tx)">
+              <td><strong>{{ tx.receiptNo }}</strong></td>
+              <td>{{ tx.transactionTypeName }}</td>
+              <td>{{ tx.transactionDate | date:'dd/MM/yyyy' }}</td>
+              <td>{{ tx.beneficiaryNameValue || '-' }}</td>
+              <td>{{ tx.currency }}</td>
+              <td>{{ tx.paymentType }}</td>
+              <td class="desc-cell">{{ tx.description }}</td>
+              <td>{{ tx.recordBy }}</td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn edit-btn" (click)="openEdit(tx); $event.stopPropagation()">✏️</button>
+                  <button class="action-btn delete-btn" (click)="confirmDelete(tx); $event.stopPropagation()">🗑️</button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filtered.length === 0">
+              <td colspan="9" class="empty-row">No transactions found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <span class="records-info">Showing {{ filtered.length }} of {{ transactions.length }} records</span>
+      </div>
+    </div>
+
+    <!-- Lines Detail Panel (shown when a transaction is selected) -->
+    <div class="lines-panel" *ngIf="selectedTransaction">
+      <div class="lines-header">
+        <h3>📋 Lines for: {{ selectedTransaction.receiptNo }} — {{ selectedTransaction.transactionTypeName }}</h3>
+        <div class="lines-meta">
+          <span class="meta-item"><strong>Beneficiary:</strong> {{ selectedTransaction.beneficiaryNameValue || '-' }}</span>
+          <span class="meta-item"><strong>Description:</strong> {{ selectedTransaction.description }}</span>
+          <span class="meta-item"><strong>Account:</strong> {{ selectedTransaction.paymentDefaultAccountName }}</span>
+        </div>
+      </div>
+      <table class="code-table lines-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Account</th>
+            <th>File</th>
+            <th>Cost Center</th>
+            <th>Period</th>
+            <th>Tax %</th>
+            <th>Tax #</th>
+            <th>Description</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Eq Debit</th>
+            <th>Eq Credit</th>
+            <th style="width:90px">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let line of lines; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ line.accountName }}</td>
+            <td>{{ line.fileNumberValue || '-' }}</td>
+            <td>{{ line.costCenterName || '-' }}</td>
+            <td>{{ line.periodName }}</td>
+            <td>{{ line.taxPercent || 0 }}</td>
+            <td>{{ line.taxNo || '-' }}</td>
+            <td>{{ line.lineDescription }}</td>
+            <td class="num-cell">{{ line.debit | number:'1.2-2' }}</td>
+            <td class="num-cell">{{ line.credit | number:'1.2-2' }}</td>
+            <td class="num-cell">{{ line.eqDebit | number:'1.2-2' }}</td>
+            <td class="num-cell">{{ line.eqCredit | number:'1.2-2' }}</td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn edit-btn" (click)="openEditLine(line, i)">✏️</button>
+                <button class="action-btn delete-btn" (click)="removeLine(i)">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="lines.length === 0">
+            <td colspan="13" class="empty-row">No lines for this transaction</td>
+          </tr>
+          <!-- Totals -->
+          <tr class="totals-row" *ngIf="lines.length > 0">
+            <td colspan="8" class="totals-label">Totals</td>
+            <td class="num-cell"><strong>{{ totalDebit | number:'1.2-2' }}</strong></td>
+            <td class="num-cell"><strong>{{ totalCredit | number:'1.2-2' }}</strong></td>
+            <td class="num-cell"><strong>{{ totalEqDebit | number:'1.2-2' }}</strong></td>
+            <td class="num-cell"><strong>{{ totalEqCredit | number:'1.2-2' }}</strong></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="lines-footer">
+        <span class="footer-info"><strong>RecordBy:</strong> {{ selectedTransaction.recordBy }}</span>
+        <span class="footer-info"><strong>Record Time:</strong> {{ selectedTransaction.recordTime | date:'dd/MM/yyyy hh:mm a' }}</span>
+        <span class="footer-info" *ngIf="selectedTransaction.luRecordBy"><strong>LU RecordBy:</strong> {{ selectedTransaction.luRecordBy }}</span>
+        <span class="footer-info" *ngIf="selectedTransaction.luRecordTime"><strong>LU Record Time:</strong> {{ selectedTransaction.luRecordTime | date:'dd/MM/yyyy hh:mm a' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Modal -->
+  <app-modal [title]="isEdit ? 'Edit Treasury Transaction' : 'Add New Treasury Transaction'" [isOpen]="isModalOpen" (closed)="closeModal()" size="large">
+    <div class="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Transaction Type *</label>
+          <select [(ngModel)]="model.transactionTypeId">
+            <option [ngValue]="undefined">-- Select --</option>
+            <option *ngFor="let t of transactionTypes" [ngValue]="t.id">{{ t.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Receipt No *</label>
+          <input type="text" [(ngModel)]="model.receiptNo" placeholder="e.g. R-1001">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" [(ngModel)]="model.transactionDate">
+        </div>
+        <div class="form-group">
+          <label>Period</label>
+          <select [(ngModel)]="model.periodId">
+            <option [ngValue]="undefined">-- Select --</option>
+            <option *ngFor="let p of periods" [ngValue]="p.periodId">{{ p.periodName }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Beneficiary Name</label>
+          <select [(ngModel)]="model.beneficiaryNameId">
+            <option [ngValue]="undefined">-</option>
+            <option *ngFor="let b of beneficiaryNames" [ngValue]="b.beneficiaryId">{{ b.beneficiaryName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Beneficiary Type</label>
+          <select [(ngModel)]="model.beneficiaryTypeId">
+            <option [ngValue]="undefined">-</option>
+            <option *ngFor="let bt of beneficiaryTypes" [ngValue]="bt.beneficiaryTypeId">{{ bt.beneficiaryTypeName }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Currency *</label>
+          <select [(ngModel)]="model.currency">
+            <option *ngFor="let c of currencies" [ngValue]="c">{{ c }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Rate</label>
+          <input type="number" [(ngModel)]="model.rate" step="0.01">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Payment Type *</label>
+          <select [(ngModel)]="model.paymentType">
+            <option *ngFor="let p of paymentTypes" [ngValue]="p">{{ p }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Default Account</label>
+          <select [(ngModel)]="model.paymentDefaultAccountId">
+            <option [ngValue]="undefined">-- Select --</option>
+            <option *ngFor="let a of accounts" [ngValue]="a.id">{{ a.accountNumber }} - {{ a.accountName }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Withdraw Bank</label>
+          <input type="text" [(ngModel)]="model.withdrawBank" placeholder="Enter bank name">
+        </div>
+        <div class="form-group">
+          <label>Due Date</label>
+          <input type="date" [(ngModel)]="model.dueDate">
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:4px">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="model.description" placeholder="Enter description">
+      </div>
+      <div class="form-group">
+        <label>Recorded By</label>
+        <input type="text" [(ngModel)]="model.recordBy" placeholder="e.g. Mohamed Hamza">
+      </div>
+
+      <!-- Lines in modal -->
+      <div class="modal-lines-section">
+        <div class="modal-lines-header">
+          <h4>Transaction Lines</h4>
+          <button class="btn-add-line" (click)="openAddLine()">＋ Add Line</button>
+        </div>
+        <table class="code-table modal-lines-table" *ngIf="lines.length > 0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Account</th>
+              <th>File</th>
+              <th>Cost Center</th>
+              <th>Period</th>
+              <th>Description</th>
+              <th>Debit</th>
+              <th>Credit</th>
+              <th style="width:40px"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let line of lines; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ line.accountName }}</td>
+              <td>{{ line.fileNumberValue || '-' }}</td>
+              <td>{{ line.costCenterName || '-' }}</td>
+              <td>{{ line.periodName }}</td>
+              <td>{{ line.lineDescription }}</td>
+              <td class="num-cell">{{ line.debit | number:'1.2-2' }}</td>
+              <td class="num-cell">{{ line.credit | number:'1.2-2' }}</td>
+              <td>
+                <button class="action-btn delete-btn" (click)="removeLine(i)">✕</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="no-lines-msg" *ngIf="lines.length === 0">No lines added yet.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Transaction' : '＋ Add Transaction' }}</button>
+      <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
+    </div>
+  </app-modal>
+
+  <!-- Add/Edit Line Modal -->
+  <app-modal [title]="isLineEdit ? 'Edit Transaction Line' : 'Add Transaction Line'" [isOpen]="isLineModalOpen" (closed)="closeLineModal()" size="medium">
+    <div class="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Account *</label>
+          <select [(ngModel)]="lineModel.accountId">
+            <option [ngValue]="undefined">-- Select --</option>
+            <option *ngFor="let a of accounts" [ngValue]="a.id">{{ a.accountNumber }} - {{ a.accountName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>File Number</label>
+          <select [(ngModel)]="lineModel.fileNumberId">
+            <option [ngValue]="undefined">-</option>
+            <option *ngFor="let f of fileNumbers" [ngValue]="f.fileId">{{ f.fileNumber }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cost Center</label>
+          <select [(ngModel)]="lineModel.costCenterId">
+            <option [ngValue]="undefined">-</option>
+            <option *ngFor="let c of costCenters" [ngValue]="c.costCenterId">{{ c.costCenterName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Period</label>
+          <select [(ngModel)]="lineModel.periodId">
+            <option [ngValue]="undefined">-</option>
+            <option *ngFor="let p of periods" [ngValue]="p.periodId">{{ p.periodName }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tax %</label>
+          <input type="number" [(ngModel)]="lineModel.taxPercent" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Tax #</label>
+          <input type="text" [(ngModel)]="lineModel.taxNo">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="lineModel.lineDescription" placeholder="Line description">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Debit</label>
+          <input type="number" [(ngModel)]="lineModel.debit" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Credit</label>
+          <input type="number" [(ngModel)]="lineModel.credit" step="0.01">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-save" (click)="saveLine()" [disabled]="lineSaving">＋ Add Line</button>
+      <button class="btn-cancel-modal" (click)="closeLineModal()">Cancel</button>
+    </div>
+  </app-modal>
+
+  <!-- Delete Confirmation -->
+  <app-confirm-dialog
+    [isOpen]="showDeleteConfirm"
+    [itemName]="'Transaction ' + (deleteTarget?.receiptNo || '')"
+    (confirmed)="onDeleteConfirmed()"
+    (cancelled)="onDeleteCancelled()">
+  </app-confirm-dialog>
 </div>

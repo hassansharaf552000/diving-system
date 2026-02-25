@@ -286,3 +286,113 @@ export interface CodeAgent {
   recordBy?: string;
   recordTime?: string;
 }
+
+// ========== TREASURY TRANSACTIONS ==========
+
+export interface TreasuryTransactionLine {
+  treasuryTransactionLineId?: number;
+  treasuryTransactionId?: number;
+  accountId?: number;
+  accountName?: string;
+  fileNumberId?: number;
+  fileNumberValue?: string;
+  serviceId?: number;
+  costCenterId?: number;
+  costCenterName?: string;
+  periodId?: number;
+  periodName?: string;
+  taxPercent?: number;
+  taxNo?: string;
+  lineDescription?: string;
+  debit: number;
+  credit: number;
+  eqDebit: number;
+  eqCredit: number;
+}
+
+export interface TreasuryTransaction {
+  treasuryTransactionId?: number;
+  transactionTypeId?: number;
+  transactionTypeName?: string;
+  receiptNo?: string;
+  transactionDate?: string;
+  periodId?: number;
+  periodName?: string;
+  beneficiaryNameId?: number;
+  beneficiaryNameValue?: string;
+  beneficiaryTypeId?: number;
+  beneficiaryTypeName?: string;
+  currency?: string;
+  rate?: number;
+  dueDate?: string;
+  withdrawBank?: string;
+  paymentType?: string;
+  paymentDefaultAccountId?: number;
+  paymentDefaultAccountName?: string;
+  description?: string;
+  active?: boolean;
+  recordBy?: string;
+  recordTime?: string;
+  luRecordBy?: string;
+  luRecordTime?: string;
+  lines?: TreasuryTransactionLine[];
+}
+
+export interface TreasuryTransactionCreate {
+  transactionTypeId: number;
+  receiptNo: string;
+  transactionDate: string;
+  periodId: number;
+  beneficiaryNameId?: number;
+  beneficiaryTypeId?: number;
+  currency: string;
+  rate: number;
+  dueDate?: string;
+  withdrawBank?: string;
+  paymentType: string;
+  paymentDefaultAccountId: number;
+  description?: string;
+  recordBy: string;
+  manualLineAccountId?: number;
+  manualLineFileNumberId?: number;
+  manualLineCostCenterId?: number;
+  manualLinePeriodId?: number;
+  manualLineServiceId?: number;
+  manualLineTaxPercent?: number;
+  manualLineTaxNo?: string;
+  manualLineDescription?: string;
+  manualLineDebit?: number;
+  manualLineCredit?: number;
+}
+
+// ========== TREASURY COUNTERS ==========
+
+export interface TreasuryCounterLine {
+  treasuryCounterLineId?: number;
+  denomination: number;
+  count: number;
+  lineTotal?: number;
+}
+
+export interface TreasuryCounter {
+  treasuryCounterId?: number;
+  counterDate?: string;
+  branchName?: string;
+  currency?: string;
+  totalCounter?: number;
+  treasuryBalance?: number;
+  difference?: number;
+  recordBy?: string;
+  recordTime?: string;
+  luRecordBy?: string;
+  luRecordTime?: string;
+  lines?: TreasuryCounterLine[];
+}
+
+export interface TreasuryCounterCreate {
+  counterDate: string;
+  branchName?: string;
+  currency: string;
+  lines: { denomination: number; count: number }[];
+  recordBy?: string;
+}

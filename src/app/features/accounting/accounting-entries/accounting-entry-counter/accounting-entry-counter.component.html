@@ -1,4 +1,176 @@
-<div class="component-container">
-  <h2>Entry Counter</h2>
-  <p>Component will be implemented later.</p>
+<div class="code-page">
+  <div class="code-card">
+    <!-- Toolbar -->
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <button class="back-btn" (click)="goBack()">←</button>
+        <h2>🏦 Treasury Counter</h2>
+        <span class="record-count">{{ counters.length }} records</span>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn-add" (click)="openAdd()">＋ New Counter</button>
+      </div>
+    </div>
+
+    <!-- Search / Filter Bar -->
+    <div class="code-table-wrap">
+      <div class="search-bar">
+        <div class="table-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" [(ngModel)]="searchBranch" placeholder="Search branch...">
+        </div>
+        <div class="filter-group">
+          <select [(ngModel)]="searchCurrency" class="filter-select">
+            <option value="">All Currencies</option>
+            <option *ngFor="let c of currencies" [ngValue]="c">{{ c }}</option>
+          </select>
+          <input type="date" [(ngModel)]="searchFromDate" class="filter-input" placeholder="From Date">
+          <input type="date" [(ngModel)]="searchToDate" class="filter-input" placeholder="To Date">
+          <button class="btn-filter" (click)="searchCounters()">🔍 Filter</button>
+        </div>
+      </div>
+
+      <!-- Counters Table -->
+      <div class="table-scroll-wrap">
+        <table class="code-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Branch</th>
+              <th>Currency</th>
+              <th>Total Counter</th>
+              <th>Treasury Balance</th>
+              <th>Difference</th>
+              <th>Recorded By</th>
+              <th>Record Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of counters"
+                [class.selected]="c.treasuryCounterId === selectedCounter?.treasuryCounterId"
+                (click)="selectCounter(c)">
+              <td>{{ c.counterDate | date:'dd/MM/yyyy' }}</td>
+              <td>{{ c.branchName || '-' }}</td>
+              <td><strong>{{ c.currency }}</strong></td>
+              <td class="num-cell">{{ c.totalCounter | number:'1.2-2' }}</td>
+              <td class="num-cell">{{ c.treasuryBalance | number:'1.2-2' }}</td>
+              <td class="num-cell" [class.diff-positive]="(c.difference || 0) > 0" [class.diff-negative]="(c.difference || 0) < 0">
+                {{ c.difference | number:'1.2-2' }}
+              </td>
+              <td>{{ c.recordBy || '-' }}</td>
+              <td>{{ c.recordTime | date:'dd/MM/yyyy HH:mm' }}</td>
+            </tr>
+            <tr *ngIf="counters.length === 0">
+              <td colspan="8" class="empty-row">No counters found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <span class="records-info">Showing {{ counters.length }} records</span>
+      </div>
+    </div>
+
+    <!-- Detail Panel (shown when a counter is selected) -->
+    <div class="detail-panel" *ngIf="selectedCounter">
+      <div class="detail-header">
+        <h3>📋 Counter Details — {{ selectedCounter.counterDate | date:'dd/MM/yyyy' }} ({{ selectedCounter.currency }})</h3>
+        <div class="detail-meta">
+          <span class="meta-item"><strong>Branch:</strong> {{ selectedCounter.branchName || '-' }}</span>
+          <span class="meta-item"><strong>Total Counter:</strong> {{ selectedCounter.totalCounter | number:'1.2-2' }}</span>
+          <span class="meta-item"><strong>Treasury Balance:</strong> {{ selectedCounter.treasuryBalance | number:'1.2-2' }}</span>
+          <span class="meta-item"><strong>Difference:</strong> {{ selectedCounter.difference | number:'1.2-2' }}</span>
+        </div>
+      </div>
+      <table class="code-table detail-table" *ngIf="selectedCounter.lines && selectedCounter.lines.length > 0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Denomination</th>
+            <th>Count</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let line of selectedCounter.lines; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td><strong>{{ line.denomination }}</strong></td>
+            <td class="num-cell">{{ line.count | number }}</td>
+            <td class="num-cell">{{ line.lineTotal | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="no-lines-msg" *ngIf="!selectedCounter.lines || selectedCounter.lines.length === 0">No denomination lines</p>
+      <div class="detail-footer">
+        <span class="footer-info"><strong>RecordBy:</strong> {{ selectedCounter.recordBy || '-' }}</span>
+        <span class="footer-info"><strong>Record Time:</strong> {{ selectedCounter.recordTime | date:'dd/MM/yyyy hh:mm a' }}</span>
+        <span class="footer-info" *ngIf="selectedCounter.luRecordBy"><strong>LU RecordBy:</strong> {{ selectedCounter.luRecordBy }}</span>
+        <span class="footer-info" *ngIf="selectedCounter.luRecordTime"><strong>LU Record Time:</strong> {{ selectedCounter.luRecordTime | date:'dd/MM/yyyy hh:mm a' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Counter Modal -->
+  <app-modal title="New Treasury Counter" [isOpen]="isModalOpen" (closed)="closeModal()" size="large">
+    <div class="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" [(ngModel)]="counterDate">
+        </div>
+        <div class="form-group">
+          <label>Currency *</label>
+          <select [(ngModel)]="currency" (ngModelChange)="onCurrencyChange()">
+            <option *ngFor="let c of currencies" [ngValue]="c">{{ c }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Branch</label>
+          <input type="text" [(ngModel)]="branchName" placeholder="Leave empty if not applicable">
+        </div>
+        <div class="form-group">
+          <label>Recorded By</label>
+          <input type="text" [(ngModel)]="recordBy" placeholder="e.g. Mohamed Hamza">
+        </div>
+      </div>
+
+      <!-- Denomination Grid -->
+      <div class="denom-section">
+        <h4>Denomination Counts</h4>
+        <table class="denom-table">
+          <thead>
+            <tr>
+              <th>Denomination</th>
+              <th>Count</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of denominationRows">
+              <td class="denom-cell"><strong>{{ row.denomination }}</strong></td>
+              <td>
+                <input type="number" [(ngModel)]="row.count" (ngModelChange)="updateRowTotal(row)"
+                       class="denom-input" min="0" placeholder="0">
+              </td>
+              <td class="num-cell total-value">{{ row.total | number:'1.2-2' }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="totals-row">
+              <td class="totals-label" colspan="2">Total Counter :</td>
+              <td class="num-cell"><strong>{{ totalCounter | number:'1.2-2' }}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-save" (click)="save()" [disabled]="saving">💾 {{ saving ? 'Saving...' : 'Save Counter' }}</button>
+      <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
+    </div>
+  </app-modal>
+
 </div>

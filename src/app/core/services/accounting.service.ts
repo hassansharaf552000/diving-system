@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { OperationAccount, OperationAccountCreate, CodePeriod, CodeBeneficiaryName, CodeBeneficiaryType, CodeCostCenter, CodeFileNumber, CodeAgent } from '../interfaces/code.interfaces';
+import { OperationAccount, OperationAccountCreate, CodePeriod, CodeBeneficiaryName, CodeBeneficiaryType, CodeCostCenter, CodeFileNumber, CodeAgent, TreasuryTransaction, TreasuryTransactionCreate, TreasuryCounter, TreasuryCounterCreate } from '../interfaces/code.interfaces';
 
 export interface AccountingCode {
   key: string;
@@ -195,5 +195,53 @@ export class AccountingService {
 
   deleteCodeAgent(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/CodeAgents/${id}`);
+  }
+
+  // ========== TREASURY TRANSACTIONS ==========
+  searchTreasuryTransactions(search?: string, fromDate?: string, toDate?: string, type?: number): Observable<TreasuryTransaction[]> {
+    let params = new HttpParams();
+    if (search) params = params.set('search', search);
+    if (fromDate) params = params.set('fromDate', fromDate);
+    if (toDate) params = params.set('toDate', toDate);
+    if (type) params = params.set('type', type.toString());
+    return this.http.get<TreasuryTransaction[]>(`${this.baseUrl}/TreasuryTransactions`, { params });
+  }
+
+  getTreasuryTransaction(id: number): Observable<TreasuryTransaction> {
+    return this.http.get<TreasuryTransaction>(`${this.baseUrl}/TreasuryTransactions/${id}`);
+  }
+
+  createTreasuryTransaction(data: TreasuryTransactionCreate): Observable<TreasuryTransaction> {
+    return this.http.post<TreasuryTransaction>(`${this.baseUrl}/TreasuryTransactions`, data);
+  }
+
+  updateTreasuryTransaction(id: number, data: TreasuryTransactionCreate): Observable<TreasuryTransaction> {
+    return this.http.put<TreasuryTransaction>(`${this.baseUrl}/TreasuryTransactions/${id}`, data);
+  }
+
+  deleteTreasuryTransaction(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/TreasuryTransactions/${id}`);
+  }
+
+  // ========== TREASURY COUNTERS ==========
+  searchTreasuryCounters(currency?: string, branch?: string, fromDate?: string, toDate?: string): Observable<TreasuryCounter[]> {
+    let params = new HttpParams();
+    if (currency) params = params.set('currency', currency);
+    if (branch) params = params.set('branch', branch);
+    if (fromDate) params = params.set('fromDate', fromDate);
+    if (toDate) params = params.set('toDate', toDate);
+    return this.http.get<TreasuryCounter[]>(`${this.baseUrl}/TreasuryCounters`, { params });
+  }
+
+  getTreasuryCounter(id: number): Observable<TreasuryCounter> {
+    return this.http.get<TreasuryCounter>(`${this.baseUrl}/TreasuryCounters/${id}`);
+  }
+
+  createTreasuryCounter(data: TreasuryCounterCreate): Observable<TreasuryCounter> {
+    return this.http.post<TreasuryCounter>(`${this.baseUrl}/TreasuryCounters`, data);
+  }
+
+  deleteTreasuryCounter(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/TreasuryCounters/${id}`);
   }
 }
