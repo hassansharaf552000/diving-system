@@ -26,52 +26,61 @@ export class EntriesComponent implements OnInit {
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
 
-  // Static mapping for visual properties
-  private readonly entryVisuals: Record<string, { icon: string; desc: string; gradient: string }> = {
+  // Static mapping for visual properties + routes
+  private readonly entryVisuals: Record<string, { icon: string; desc: string; gradient: string; route: string }> = {
     'entryexcursions': { 
       icon: '🏝️', 
       desc: 'Manage excursion entries', 
-      gradient: 'linear-gradient(135deg, #667eea, #764ba2)' 
+      gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
+      route: '/operation/entries/transaction'
     },
     'entrytraffic': { 
       icon: '🚗', 
       desc: 'Track traffic & movement data', 
-      gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)' 
+      gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)',
+      route: '/operation/entries/traffic'
     },
     'entryrevenue': { 
       icon: '💰', 
       desc: 'Revenue records & reporting', 
-      gradient: 'linear-gradient(135deg, #f6d365, #fda085)' 
+      gradient: 'linear-gradient(135deg, #f6d365, #fda085)',
+      route: '/operation/entries/revenue'
     },
     'entryguideallowance': { 
       icon: '👤', 
       desc: 'Guide allowance & compensation', 
-      gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' 
+      gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)',
+      route: '/operation/entries/guide-allowance'
     },
     'entryrepcommission': { 
       icon: '📝', 
       desc: 'Representative commission entries', 
-      gradient: 'linear-gradient(135deg, #f093fb, #f5576c)' 
+      gradient: 'linear-gradient(135deg, #f093fb, #f5576c)',
+      route: '/operation/entries/rep-commission'
     },
     'invoiceagent': { 
       icon: '👨‍💼', 
       desc: 'Agent invoice management', 
-      gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' 
+      gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)',
+      route: '/operation/entries/transaction'
     },
     'invoicesupplierboat': { 
       icon: '🚢', 
       desc: 'Boat supplier invoice entries', 
-      gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' 
+      gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)',
+      route: '/operation/entries/boat-coast'
     },
     'invoicesupplierexcursion': { 
       icon: '🏖️', 
       desc: 'Excursion supplier invoices', 
-      gradient: 'linear-gradient(135deg, #fa709a, #fee140)' 
+      gradient: 'linear-gradient(135deg, #fa709a, #fee140)',
+      route: '/operation/entries/transaction'
     },
     'invoicesuppliertransportation': { 
       icon: '🚌', 
       desc: 'Transportation supplier invoices', 
-      gradient: 'linear-gradient(135deg, #a8edea, #fed6e3)' 
+      gradient: 'linear-gradient(135deg, #a8edea, #fed6e3)',
+      route: '/operation/entries/transaction'
     }
   };
 
@@ -93,7 +102,6 @@ export class EntriesComponent implements OnInit {
         console.error('Error loading operation entries:', err);
         this.error.set('Failed to load operation entries');
         this.loading.set(false);
-        // Fallback to empty array or show error state
       }
     });
   }
@@ -103,13 +111,14 @@ export class EntriesComponent implements OnInit {
       const visual = this.entryVisuals[entry.key] || {
         icon: '📋',
         desc: entry.displayName,
-        gradient: 'linear-gradient(135deg, #667eea, #764ba2)'
+        gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
+        route: `/operation/entries/${entry.key}`
       };
 
       return {
         key: entry.key,
         label: entry.displayName,
-        route: `/operation/entries/${entry.key}`,
+        route: visual.route,
         icon: visual.icon,
         desc: visual.desc,
         gradient: visual.gradient

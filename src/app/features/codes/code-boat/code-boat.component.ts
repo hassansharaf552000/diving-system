@@ -27,5 +27,5 @@ export class CodeBoatComponent implements OnInit {
   confirmDelete(item: Boat): void { this.deleteTarget = item; this.showDeleteConfirm = true; }
   onDeleteConfirmed(): void { if (this.deleteTarget?.id) { this.svc.deleteBoat(this.deleteTarget.id).subscribe(() => this.loadData()); } this.showDeleteConfirm = false; this.deleteTarget = null; }
   onDeleteCancelled(): void { this.showDeleteConfirm = false; this.deleteTarget = null; }
-  goBack(): void { this.router.navigate(['/codes']); }
+  goBack(): void { this.router.navigate(['/operation/codes']); }
 }

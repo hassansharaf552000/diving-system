@@ -1,5 +1,10 @@
 <div class="component-container">
-  <h2>Accounting Codes</h2>
+  <div class="page-header">
+    <div class="header-content">
+      <h1>🏷️ Accounting Codes</h1>
+      <p>Manage accounting codes and configuration tables</p>
+    </div>
+  </div>
   
   @if (loading()) {
     <div class="loading-container">
@@ -8,25 +13,37 @@
     </div>
   } @else if (error()) {
     <div class="error-container">
+      <span class="error-icon">⚠️</span>
+      <h3>Failed to Load</h3>
       <p class="error-message">{{ error() }}</p>
       <button class="retry-btn" (click)="loadAccountingCodes()">Retry</button>
     </div>
   } @else {
-    <div class="codes-grid">
-      <a *ngFor="let code of accountingCodes()" 
-         class="code-card" 
-         [routerLink]="'/accounting/codes/' + code.key">
-        <div class="card-header">
-          <span class="card-icon">🏷️</span>
-          <h3>{{ code.displayName }}</h3>
+    <div class="cards-grid">
+      <div *ngFor="let code of codes()" 
+           class="card-item" 
+           (click)="openCode(code)">
+        <div class="card-accent" [style.background]="code.gradient"></div>
+        <div class="card-body">
+          <div class="card-icon-wrap" [style.background]="code.gradient">
+            <span class="card-icon">{{ code.icon }}</span>
+          </div>
+          <div class="card-info">
+            <h3>{{ code.displayName }}</h3>
+            <p>{{ code.desc }}</p>
+          </div>
+          <div class="card-meta">
+            <span class="arrow-circle">→</span>
+          </div>
         </div>
-        <p>{{ code.key }}</p>
-      </a>
+      </div>
     </div>
     
-    @if (accountingCodes().length === 0) {
+    @if (codes().length === 0) {
       <div class="empty-state">
-        <p>No accounting codes available.</p>
+        <span class="empty-icon">🏷️</span>
+        <h3>No codes available</h3>
+        <p>No accounting codes have been configured yet.</p>
       </div>
     }
   }

@@ -3,28 +3,28 @@
 
   .search-icon {
     position: absolute;
-    left: 15px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    color: #999;
-    font-size: 16px;
+    color: var(--dm-text-muted);
+    font-size: 15px;
   }
 
   input {
     width: 100%;
-    padding: 11px 15px 11px 44px;
-    border: 1px solid #e2e5ea;
-    border-radius: 10px;
+    padding: 10px 14px 10px 42px;
+    border: 1px solid var(--dm-border);
+    border-radius: var(--dm-radius-sm);
     font-size: 14px;
     outline: none;
-    transition: all 0.25s;
-    background: #f8f9fa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: var(--dm-surface);
     font-family: inherit;
+    color: var(--dm-text);
 
     &:focus {
-      border-color: #2a5298;
-      background: white;
-      box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+      border-color: var(--dm-accent);
+      box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.08);
     }
   }
 }

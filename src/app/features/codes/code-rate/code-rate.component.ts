@@ -26,5 +26,5 @@ export class CodeRateComponent implements OnInit {
   confirmDelete(item: Rate): void { this.deleteTarget = item; this.showDeleteConfirm = true; }
   onDeleteConfirmed(): void { if (this.deleteTarget?.id) { this.svc.deleteRate(this.deleteTarget.id).subscribe(() => this.loadData()); } this.showDeleteConfirm = false; this.deleteTarget = null; }
   onDeleteCancelled(): void { this.showDeleteConfirm = false; this.deleteTarget = null; }
-  goBack(): void { this.router.navigate(['/codes']); }
+  goBack(): void { this.router.navigate(['/operation/codes']); }
 }

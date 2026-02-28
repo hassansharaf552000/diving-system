@@ -24,10 +24,9 @@
   </div>
 
   <!-- Cards Grid -->
-  <div class="codes-grid">
-    <div class="code-card" *ngFor="let code of filteredCodes; let i = index"
-         (click)="openCode(code)"
-         [style.animation-delay]="i * 0.04 + 's'">
+  <div class="cards-grid">
+    <div class="card-item" *ngFor="let code of filteredCodes"
+         (click)="openCode(code)">
       <div class="card-accent" [style.background]="code.gradient"></div>
       <div class="card-body">
         <div class="card-icon-wrap" [style.background]="code.gradient">

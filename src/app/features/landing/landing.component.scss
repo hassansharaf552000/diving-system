@@ -1,18 +1,6 @@
 /* ============================
-   LANDING PAGE — Diving System
-   Premium ocean-themed design
+   LANDING PAGE — Diamond Design System
    ============================ */
-
-// ---------- Color tokens ----------
-$ocean-deep:     #0b1e3d;
-$ocean-mid:      #163a6a;
-$ocean-light:    #1d5199;
-$accent-teal:    #00d4aa;
-$accent-amber:   #ffb347;
-$glass-white:    rgba(255, 255, 255, 0.07);
-$glass-border:   rgba(255, 255, 255, 0.12);
-$text-primary:   #ffffff;
-$text-secondary: rgba(255, 255, 255, 0.72);
 
 // ---------- Container ----------
 .landing-container {
@@ -23,58 +11,8 @@ $text-secondary: rgba(255, 255, 255, 0.72);
   align-items: center;
   justify-content: center;
   padding: 2rem 1.5rem 1rem;
-  background: linear-gradient(160deg, $ocean-deep 0%, $ocean-mid 45%, $ocean-light 100%);
-  overflow: hidden;
+  background: var(--dm-primary);
   font-family: 'Inter', sans-serif;
-}
-
-// ---------- Particles ----------
-.particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.particle {
-  position: absolute;
-  bottom: -10%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
-  animation: rise linear infinite;
-}
-
-@keyframes rise {
-  0%   { transform: translateY(0) scale(1);   opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translateY(-110vh) scale(0.4); opacity: 0; }
-}
-
-// ---------- Waves ----------
-.wave-top,
-.wave-bottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.wave-top {
-  top: 0;
-  height: 120px;
-}
-
-.wave-bottom {
-  bottom: 0;
-  height: 120px;
 }
 
 // ---------- Hero ----------
@@ -83,7 +21,6 @@ $text-secondary: rgba(255, 255, 255, 0.72);
   z-index: 1;
   text-align: center;
   margin-bottom: 3rem;
-  animation: fadeDown 0.8s ease-out both;
 }
 
 .logo-wrapper {
@@ -94,18 +31,16 @@ $text-secondary: rgba(255, 255, 255, 0.72);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 80px;
-  height: 80px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
-  background: linear-gradient(135deg, $accent-teal, lighten($accent-teal, 12%));
-  color: $ocean-deep;
-  box-shadow:
-    0 0 0 6px rgba($accent-teal, 0.18),
-    0 8px 32px rgba(0, 0, 0, 0.25);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: var(--dm-highlight);
+  color: white;
+  box-shadow: 0 0 0 6px rgba(233, 69, 96, 0.15), 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
 
   &:hover {
-    transform: scale(1.08) rotate(-4deg);
+    transform: scale(1.05);
   }
 }
 
@@ -113,7 +48,7 @@ $text-secondary: rgba(255, 255, 255, 0.72);
   font-size: 2.8rem;
   font-weight: 700;
   line-height: 1.15;
-  color: $text-primary;
+  color: #ffffff;
   letter-spacing: -0.5px;
 }
 
@@ -123,17 +58,14 @@ $text-secondary: rgba(255, 255, 255, 0.72);
 
 .title-accent {
   display: block;
-  background: linear-gradient(90deg, $accent-teal, lighten($accent-teal, 18%));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--dm-highlight);
   font-weight: 800;
 }
 
 .subtitle {
   margin-top: 0.6rem;
   font-size: 1.05rem;
-  color: $text-secondary;
+  color: rgba(255, 255, 255, 0.55);
   font-weight: 400;
 }
 
@@ -142,7 +74,7 @@ $text-secondary: rgba(255, 255, 255, 0.72);
   width: 48px;
   height: 3px;
   border-radius: 3px;
-  background: linear-gradient(90deg, $accent-teal, transparent);
+  background: var(--dm-highlight);
 }
 
 // ---------- Cards Section ----------
@@ -151,59 +83,33 @@ $text-secondary: rgba(255, 255, 255, 0.72);
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  max-width: 820px;
+  gap: 1.5rem;
+  max-width: 800px;
   width: 100%;
-  animation: fadeUp 0.9s 0.2s ease-out both;
 }
 
 // ---------- Module Card ----------
 .module-card {
   position: relative;
-  border-radius: 20px;
-  padding: 2.2rem 2rem 1.8rem;
+  border-radius: var(--dm-radius);
+  padding: 2rem 1.8rem 1.6rem;
   cursor: pointer;
-  background: $glass-white;
-  border: 1px solid $glass-border;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition:
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.35s ease,
-    border-color 0.3s ease;
+  background: var(--dm-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   overflow: hidden;
   outline: none;
 
   &:hover,
   &:focus-visible {
-    transform: translateY(-8px) scale(1.015);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
   }
 
   &:focus-visible {
-    border-color: $accent-teal;
+    border-color: var(--dm-highlight);
   }
 }
-
-.card-glow {
-  position: absolute;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  top: -60px;
-  right: -40px;
-  filter: blur(60px);
-  opacity: 0.25;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.module-card:hover .card-glow {
-  opacity: 0.45;
-}
-
-.operation-glow { background: $accent-teal; }
-.accounting-glow { background: $accent-amber; }
 
 .card-content {
   position: relative;
@@ -215,94 +121,89 @@ $text-secondary: rgba(255, 255, 255, 0.72);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 16px;
-  margin-bottom: 1.25rem;
-  transition: transform 0.3s ease;
-}
-
-.module-card:hover .card-icon-wrapper {
-  transform: scale(1.1) rotate(-4deg);
+  width: 56px;
+  height: 56px;
+  border-radius: var(--dm-radius);
+  margin-bottom: 1.1rem;
 }
 
 .operation-icon {
-  background: rgba($accent-teal, 0.15);
-  color: $accent-teal;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
 }
 
 .accounting-icon {
-  background: rgba($accent-amber, 0.15);
-  color: $accent-amber;
+  background: rgba(233, 69, 96, 0.12);
+  color: var(--dm-highlight);
 }
 
 // Text
 .card-text h2 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: $text-primary;
-  margin-bottom: 0.4rem;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
 }
 
 .card-description {
-  font-size: 0.88rem;
-  color: $text-secondary;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
   line-height: 1.55;
-  margin: 0 0 1.1rem;
+  margin: 0 0 1rem;
 }
 
 // Features list
 .card-features {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.4rem;
+  margin: 0 0 1.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.45rem;
 
   li {
     display: flex;
     align-items: center;
-    gap: 0.55rem;
-    font-size: 0.82rem;
-    color: rgba(255, 255, 255, 0.6);
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.45);
     font-weight: 400;
   }
 }
 
 .feature-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.operation-dot  { background: $accent-teal; }
-.accounting-dot { background: $accent-amber; }
+.operation-dot  { background: #10b981; }
+.accounting-dot { background: var(--dm-highlight); }
 
 // Action row
 .card-action {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  color: $text-secondary;
-  transition: color 0.25s ease, gap 0.3s ease;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease;
 
   svg {
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
   }
 }
 
 .operation-card:hover .card-action,
 .operation-card:focus-visible .card-action {
-  color: $accent-teal;
+  color: #10b981;
 }
 
 .accounting-card:hover .card-action,
 .accounting-card:focus-visible .card-action {
-  color: $accent-amber;
+  color: var(--dm-highlight);
 }
 
 .module-card:hover .card-action svg,
@@ -312,11 +213,11 @@ $text-secondary: rgba(255, 255, 255, 0.72);
 
 // ---------- Card accent borders ----------
 .operation-card {
-  border-top: 3px solid $accent-teal;
+  border-left: 3px solid #10b981;
 }
 
 .accounting-card {
-  border-top: 3px solid $accent-amber;
+  border-left: 3px solid var(--dm-highlight);
 }
 
 // ---------- Footer ----------
@@ -327,21 +228,10 @@ $text-secondary: rgba(255, 255, 255, 0.72);
   text-align: center;
 
   p {
-    font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.25);
     font-weight: 400;
   }
-}
-
-// ---------- Keyframes ----------
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-30px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 // ---------- Responsive ----------
@@ -359,18 +249,18 @@ $text-secondary: rgba(255, 255, 255, 0.72);
     height: 64px;
 
     svg {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
     }
   }
 
   .cards-section {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .module-card {
-    padding: 1.8rem 1.5rem 1.5rem;
+    padding: 1.6rem 1.4rem 1.4rem;
   }
 }
 
@@ -384,6 +274,6 @@ $text-secondary: rgba(255, 255, 255, 0.72);
   }
 
   .card-text h2 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
 }

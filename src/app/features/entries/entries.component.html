@@ -37,10 +37,9 @@
     </div>
 
     <!-- Cards Grid -->
-    <div class="entries-grid">
-      <div class="entry-card" *ngFor="let entry of filteredEntries; let i = index"
-           (click)="openEntry(entry)"
-           [style.animation-delay]="i * 0.04 + 's'">
+    <div class="cards-grid">
+      <div class="card-item" *ngFor="let entry of filteredEntries"
+           (click)="openEntry(entry)">
         <div class="card-accent" [style.background]="entry.gradient"></div>
         <div class="card-body">
           <div class="card-icon-wrap" [style.background]="entry.gradient">

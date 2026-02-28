@@ -1,5 +1,10 @@
 <div class="component-container">
-  <h2>Accounting Entries</h2>
+  <div class="page-header">
+    <div class="header-content">
+      <h1>📋 Accounting Entries</h1>
+      <p>Manage accounting entry types and transactions</p>
+    </div>
+  </div>
   
   @if (loading()) {
     <div class="loading-container">
@@ -8,25 +13,37 @@
     </div>
   } @else if (error()) {
     <div class="error-container">
+      <span class="error-icon">⚠️</span>
+      <h3>Failed to Load</h3>
       <p class="error-message">{{ error() }}</p>
       <button class="retry-btn" (click)="loadAccountingEntries()">Retry</button>
     </div>
   } @else {
-    <div class="entries-grid">
-      <a *ngFor="let entry of accountingEntries()" 
-         class="entry-card" 
-         [routerLink]="'/accounting/entries/' + entry.key">
-        <div class="card-header">
-          <span class="card-icon">📋</span>
-          <h3>{{ entry.displayName }}</h3>
+    <div class="cards-grid">
+      <div *ngFor="let entry of entries()" 
+           class="card-item" 
+           (click)="openEntry(entry)">
+        <div class="card-accent" [style.background]="entry.gradient"></div>
+        <div class="card-body">
+          <div class="card-icon-wrap" [style.background]="entry.gradient">
+            <span class="card-icon">{{ entry.icon }}</span>
+          </div>
+          <div class="card-info">
+            <h3>{{ entry.displayName }}</h3>
+            <p>{{ entry.desc }}</p>
+          </div>
+          <div class="card-meta">
+            <span class="arrow-circle">→</span>
+          </div>
         </div>
-        <p>{{ entry.key }}</p>
-      </a>
+      </div>
     </div>
     
-    @if (accountingEntries().length === 0) {
+    @if (entries().length === 0) {
       <div class="empty-state">
-        <p>No accounting entries available.</p>
+        <span class="empty-icon">📋</span>
+        <h3>No entries available</h3>
+        <p>No accounting entries have been configured yet.</p>
       </div>
     }
   }

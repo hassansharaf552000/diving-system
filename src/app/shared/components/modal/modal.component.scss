@@ -4,15 +4,15 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  backdrop-filter: blur(3px);
 
   &.show {
     opacity: 1;
@@ -21,12 +21,12 @@
 }
 
 .modal-container {
-  background: white;
-  border-radius: 16px;
+  background: var(--dm-surface);
+  border-radius: var(--dm-radius);
   overflow: hidden;
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
-  transform: scale(0.92) translateY(10px);
-  transition: transform 0.3s ease;
+  box-shadow: var(--dm-shadow-lg);
+  transform: scale(0.95) translateY(8px);
+  transition: transform 0.2s ease;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
@@ -59,8 +59,8 @@
 
 /* Header */
 .modal-header {
-  background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
-  padding: 18px 25px;
+  background: linear-gradient(135deg, var(--dm-primary) 0%, var(--dm-accent) 100%);
+  padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,29 +68,28 @@
   flex-shrink: 0;
 
   h2 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.2px;
   }
 }
 
 .close-btn {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
   border: none;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
+  transition: background 0.2s;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.22);
   }
 }
 
@@ -98,4 +97,20 @@
 .modal-body {
   overflow-y: auto;
   flex: 1;
+}
+
+@media (max-width: 576px) {
+  .modal-small,
+  .modal-medium,
+  .modal-large,
+  .modal-full {
+    width: 96%;
+    max-width: 100%;
+  }
+  .modal-header {
+    padding: 14px 18px;
+    h2 {
+      font-size: 16px;
+    }
+  }
 }

@@ -69,5 +69,5 @@ export class CodeAgentComponent implements OnInit {
 
   onDeleteCancelled(): void { this.showDeleteConfirm = false; this.deleteTarget = null; }
 
-  goBack(): void { this.router.navigate(['/codes']); }
+  goBack(): void { this.router.navigate(['/operation/codes']); }
 }
