@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService, AccountingCode } from '../../../../core/services/accounting.service';
 
@@ -25,6 +25,17 @@ export class AccountingCodesListComponent implements OnInit {
   protected readonly codes = signal<CodeCard[]>([]);
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
+
+  searchTerm = signal('');
+
+  protected readonly filteredCodes = computed(() => {
+    const currentCodes = this.codes();
+    const term = this.searchTerm().toLowerCase();
+    if (!term) return currentCodes;
+    return currentCodes.filter(c =>
+      c.displayName.toLowerCase().includes(term) || c.desc.toLowerCase().includes(term)
+    );
+  });
 
   // Visual + route mapping for accounting code types
   private readonly codeVisuals: Record<string, { icon: string; desc: string; gradient: string; route: string }> = {

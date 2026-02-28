@@ -4,6 +4,10 @@
       <h1>📋 Accounting Entries</h1>
       <p>Manage accounting entry types and transactions</p>
     </div>
+    <div class="header-search" *ngIf="!loading()">
+      <span class="search-icon">🔍</span>
+      <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Search entries...">
+    </div>
   </div>
   
   @if (loading()) {
@@ -19,8 +23,20 @@
       <button class="retry-btn" (click)="loadAccountingEntries()">Retry</button>
     </div>
   } @else {
+    <!-- Summary Bar -->
+    <div class="summary-bar">
+      <div class="summary-stat">
+        <span class="stat-val">{{ entries().length }}</span>
+        <span class="stat-lbl">Total Entry Types</span>
+      </div>
+      <div class="summary-stat">
+        <span class="stat-val">{{ filteredEntries().length }}</span>
+        <span class="stat-lbl">Showing</span>
+      </div>
+    </div>
+
     <div class="cards-grid">
-      <div *ngFor="let entry of entries()" 
+      <div *ngFor="let entry of filteredEntries()" 
            class="card-item" 
            (click)="openEntry(entry)">
         <div class="card-accent" [style.background]="entry.gradient"></div>
@@ -39,11 +55,11 @@
       </div>
     </div>
     
-    @if (entries().length === 0) {
+    @if (filteredEntries().length === 0) {
       <div class="empty-state">
-        <span class="empty-icon">📋</span>
-        <h3>No entries available</h3>
-        <p>No accounting entries have been configured yet.</p>
+        <span class="empty-icon">🔍</span>
+        <h3>No entries found</h3>
+        <p>Try adjusting your search term</p>
       </div>
     }
   }

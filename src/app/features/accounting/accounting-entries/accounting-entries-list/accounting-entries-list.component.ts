@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService, AccountingEntry } from '../../../../core/services/accounting.service';
 
@@ -25,6 +25,17 @@ export class AccountingEntriesListComponent implements OnInit {
   protected readonly entries = signal<EntryCard[]>([]);
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
+  
+  searchTerm = signal('');
+  
+  protected readonly filteredEntries = computed(() => {
+    const currentEntries = this.entries();
+    const term = this.searchTerm().toLowerCase();
+    if (!term) return currentEntries;
+    return currentEntries.filter(e => 
+      e.displayName.toLowerCase().includes(term) || e.desc.toLowerCase().includes(term)
+    );
+  });
 
   // Visual + route mapping for accounting entry types
   private readonly entryVisuals: Record<string, { icon: string; desc: string; gradient: string; route: string }> = {

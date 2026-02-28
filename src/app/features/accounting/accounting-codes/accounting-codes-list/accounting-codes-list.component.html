@@ -4,6 +4,10 @@
       <h1>🏷️ Accounting Codes</h1>
       <p>Manage accounting codes and configuration tables</p>
     </div>
+    <div class="header-search" *ngIf="!loading()">
+      <span class="search-icon">🔍</span>
+      <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Search codes...">
+    </div>
   </div>
   
   @if (loading()) {
@@ -19,8 +23,20 @@
       <button class="retry-btn" (click)="loadAccountingCodes()">Retry</button>
     </div>
   } @else {
+    <!-- Summary Bar -->
+    <div class="summary-bar">
+      <div class="summary-stat">
+        <span class="stat-val">{{ codes().length }}</span>
+        <span class="stat-lbl">Total Code Types</span>
+      </div>
+      <div class="summary-stat">
+        <span class="stat-val">{{ filteredCodes().length }}</span>
+        <span class="stat-lbl">Showing</span>
+      </div>
+    </div>
+
     <div class="cards-grid">
-      <div *ngFor="let code of codes()" 
+      <div *ngFor="let code of filteredCodes()" 
            class="card-item" 
            (click)="openCode(code)">
         <div class="card-accent" [style.background]="code.gradient"></div>
@@ -39,11 +55,11 @@
       </div>
     </div>
     
-    @if (codes().length === 0) {
+    @if (filteredCodes().length === 0) {
       <div class="empty-state">
-        <span class="empty-icon">🏷️</span>
-        <h3>No codes available</h3>
-        <p>No accounting codes have been configured yet.</p>
+        <span class="empty-icon">🔍</span>
+        <h3>No codes found</h3>
+        <p>Try adjusting your search term</p>
       </div>
     }
   }
