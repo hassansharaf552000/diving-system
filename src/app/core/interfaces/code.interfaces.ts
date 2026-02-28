@@ -192,6 +192,84 @@ export interface ExcursionCostSelling {
   recordTime?: string;
 }
 
+export interface EntryTransaction {
+  entryTransactionId?: number;
+  voucherNumber?: string;
+  transactionDate?: string;
+  
+  repId?: number;
+  repName?: string;
+  agentId?: number;
+  agentName?: string;
+  nationalityId?: number;
+  nationalityName?: string;
+  
+  hotelId?: number;
+  hotelName?: string;
+  roomNumber?: string;
+  pickUpTime?: string;
+  hotelDestinationId?: number;
+  hotelDestinationName?: string;
+  
+  excursionId?: number;
+  excursionName?: string;
+  excursionSupplierId?: number;
+  excursionSupplierName?: string;
+  
+  priceListId?: number;
+  priceListName?: string;
+  paymentType?: string;
+  
+  adl?: number;
+  chd?: number;
+  inf?: number;
+  
+  note?: string;
+  
+  // Revenue
+  revenueDate?: string;
+  revenueRecNo?: string;
+  revenueEGP?: number;
+  revenueUSD?: number;
+  revenueEUR?: number;
+  revenueGBP?: number;
+  revenueFree?: boolean;
+  
+  // Refund
+  refundDate?: string;
+  refundRecNo?: string;
+  refundEGP?: number;
+  refundUSD?: number;
+  refundEUR?: number;
+  refundGBP?: number;
+  refundFree?: boolean;
+  
+  // Discount
+  discountEGP?: number;
+  discountUSD?: number;
+  discountEUR?: number;
+  discountGBP?: number;
+  discountFree?: boolean;
+  
+  // Selling
+  sellingEGP?: number;
+  sellingUSD?: number;
+  sellingEUR?: number;
+  sellingGBP?: number;
+  sellingFree?: boolean;
+  
+  // Cost
+  costEGP?: number;
+  costUSD?: number;
+  costEUR?: number;
+  costGBP?: number;
+  costFree?: boolean;
+  
+  active?: boolean;
+  recordBy?: string;
+  recordTime?: string;
+}
+
 export interface CodeDefinition {
   key: string;
   displayName: string;

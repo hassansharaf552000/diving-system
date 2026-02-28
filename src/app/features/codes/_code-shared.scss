@@ -104,6 +104,14 @@
   border-collapse: collapse;
   font-size: 14px;
 
+  /* Mobile responsiveness */
+  @media (max-width: 992px) {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
   thead {
     background: var(--dm-hover);
     position: sticky;
@@ -146,6 +154,9 @@
   td {
     padding: 10px 14px;
     color: var(--dm-text);
+    @media (max-width: 992px) {
+      white-space: nowrap;
+    }
   }
 
   .empty-row {

@@ -44,8 +44,15 @@
     </div>
   </div>
 
+  <!-- Loading State -->
+  <div class="empty-state" *ngIf="isLoading" style="text-align: center; padding: 40px;">
+    <span class="empty-icon" style="animation: pulse 1.5s infinite;">⏳</span>
+    <h3>Loading codes...</h3>
+    <p>Please wait while we fetch the required data</p>
+  </div>
+
   <!-- Empty State -->
-  <div class="empty-state" *ngIf="filteredCodes.length === 0">
+  <div class="empty-state" *ngIf="!isLoading && filteredCodes.length === 0">
     <span class="empty-icon">🔍</span>
     <h3>No codes found</h3>
     <p>Try adjusting your search term</p>

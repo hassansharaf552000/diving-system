@@ -101,6 +101,7 @@ export class AccountingEntryCounterComponent implements OnInit {
     this.branchName = '';
     this.currency = 'EGP';
     this.recordBy = '';
+    this.treasuryBalance = 0;
     this.initDenominations('EGP');
     this.isModalOpen = true;
   }
@@ -131,6 +132,12 @@ export class AccountingEntryCounterComponent implements OnInit {
     return this.denominationRows.reduce((sum, r) => sum + (r.total || 0), 0);
   }
 
+  treasuryBalance: number = 0;
+
+  get difference(): number {
+    return this.totalCounter - (this.treasuryBalance || 0);
+  }
+
   // ============ SAVE ============
   save(): void {
     if (!this.counterDate) {
@@ -145,7 +152,7 @@ export class AccountingEntryCounterComponent implements OnInit {
     }
 
     this.saving = true;
-    const payload: TreasuryCounterCreate = {
+    const payload: TreasuryCounterCreate & { treasuryBalance?: number } = {
       counterDate: this.counterDate,
       branchName: this.branchName || undefined,
       currency: this.currency,
@@ -153,7 +160,8 @@ export class AccountingEntryCounterComponent implements OnInit {
         denomination: r.denomination,
         count: r.count
       })),
-      recordBy: this.recordBy || undefined
+      recordBy: this.recordBy || undefined,
+      treasuryBalance: this.treasuryBalance
     };
 
     this.svc.createTreasuryCounter(payload).subscribe({

@@ -1,16 +1,64 @@
-.entry-placeholder {
-  text-align: center;
-  padding: 60px 20px;
+@import '../../codes/code-shared';
 
-  h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1e3c72;
-    margin-bottom: 8px;
-  }
+/* 
+  Custom styles for Entry Transaction Modal 
+*/
 
-  p {
-    color: #7a8599;
-    font-size: 14px;
+// ---- Modal Adjustments ----
+
+.modal-financial-grid {
+  overflow-x: auto;
+  
+  .fin-table {
+    min-width: 600px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    
+    th {
+      background: #e9ecef;
+      padding: 6px;
+      text-align: center;
+      border: 1px solid #dee2e6;
+      color: #495057;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 4px;
+      border: 1px solid #dee2e6;
+      
+      &.row-header {
+        background: #e9ecef;
+        font-weight: 600;
+        color: var(--dm-primary);
+        text-align: right;
+        padding-right: 8px;
+        width: 70px;
+      }
+    }
+
+    .cell-input {
+      width: 100%;
+      border: 1px solid transparent;
+      padding: 4px 6px;
+      font-size: 12px;
+      box-sizing: border-box;
+      background: transparent;
+      
+      border: 1px solid #ced4da;
+      border-radius: 2px;
+      background: white;
+
+      &.num {
+        text-align: right;
+        font-family: 'Consolas', 'Courier New', monospace;
+      }
+      
+      &.text-center {
+        text-align: center;
+      }
+    }
   }
 }
+

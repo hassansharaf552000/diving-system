@@ -74,6 +74,7 @@
 
       <div class="table-footer">
         <span class="records-info">Showing {{ filtered.length }} of {{ transactions.length }} records</span>
+        <app-export-buttons [data]="filtered"></app-export-buttons>
       </div>
     </div>
 

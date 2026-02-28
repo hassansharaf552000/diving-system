@@ -1,0 +1,3516 @@
+﻿
+> diving-system@0.0.0 build
+> ng build
+
+[33mΓ¥»[39m Building...
+[32mΓ£ö[39m Building...
+Application bundle generation failed. [4.932 seconds] - 2026-02-28T17:21:53.533Z
+
+node.exe : 
+[1m[33m[33mΓû▓ [43;
+33m[[43;30mWARNING[43
+;33m][0m 
+[1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+At C:\Program Files\nod
+ejs\npm.ps1:29 char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([1m[33m[33   
+ mΓ...gular-sass][    
+0m:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-acco
+unt/accounting-code-acc
+ount.component.scss:1:8
+:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-agen
+t/accounting-code-agent
+.component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-name/accounting
+-code-beneficiary-name.
+component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-type/accounting
+-code-beneficiary-type.
+component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-cost
+-center/accounting-code
+-cost-center.component.
+scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-file
+/accounting-code-file.c
+omponent.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-peri
+od/accounting-code-peri
+od.component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-rate
+/accounting-code-rate.c
+omponent.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-codes-lis
+t/accounting-codes-list
+.component.scss:2:8:
+[37m      2 Γöé 
+@import [32m[37m'../.
+./../../shared/card-gri
+d-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entries
+-list/accounting-entrie
+s-list.component.scss:2
+:8:
+[37m      2 Γöé 
+@import [32m[37m'../.
+./../../shared/card-gri
+d-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-c
+ounter/accounting-entry
+-counter.component.scss
+:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-t
+reasury-transaction/acc
+ounting-entry-treasury-
+transaction.component.s
+css:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./../codes/code-shared'
+;
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-agent/code-age
+nt.component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-boat/code-boat
+.component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-excursion-cost
+-selling/code-excursion
+-cost-selling.component
+.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-excursion-supp
+lier/code-excursion-sup
+plier.component.scss:1:
+8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-excursion/code
+-excursion.component.sc
+ss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-guide/code-gui
+de.component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-hotel-destinat
+ion/code-hotel-destinat
+ion.component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-hotel/code-hot
+el.component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-nationality/co
+de-nationality.componen
+t.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-price-list/cod
+e-price-list.component.
+scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-rate/code-rate
+.component.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-rep/code-rep.c
+omponent.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-transportation
+-cost/code-transportati
+on-cost.component.scss:
+1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-transportation
+-supplier/code-transpor
+tation-supplier.compone
+nt.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-transportation
+-type/code-transportati
+on-type.component.scss:
+1:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/code-voucher/code-v
+oucher.component.scss:1
+:8:
+[37m      1 Γöé 
+@import [32m[37m'../c
+ode-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/co
+des/codes-list/codes-li
+st.component.scss:2:8:
+[37m      2 Γöé 
+@import [32m[37m'../.
+./../shared/card-grid-s
+hared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/en
+tries/entries.component
+.scss:2:8:
+[37m      2 Γöé 
+@import [32m[37m'../.
+./shared/card-grid-shar
+ed';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+
+[33mΓû▓ [43;33m[[43;
+30mWARNING[43;33m][0m
+ [1mDeprecation[0m 
+[1m[35m[plugin 
+angular-sass][0m
+
+    src/app/features/en
+tries/entry-transaction
+/entry-transaction.comp
+onent.scss:1:8:
+[37m      1 Γöé 
+@import [32m[37m'../.
+./codes/code-shared';
+        Γò╡         
+[32m^[0m
+
+
+  Sass @import rules 
+are deprecated and 
+will be removed in 
+Dart Sass 3.0.0.
+  
+  More info and 
+automated migrator: [4
+mhttps://sass-lang.com/
+d/import[0m
+
+[39m[22m
+[1m[31m[31mX [41;31
+m[[41;97mERROR[41;31m
+][0m [1mNG5002: 
+Parser Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\accounting\a
+ccounting-codes\account
+ing-code-agent\accounti
+ng-code-agent.component
+.html@51:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-agen
+t/accounting-code-agent
+.component.html:52:36:
+[37m      52 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeAgentCompo
+nent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-agen
+t/accounting-code-agent
+.component.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-agent.com
+ponent.html'[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\a
+ccounting\accounting-co
+des\accounting-code-age
+nt\accounting-code-agen
+t.component.html@51:36
+[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-agen
+t/accounting-code-agent
+.component.html:52:36:
+[37m      52 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeAgentCompo
+nent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-agen
+t/accounting-code-agent
+.component.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-agent.com
+ponent.html'[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\accounting\a
+ccounting-codes\account
+ing-code-beneficiary-na
+me\accounting-code-bene
+ficiary-name.component.
+html@57:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-name/accounting
+-code-beneficiary-name.
+component.html:58:36:
+[37m      58 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeBeneficiar
+yNameComponent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-name/accounting
+-code-beneficiary-name.
+component.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-beneficia
+ry-name.component.html'
+[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\a
+ccounting\accounting-co
+des\accounting-code-ben
+eficiary-name\accountin
+g-code-beneficiary-name
+.component.html@57:36[
+0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-name/accounting
+-code-beneficiary-name.
+component.html:58:36:
+[37m      58 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeBeneficiar
+yNameComponent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-name/accounting
+-code-beneficiary-name.
+component.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-beneficia
+ry-name.component.html'
+[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\accounting\a
+ccounting-codes\account
+ing-code-beneficiary-ty
+pe\accounting-code-bene
+ficiary-type.component.
+html@51:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-type/accounting
+-code-beneficiary-type.
+component.html:52:36:
+[37m      52 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeBeneficiar
+yTypeComponent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-type/accounting
+-code-beneficiary-type.
+component.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-beneficia
+ry-type.component.html'
+[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\a
+ccounting\accounting-co
+des\accounting-code-ben
+eficiary-type\accountin
+g-code-beneficiary-type
+.component.html@51:36[
+0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-type/accounting
+-code-beneficiary-type.
+component.html:52:36:
+[37m      52 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeBeneficiar
+yTypeComponent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-bene
+ficiary-type/accounting
+-code-beneficiary-type.
+component.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-beneficia
+ry-type.component.html'
+[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\accounting\a
+ccounting-codes\account
+ing-code-cost-center\ac
+counting-code-cost-cent
+er.component.html@55:36
+[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-cost
+-center/accounting-code
+-cost-center.component.
+html:56:36:
+[37m      56 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeCostCenter
+Component.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-cost
+-center/accounting-code
+-cost-center.component.
+ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-cost-cent
+er.component.html'[37m
+,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\a
+ccounting\accounting-co
+des\accounting-code-cos
+t-center\accounting-cod
+e-cost-center.component
+.html@55:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-cost
+-center/accounting-code
+-cost-center.component.
+html:56:36:
+[37m      56 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeCostCenter
+Component.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-cost
+-center/accounting-code
+-cost-center.component.
+ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-cost-cent
+er.component.html'[37m
+,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\accounting\a
+ccounting-codes\account
+ing-code-file\accountin
+g-code-file.component.h
+tml@55:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-file
+/accounting-code-file.c
+omponent.html:56:36:
+[37m      56 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeFileCompon
+ent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-file
+/accounting-code-file.c
+omponent.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-file.comp
+onent.html'[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\a
+ccounting\accounting-co
+des\accounting-code-fil
+e\accounting-code-file.
+component.html@55:36[0
+m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-file
+/accounting-code-file.c
+omponent.html:56:36:
+[37m      56 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeFileCompon
+ent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-file
+/accounting-code-file.c
+omponent.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-file.comp
+onent.html'[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\accounting\a
+ccounting-codes\account
+ing-code-period\account
+ing-code-period.compone
+nt.html@51:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-peri
+od/accounting-code-peri
+od.component.html:52:36
+:
+[37m      52 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodePeriodComp
+onent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-peri
+od/accounting-code-peri
+od.component.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-period.co
+mponent.html'[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\a
+ccounting\accounting-co
+des\accounting-code-per
+iod\accounting-code-per
+iod.component.html@51:3
+6[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-peri
+od/accounting-code-peri
+od.component.html:52:36
+:
+[37m      52 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodePeriodComp
+onent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-peri
+od/accounting-code-peri
+od.component.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-period.co
+mponent.html'[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\accounting\a
+ccounting-codes\account
+ing-code-rate\accountin
+g-code-rate.component.h
+tml@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-rate
+/accounting-code-rate.c
+omponent.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeRateCompon
+ent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-rate
+/accounting-code-rate.c
+omponent.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-rate.comp
+onent.html'[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\a
+ccounting\accounting-co
+des\accounting-code-rat
+e\accounting-code-rate.
+component.html@7:36[0m
+ [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-rate
+/accounting-code-rate.c
+omponent.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingCodeRateCompon
+ent.
+
+    src/app/features/ac
+counting/accounting-cod
+es/accounting-code-rate
+/accounting-code-rate.c
+omponent.ts:9:15:
+[37m      9 Γöé   
+templateUrl: [32m'./ac
+counting-code-rate.comp
+onent.html'[37m,
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[counters.] in D:\angul
+ar\diving-system\src\ap
+p\features\accounting\a
+ccounting-entries\accou
+nting-entry-counter\acc
+ounting-entry-counter.c
+omponent.html@71:36[0m
+ [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-c
+ounter/accounting-entry
+-counter.component.html
+:72:36:
+[37m      72 Γöé      
+   <app-export-buttons 
+[data]="[32mcounters.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingEntryCounterCo
+mponent.
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-c
+ounter/accounting-entry
+-counter.component.ts:1
+9:15:
+[37m      19 Γöé   
+templateUrl: [32m'./ac
+counting-entry-counter.
+component.html'[37m,
+         Γò╡           
+     [32m~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [counters.] 
+in D:\angular\diving-sy
+stem\src\app\features\a
+ccounting\accounting-en
+tries\accounting-entry-
+counter\accounting-entr
+y-counter.component.htm
+l@71:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-c
+ounter/accounting-entry
+-counter.component.html
+:72:36:
+[37m      72 Γöé      
+   <app-export-buttons 
+[data]="[32mcounters.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingEntryCounterCo
+mponent.
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-c
+ounter/accounting-entry
+-counter.component.ts:1
+9:15:
+[37m      19 Γöé   
+templateUrl: [32m'./ac
+counting-entry-counter.
+component.html'[37m,
+         Γò╡           
+     [32m~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\accounting\a
+ccounting-entries\accou
+nting-entry-treasury-tr
+ansaction\accounting-en
+try-treasury-transactio
+n.component.html@76:36
+[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-t
+reasury-transaction/acc
+ounting-entry-treasury-
+transaction.component.h
+tml:77:36:
+[37m      77 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingEntryTreasuryT
+ransactionComponent.
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-t
+reasury-transaction/acc
+ounting-entry-treasury-
+transaction.component.t
+s:25:15:
+[37m      25 Γöé 
+...plateUrl: [32m'./ac
+counting-entry-treasury
+-transaction.component.
+ht[37m...
+         Γò╡           
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\a
+ccounting\accounting-en
+tries\accounting-entry-
+treasury-transaction\ac
+counting-entry-treasury
+-transaction.component.
+html@76:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-t
+reasury-transaction/acc
+ounting-entry-treasury-
+transaction.component.h
+tml:77:36:
+[37m      77 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component A
+ccountingEntryTreasuryT
+ransactionComponent.
+
+    src/app/features/ac
+counting/accounting-ent
+ries/accounting-entry-t
+reasury-transaction/acc
+ounting-entry-treasury-
+transaction.component.t
+s:25:15:
+[37m      25 Γöé 
+...plateUrl: [32m'./ac
+counting-entry-treasury
+-transaction.component.
+ht[37m...
+         Γò╡           
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-a
+gent\code-agent.compone
+nt.html@49:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-agent/code-age
+nt.component.html:50:36
+:
+[37m      50 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeAgentComponent.
+
+    src/app/features/co
+des/code-agent/code-age
+nt.component.ts:6:73:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-agent.compon
+ent.html'[37m, 
+styleUrl: './co...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~[
+0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-agent\code-ag
+ent.component.html@49:3
+6[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-agent/code-age
+nt.component.html:50:36
+:
+[37m      50 Γöé      
+   <app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons>
+         Γò╡           
+                       
+   [32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeAgentComponent.
+
+    src/app/features/co
+des/code-agent/code-age
+nt.component.ts:6:73:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-agent.compon
+ent.html'[37m, 
+styleUrl: './co...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~[
+0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-b
+oat\code-boat.component
+.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-boat/code-boat
+.component.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeBoatComponent.
+
+    src/app/features/co
+des/code-boat/code-boat
+.component.ts:6:72:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-boat.compone
+nt.html'[37m, 
+styleUrl: './cod...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~[0
+m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-boat\code-boa
+t.component.html@7:36[
+0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-boat/code-boat
+.component.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeBoatComponent.
+
+    src/app/features/co
+des/code-boat/code-boat
+.component.ts:6:72:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-boat.compone
+nt.html'[37m, 
+styleUrl: './cod...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~[0
+m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-e
+xcursion-cost-selling\c
+ode-excursion-cost-sell
+ing.component.html@7:36
+[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-excursion-cost
+-selling/code-excursion
+-cost-selling.component
+.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeExcursionCostSelling
+Component.
+
+    src/app/features/co
+des/code-excursion-cost
+-selling/code-excursion
+-cost-selling.component
+.ts:6:90:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-excursion-cost-sell
+ing.component.html'[37
+m, style...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-excursion-cos
+t-selling\code-excursio
+n-cost-selling.componen
+t.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-excursion-cost
+-selling/code-excursion
+-cost-selling.component
+.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeExcursionCostSelling
+Component.
+
+    src/app/features/co
+des/code-excursion-cost
+-selling/code-excursion
+-cost-selling.component
+.ts:6:90:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-excursion-cost-sell
+ing.component.html'[37
+m, style...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-e
+xcursion-supplier\code-
+excursion-supplier.comp
+onent.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-excursion-supp
+lier/code-excursion-sup
+plier.component.html:8:
+36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeExcursionSupplierCom
+ponent.
+
+    src/app/features/co
+des/code-excursion-supp
+lier/code-excursion-sup
+plier.component.ts:6:86
+:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-excursion-supplier.
+component.html'[37m, 
+styleUrl:...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-excursion-sup
+plier\code-excursion-su
+pplier.component.html@7
+:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-excursion-supp
+lier/code-excursion-sup
+plier.component.html:8:
+36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeExcursionSupplierCom
+ponent.
+
+    src/app/features/co
+des/code-excursion-supp
+lier/code-excursion-sup
+plier.component.ts:6:86
+:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-excursion-supplier.
+component.html'[37m, 
+styleUrl:...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-e
+xcursion\code-excursion
+.component.html@7:36[0
+m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-excursion/code
+-excursion.component.ht
+ml:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeExcursionComponent.
+
+    src/app/features/co
+des/code-excursion/code
+-excursion.component.ts
+:6:77:
+[37m      6 Γöé ...e, 
+templateUrl: [32m'./co
+de-excursion.component.
+html'[37m, styleUrl: 
+'./...
+        Γò╡            
+        [32m~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-excursion\cod
+e-excursion.component.h
+tml@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-excursion/code
+-excursion.component.ht
+ml:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeExcursionComponent.
+
+    src/app/features/co
+des/code-excursion/code
+-excursion.component.ts
+:6:77:
+[37m      6 Γöé ...e, 
+templateUrl: [32m'./co
+de-excursion.component.
+html'[37m, styleUrl: 
+'./...
+        Γò╡            
+        [32m~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-g
+uide\code-guide.compone
+nt.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-guide/code-gui
+de.component.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeGuideComponent.
+
+    src/app/features/co
+des/code-guide/code-gui
+de.component.ts:6:73:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-guide.compon
+ent.html'[37m, 
+styleUrl: './co...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~[
+0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-guide\code-gu
+ide.component.html@7:36
+[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-guide/code-gui
+de.component.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeGuideComponent.
+
+    src/app/features/co
+des/code-guide/code-gui
+de.component.ts:6:73:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-guide.compon
+ent.html'[37m, 
+styleUrl: './co...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~[
+0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-h
+otel-destination\code-h
+otel-destination.compon
+ent.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-hotel-destinat
+ion/code-hotel-destinat
+ion.component.html:8:36
+:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeHotelDestinationComp
+onent.
+
+    src/app/features/co
+des/code-hotel-destinat
+ion/code-hotel-destinat
+ion.component.ts:6:85:
+[37m      6 Γöé 
+...emplateUrl: [32m'./
+code-hotel-destination.
+component.html'[37m, 
+styleUrl:...
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-hotel-destina
+tion\code-hotel-destina
+tion.component.html@7:3
+6[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-hotel-destinat
+ion/code-hotel-destinat
+ion.component.html:8:36
+:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeHotelDestinationComp
+onent.
+
+    src/app/features/co
+des/code-hotel-destinat
+ion/code-hotel-destinat
+ion.component.ts:6:85:
+[37m      6 Γöé 
+...emplateUrl: [32m'./
+code-hotel-destination.
+component.html'[37m, 
+styleUrl:...
+        Γò╡            
+    [32m~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-h
+otel\code-hotel.compone
+nt.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-hotel/code-hot
+el.component.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeHotelComponent.
+
+    src/app/features/co
+des/code-hotel/code-hot
+el.component.ts:6:73:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-hotel.compon
+ent.html'[37m, 
+styleUrl: './co...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~[
+0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-hotel\code-ho
+tel.component.html@7:36
+[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-hotel/code-hot
+el.component.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeHotelComponent.
+
+    src/app/features/co
+des/code-hotel/code-hot
+el.component.ts:6:73:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-hotel.compon
+ent.html'[37m, 
+styleUrl: './co...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~[
+0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-n
+ationality\code-nationa
+lity.component.html@7:3
+6[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-nationality/co
+de-nationality.componen
+t.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeNationalityComponent
+.
+
+    src/app/features/co
+des/code-nationality/co
+de-nationality.componen
+t.ts:6:79:
+[37m      6 Γöé ..., 
+templateUrl: [32m'./co
+de-nationality.componen
+t.html'[37m, 
+styleUrl: '....
+        Γò╡            
+       [32m~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-nationality\c
+ode-nationality.compone
+nt.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-nationality/co
+de-nationality.componen
+t.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeNationalityComponent
+.
+
+    src/app/features/co
+des/code-nationality/co
+de-nationality.componen
+t.ts:6:79:
+[37m      6 Γöé ..., 
+templateUrl: [32m'./co
+de-nationality.componen
+t.html'[37m, 
+styleUrl: '....
+        Γò╡            
+       [32m~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-p
+rice-list\code-price-li
+st.component.html@7:36
+[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-price-list/cod
+e-price-list.component.
+html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodePriceListComponent.
+
+    src/app/features/co
+des/code-price-list/cod
+e-price-list.component.
+ts:6:78:
+[37m      6 Γöé ..., 
+templateUrl: [32m'./co
+de-price-list.component
+.html'[37m, styleUrl: 
+'./...
+        Γò╡            
+       [32m~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-price-list\co
+de-price-list.component
+.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-price-list/cod
+e-price-list.component.
+html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodePriceListComponent.
+
+    src/app/features/co
+des/code-price-list/cod
+e-price-list.component.
+ts:6:78:
+[37m      6 Γöé ..., 
+templateUrl: [32m'./co
+de-price-list.component
+.html'[37m, styleUrl: 
+'./...
+        Γò╡            
+       [32m~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-r
+ate\code-rate.component
+.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-rate/code-rate
+.component.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeRateComponent.
+
+    src/app/features/co
+des/code-rate/code-rate
+.component.ts:6:72:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-rate.compone
+nt.html'[37m, 
+styleUrl: './cod...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~[0
+m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-rate\code-rat
+e.component.html@7:36[
+0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-rate/code-rate
+.component.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeRateComponent.
+
+    src/app/features/co
+des/code-rate/code-rate
+.component.ts:6:72:
+[37m      6 Γöé 
+...lse, templateUrl: [
+32m'./code-rate.compone
+nt.html'[37m, 
+styleUrl: './cod...
+        Γò╡            
+          [32m~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~[0
+m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-r
+ep\code-rep.component.h
+tml@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-rep/code-rep.c
+omponent.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeRepComponent.
+
+    src/app/features/co
+des/code-rep/code-rep.c
+omponent.ts:6:71:
+[37m      6 Γöé 
+...alse, templateUrl: 
+[32m'./code-rep.compone
+nt.html'[37m, 
+styleUrl: './cod...
+        Γò╡            
+           [32m~~~~~~~
+~~~~~~~~~~~~~~~~~~~~[0
+m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-rep\code-rep.
+component.html@7:36[0m
+ [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-rep/code-rep.c
+omponent.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeRepComponent.
+
+    src/app/features/co
+des/code-rep/code-rep.c
+omponent.ts:6:71:
+[37m      6 Γöé 
+...alse, templateUrl: 
+[32m'./code-rep.compone
+nt.html'[37m, 
+styleUrl: './cod...
+        Γò╡            
+           [32m~~~~~~~
+~~~~~~~~~~~~~~~~~~~~[0
+m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-t
+ransportation-cost\code
+-transportation-cost.co
+mponent.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-transportation
+-cost/code-transportati
+on-cost.component.html:
+8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeTransportationCostCo
+mponent.
+
+    src/app/features/co
+des/code-transportation
+-cost/code-transportati
+on-cost.component.ts:6:
+87:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-transportation-cost
+.component.html'[37m, 
+styleUrl...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-transportatio
+n-cost\code-transportat
+ion-cost.component.html
+@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-transportation
+-cost/code-transportati
+on-cost.component.html:
+8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeTransportationCostCo
+mponent.
+
+    src/app/features/co
+des/code-transportation
+-cost/code-transportati
+on-cost.component.ts:6:
+87:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-transportation-cost
+.component.html'[37m, 
+styleUrl...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-t
+ransportation-supplier\
+code-transportation-sup
+plier.component.html@7:
+36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-transportation
+-supplier/code-transpor
+tation-supplier.compone
+nt.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeTransportationSuppli
+erComponent.
+
+    src/app/features/co
+des/code-transportation
+-supplier/code-transpor
+tation-supplier.compone
+nt.ts:6:91:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-transportation-supp
+lier.component.html'[3
+7m, styl...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-transportatio
+n-supplier\code-transpo
+rtation-supplier.compon
+ent.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-transportation
+-supplier/code-transpor
+tation-supplier.compone
+nt.html:8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeTransportationSuppli
+erComponent.
+
+    src/app/features/co
+des/code-transportation
+-supplier/code-transpor
+tation-supplier.compone
+nt.ts:6:91:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-transportation-supp
+lier.component.html'[3
+7m, styl...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-t
+ransportation-type\code
+-transportation-type.co
+mponent.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-transportation
+-type/code-transportati
+on-type.component.html:
+8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeTransportationTypeCo
+mponent.
+
+    src/app/features/co
+des/code-transportation
+-type/code-transportati
+on-type.component.ts:6:
+87:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-transportation-type
+.component.html'[37m, 
+styleUrl...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-transportatio
+n-type\code-transportat
+ion-type.component.html
+@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-transportation
+-type/code-transportati
+on-type.component.html:
+8:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component C
+odeTransportationTypeCo
+mponent.
+
+    src/app/features/co
+des/code-transportation
+-type/code-transportati
+on-type.component.ts:6:
+87:
+[37m      6 Γöé 
+...mplateUrl: [32m'./c
+ode-transportation-type
+.component.html'[37m, 
+styleUrl...
+        Γò╡            
+   [32m~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[filtered.] in D:\angul
+ar\diving-system\src\ap
+p\features\codes\code-v
+oucher\code-voucher.com
+ponent.html@7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-voucher/code-v
+oucher.component.html:8
+:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeVoucherComponent.
+
+    src/app/features/co
+des/code-voucher/code-v
+oucher.component.ts:6:7
+5:
+[37m      6 Γöé 
+...se, templateUrl: [3
+2m'./code-voucher.compo
+nent.html'[37m, 
+styleUrl: './c...
+        Γò╡            
+         [32m~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression [filtered.] 
+in D:\angular\diving-sy
+stem\src\app\features\c
+odes\code-voucher\code-
+voucher.component.html@
+7:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/co
+des/code-voucher/code-v
+oucher.component.html:8
+:36:
+[37m      8 Γöé 
+...<app-export-buttons 
+[data]="[32mfiltered.
+[37m"></app-export-butt
+ons></di...
+        Γò╡            
+                    
+[32m~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+CodeVoucherComponent.
+
+    src/app/features/co
+des/code-voucher/code-v
+oucher.component.ts:6:7
+5:
+[37m      6 Γöé 
+...se, templateUrl: [3
+2m'./code-voucher.compo
+nent.html'[37m, 
+styleUrl: './c...
+        Γò╡            
+         [32m~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Expected 
+identifier for 
+property access at the 
+end of the expression 
+[transactions.] in D:\a
+ngular\diving-system\sr
+c\app\features\entries\
+entry-transaction\entry
+-transaction.component.
+html@54:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/en
+tries/entry-transaction
+/entry-transaction.comp
+onent.html:55:36:
+[37m      55 Γöé ...  
+<app-export-buttons [da
+ta]="[32mtransactions.
+[37m"></app-export-but
+tons>
+         Γò╡           
+                       
+[32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component E
+ntryTransactionComponen
+t.
+
+    src/app/features/en
+tries/entry-transaction
+/entry-transaction.comp
+onent.ts:12:15:
+[37m      12 Γöé   
+templateUrl: [32m'./en
+try-transaction.compone
+nt.html'[37m,
+         Γò╡           
+     [32m~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+
+
+[31mX [41;31m[[41;97
+mERROR[41;31m][0m 
+[1mNG5002: Parser 
+Error: Unexpected end 
+of input, expected 
+identifier or keyword 
+at the end of the 
+expression 
+[transactions.] in D:\a
+ngular\diving-system\sr
+c\app\features\entries\
+entry-transaction\entry
+-transaction.component.
+html@54:36[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/en
+tries/entry-transaction
+/entry-transaction.comp
+onent.html:55:36:
+[37m      55 Γöé ...  
+<app-export-buttons [da
+ta]="[32mtransactions.
+[37m"></app-export-but
+tons>
+         Γò╡           
+                       
+[32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the 
+template of component E
+ntryTransactionComponen
+t.
+
+    src/app/features/en
+tries/entry-transaction
+/entry-transaction.comp
+onent.ts:12:15:
+[37m      12 Γöé   
+templateUrl: [32m'./en
+try-transaction.compone
+nt.html'[37m,
+         Γò╡           
+     [32m~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+[0m
+
+[39m[22m

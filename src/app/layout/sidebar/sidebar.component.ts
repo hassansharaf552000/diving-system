@@ -18,8 +18,7 @@ export class SidebarComponent {
         { label: 'Dashboard', icon: '🏠', route: '/accounting/dashboard' },
         { label: 'Entries', icon: '📋', route: '/accounting/entries' },
         { label: 'Codes', icon: '🏷️', route: '/accounting/codes' },
-        { label: 'Reports', icon: '📊', route: '/accounting/reports' },
-        { label: 'Help', icon: '❓', route: '/accounting/help' }
+        { label: 'Reports', icon: '📊', route: '/accounting/reports' }
       ];
     }
     
@@ -28,8 +27,7 @@ export class SidebarComponent {
       { label: 'Dashboard', icon: '🏠', route: '/operation/dashboard' },
       { label: 'Entries', icon: '📋', route: '/operation/entries' },
       { label: 'Codes', icon: '🏷️', route: '/operation/codes' },
-      { label: 'Reports', icon: '📊', route: '/operation/reports' },
-      { label: 'Help', icon: '❓', route: '/operation/help' }
+      { label: 'Reports', icon: '📊', route: '/operation/reports' }
     ];
   }
 

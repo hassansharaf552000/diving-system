@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CodeService } from '../../core/services/code.service';
+import { EntryTransaction } from '../../core/interfaces/code.interfaces';
 
 @Component({
   selector: 'app-dashboard',

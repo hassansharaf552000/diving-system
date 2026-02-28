@@ -22,6 +22,7 @@ interface CodeCard {
 export class CodesListComponent implements OnInit {
   searchTerm = '';
   codes: CodeCard[] = [];
+  isLoading = true;
 
   private codeMetadata: Record<string, { icon: string; desc: string; gradient: string; route: string }> = {
     agents:                  { icon: '🏢', desc: 'Manage travel agents & contacts',   gradient: 'linear-gradient(135deg, #667eea, #764ba2)', route: '/operation/codes/agent' },
@@ -45,25 +46,33 @@ export class CodesListComponent implements OnInit {
   constructor(private router: Router, private svc: CodeService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.svc.getCodes().subscribe(definitions => {
-      this.codes = definitions.map(def => {
-        const meta = this.codeMetadata[def.key] || {
-          icon: '📋',
-          desc: def.displayName,
-          gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
-          route: `/operation/codes/${def.key}`
-        };
-        return {
-          key: def.key,
-          label: def.displayName.replace('Code ', ''),
-          route: meta.route,
-          icon: meta.icon,
-          desc: meta.desc,
-          gradient: meta.gradient,
-          count: 0
-        };
-      });
-      this.cdr.detectChanges();
+    this.svc.getCodes().subscribe({
+      next: definitions => {
+        this.codes = definitions.map(def => {
+          const meta = this.codeMetadata[def.key] || {
+            icon: '📋',
+            desc: def.displayName,
+            gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
+            route: `/operation/codes/${def.key}`
+          };
+          return {
+            key: def.key,
+            label: def.displayName.replace('Code ', ''),
+            route: meta.route,
+            icon: meta.icon,
+            desc: meta.desc,
+            gradient: meta.gradient,
+            count: 0
+          };
+        });
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: err => {
+        console.error('Error fetching codes', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

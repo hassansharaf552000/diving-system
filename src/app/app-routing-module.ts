@@ -84,8 +84,7 @@ const routes: Routes = [
       { path: 'codes/transportation-cost', component: CodeTransportationCostComponent },
       { path: 'codes/voucher', component: CodeVoucherComponent },
       { path: 'codes/excursion-cost-selling', component: CodeExcursionCostSellingComponent },
-      { path: 'reports', component: ReportsComponent },
-      { path: 'help', component: HelpComponent }
+      { path: 'reports', component: ReportsComponent }
     ]
   },
   
@@ -112,8 +111,7 @@ const routes: Routes = [
       { path: 'entries/followpayment', component: AccountingFollowPaymentComponent },
       { path: 'entries/updatetransactionsrate', component: AccountingUpdateTransactionsRateComponent },
       { path: 'entries/posttransactions', component: AccountingPostTransactionsComponent },
-      { path: 'reports', component: ReportsComponent }, // Will be replaced with accounting reports
-      { path: 'help', component: HelpComponent } // Will be replaced with accounting help
+      { path: 'reports', component: ReportsComponent } // Will be replaced with accounting reports
     ]
   },
   

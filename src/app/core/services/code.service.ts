@@ -6,7 +6,8 @@ import {
   Agent, Boat, Excursion, ExcursionSupplier, Guide,
   Hotel, HotelDestination, Nationality, PriceList, Rate,
   Rep, TransportationType, TransportationSupplier,
-  TransportationCost, Voucher, ExcursionCostSelling, CodeDefinition
+  TransportationCost, Voucher, ExcursionCostSelling,
+  EntryTransaction, CodeDefinition
 } from '../interfaces/code.interfaces';
 
 @Injectable({ providedIn: 'root' })
@@ -126,6 +127,18 @@ export class CodeService {
   createExcursionCostSelling(data: ExcursionCostSelling): Observable<ExcursionCostSelling> { return this.http.post<ExcursionCostSelling>(`${this.api}/api/ExcursionCostSellings`, data); }
   updateExcursionCostSelling(id: number, data: ExcursionCostSelling): Observable<ExcursionCostSelling> { return this.http.put<ExcursionCostSelling>(`${this.api}/api/ExcursionCostSellings/${id}`, data); }
   deleteExcursionCostSelling(id: number): Observable<void> { return this.http.delete<void>(`${this.api}/api/ExcursionCostSellings/${id}`); }
+
+  // ========== ENTRY TRANSACTIONS ==========
+  getEntryTransactions(search?: string): Observable<EntryTransaction[]> {
+    if (search) {
+      return this.http.get<EntryTransaction[]>(`${this.api}/api/EntryTransactions?search=${encodeURIComponent(search)}`);
+    }
+    return this.http.get<EntryTransaction[]>(`${this.api}/api/EntryTransactions`);
+  }
+  getEntryTransaction(id: number): Observable<EntryTransaction> { return this.http.get<EntryTransaction>(`${this.api}/api/EntryTransactions/${id}`); }
+  createEntryTransaction(data: EntryTransaction): Observable<EntryTransaction> { return this.http.post<EntryTransaction>(`${this.api}/api/EntryTransactions`, data); }
+  updateEntryTransaction(id: number, data: EntryTransaction): Observable<EntryTransaction> { return this.http.put<EntryTransaction>(`${this.api}/api/EntryTransactions/${id}`, data); }
+  deleteEntryTransaction(id: number): Observable<void> { return this.http.delete<void>(`${this.api}/api/EntryTransactions/${id}`); }
 
   // ========== CODES (Menu definitions) ==========
   getCodes(): Observable<CodeDefinition[]> { return this.http.get<CodeDefinition[]>(`${this.api}/api/Codes`); }

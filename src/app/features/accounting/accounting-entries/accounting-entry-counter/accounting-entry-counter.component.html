@@ -69,6 +69,7 @@
 
       <div class="table-footer">
         <span class="records-info">Showing {{ counters.length }} records</span>
+        <app-export-buttons [data]="counters"></app-export-buttons>
       </div>
     </div>
 
@@ -162,6 +163,18 @@
             <tr class="totals-row">
               <td class="totals-label" colspan="2">Total Counter :</td>
               <td class="num-cell"><strong>{{ totalCounter | number:'1.2-2' }}</strong></td>
+            </tr>
+            <tr class="totals-row">
+              <td class="totals-label" colspan="2">Treasury Balance :</td>
+              <td class="num-cell">
+                <input type="number" [(ngModel)]="treasuryBalance" class="denom-input" style="font-weight: bold; width: 100px; padding: 2px 5px; text-align: right;" min="0" placeholder="0">
+              </td>
+            </tr>
+            <tr class="totals-row">
+              <td class="totals-label" colspan="2">Difference :</td>
+              <td class="num-cell" [class.diff-positive]="difference > 0" [class.diff-negative]="difference < 0">
+                <strong>{{ difference | number:'1.2-2' }}</strong>
+              </td>
             </tr>
           </tfoot>
         </table>

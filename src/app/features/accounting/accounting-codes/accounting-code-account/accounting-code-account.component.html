@@ -82,11 +82,12 @@
         </tbody>
       </table>
 
-      <div class="table-footer">
+      <div class="table-footer" style="display: flex; justify-content: space-between; align-items: center;">
         <span class="records-info">
           Showing {{ displayList.length }} records
           <span *ngIf="isSearching"> (search results)</span>
         </span>
+        <app-export-buttons [data]="displayList"></app-export-buttons>
       </div>
     </div>
   </div>
