@@ -7,7 +7,7 @@ import {
   Hotel, HotelDestination, Nationality, PriceList, Rate,
   Rep, TransportationType, TransportationSupplier,
   TransportationCost, Voucher, ExcursionCostSelling,
-  EntryTransaction, CodeDefinition
+  EntryTransaction, CodeDefinition, EntryTraffic
 } from '../interfaces/code.interfaces';
 
 @Injectable({ providedIn: 'root' })
@@ -139,6 +139,18 @@ export class CodeService {
   createEntryTransaction(data: EntryTransaction): Observable<EntryTransaction> { return this.http.post<EntryTransaction>(`${this.api}/api/EntryTransactions`, data); }
   updateEntryTransaction(id: number, data: EntryTransaction): Observable<EntryTransaction> { return this.http.put<EntryTransaction>(`${this.api}/api/EntryTransactions/${id}`, data); }
   deleteEntryTransaction(id: number): Observable<void> { return this.http.delete<void>(`${this.api}/api/EntryTransactions/${id}`); }
+
+  // ========== ENTRY TRAFFIC ==========
+  getEntryTraffic(params: any): Observable<EntryTraffic[]> {
+    const queryParams: string[] = [];
+    Object.keys(params).forEach(key => {
+      if (params[key] !== null && params[key] !== undefined && params[key] !== '') {
+        queryParams.push(`${key}=${encodeURIComponent(params[key])}`);
+      }
+    });
+    const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    return this.http.get<EntryTraffic[]>(`${this.api}/api/EntryTraffic${queryString}`);
+  }
 
   // ========== CODES (Menu definitions) ==========
   getCodes(): Observable<CodeDefinition[]> { return this.http.get<CodeDefinition[]>(`${this.api}/api/Codes`); }

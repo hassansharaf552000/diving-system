@@ -1,4 +1,173 @@
-<div class="entry-placeholder">
-  <h2>🚗 Traffic</h2>
-  <p>Traffic entry — coming soon</p>
+<div class="code-page">
+  <div class="code-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>🚦 Entry Traffic</h2>
+      </div>
+      <div class="toolbar-right">
+        <!-- maybe export or other buttons -->
+      </div>
+    </div>
+
+    <div class="code-table-wrap">
+      <!-- Search / Filter panel -->
+      <div class="filters-panel">
+        <div class="filters-grid">
+          <div class="filter-item">
+            <label>From Date:</label>
+            <input type="date" [(ngModel)]="filters.fromDate" class="filter-input">
+          </div>
+          <div class="filter-item">
+            <label>To Date:</label>
+            <input type="date" [(ngModel)]="filters.toDate" class="filter-input">
+          </div>
+          <div class="filter-item">
+            <label>Excursion:</label>
+            <select [(ngModel)]="filters.excursionId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of excursions" [ngValue]="item.id">{{ item.excursionName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Price List:</label>
+            <select [(ngModel)]="filters.priceListId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of priceLists" [ngValue]="item.id">{{ item.priceListName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Agent:</label>
+            <select [(ngModel)]="filters.agentId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of agents" [ngValue]="item.id">{{ item.agentName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Hotel Name:</label>
+            <select [(ngModel)]="filters.hotelId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of hotels" [ngValue]="item.id">{{ item.hotelName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Nationality:</label>
+            <select [(ngModel)]="filters.nationalityId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of nationalities" [ngValue]="item.id">{{ item.nationalityName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Excursion Supplier:</label>
+            <select [(ngModel)]="filters.excursionSupplierId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of excursionSuppliers" [ngValue]="item.id">{{ item.supplierName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Boat:</label>
+            <select [(ngModel)]="filters.boatId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of boats" [ngValue]="item.id">{{ item.boatName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Trans. Supplier:</label>
+            <select [(ngModel)]="filters.transportationSupplierId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of transportationSuppliers" [ngValue]="item.id">{{ item.supplierName }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="filters-actions">
+          <button class="btn-filter" (click)="viewTraffic()" [disabled]="loading">
+            {{ loading ? '⏳ Loading...' : '🔍 View' }}
+          </button>
+          <button class="btn-clear" (click)="clearFilter()" [disabled]="loading">
+            ✕ Clear Filter
+          </button>
+        </div>
+      </div>
+
+      <!-- Traffic Table -->
+      <div class="table-scroll-wrap">
+        <table class="code-table traffic-table">
+          <thead>
+            <tr>
+              <th>Excursion Name</th>
+              <th>Agent Name</th>
+              <th>Price List</th>
+              <th>Hotel Name</th>
+              <th>Nationality</th>
+              <th>Excursion Suppl.</th>
+              <th>Boat</th>
+              <th>Cost Suppl GBP</th>
+              <th>Free Cost</th>
+              <th>Guide Name</th>
+              <th>Guide Duty</th>
+              <th>Cost Guide EGP</th>
+              <th>Car Type</th>
+              <th>Round</th>
+              <th>Order No</th>
+              <th>Trans. Suppl.</th>
+              <th>ADL</th>
+              <th>CHD</th>
+              <th>INF</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="20" class="empty-row">Loading data...</td>
+            </tr>
+            <tr *ngFor="let row of trafficData">
+              <td>{{ row.excursionName || '-' }}</td>
+              <td>{{ row.agentName || '-' }}</td>
+              <td>{{ row.priceListName || '-' }}</td>
+              <td>{{ row.hotelName || '-' }}</td>
+              <td>{{ row.nationalityName || '-' }}</td>
+              <td>{{ row.excursionSupplierName || '-' }}</td>
+              <td>{{ row.boatName || '-' }}</td>
+              <td class="num-cell">{{ row.costSupplierGBP | number:'1.2-2' }}</td>
+              <td class="centered">{{ row.freeSupplierCost || 'No' }}</td>
+              <td>{{ row.guideName || '-' }}</td>
+              <td>{{ row.guideDuty || '-' }}</td>
+              <td class="num-cell">{{ row.costGuideEGP | number:'1.2-2' }}</td>
+              <td>{{ row.carTypeName || '-' }}</td>
+              <td class="centered">{{ row.roundType || '-' }}</td>
+              <td class="centered">{{ row.orderNumber || '0' }}</td>
+              <td>{{ row.transportationSupplierName || '-' }}</td>
+              <td class="num-cell-center">{{ row.adl || 0 }}</td>
+              <td class="num-cell-center">{{ row.chd || 0 }}</td>
+              <td class="num-cell-center">{{ row.inf || 0 }}</td>
+              <td class="num-cell-center sum-count">{{ (row.adl || 0) + (row.chd || 0) + (row.inf || 0) }}</td>
+            </tr>
+            <tr *ngIf="!loading && trafficData.length === 0">
+              <td colspan="20" class="empty-row">No traffic data found for the selected filters</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Totals Footer -->
+      <div class="totals-bar" *ngIf="trafficData.length > 0">
+        <div class="total-box">
+          <span class="label">ADL</span>
+          <span class="value">{{ totalADL }}</span>
+        </div>
+        <div class="total-box">
+          <span class="label">CHD</span>
+          <span class="value">{{ totalCHD }}</span>
+        </div>
+        <div class="total-box">
+          <span class="label">INF</span>
+          <span class="value">{{ totalINF }}</span>
+        </div>
+        <div class="total-box highlight">
+          <span class="label">Count</span>
+          <span class="value">{{ totalCount }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>

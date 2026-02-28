@@ -27,13 +27,12 @@ interface TransactionType {
 })
 export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
-  // Transaction types
-  transactionTypes: TransactionType[] = [
-    { id: 1, name: 'Advance' },
-    { id: 2, name: 'Revenue' },
-    { id: 3, name: 'Expense' },
-    { id: 4, name: 'Due' },
-    { id: 5, name: 'Advance Settlement' }
+  // Transaction type names mapped to IDs for sending to backend
+  transactionTypes = [
+    { name: 'Advance', id: 2 },
+    { name: 'Revenue', id: 1 },
+    { name: 'Expense', id: 2 },
+    { name: 'Advance Settlement', id: 1 }
   ];
 
   paymentTypes: string[] = ['Cash', 'Check', 'Transfer', 'Credit Card'];
@@ -43,7 +42,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   searchTerm = '';
   searchFromDate = '';
   searchToDate = '';
-  searchType: number | null = null;
+  searchTypeName: string | null = null;
 
   // Data
   transactions: TreasuryTransaction[] = [];
@@ -115,11 +114,14 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
   // ============ SEARCH ============
   searchTransactions(): void {
+    const selectedType = this.transactionTypes.find(t => t.name === this.searchTypeName);
+    const searchTypeId = selectedType ? selectedType.id : undefined;
+
     this.svc.searchTreasuryTransactions(
       this.searchTerm || undefined,
       this.searchFromDate || undefined,
       this.searchToDate || undefined,
-      this.searchType || undefined
+      searchTypeId
     ).subscribe({
       next: (data) => {
         this.transactions = data;
@@ -158,6 +160,10 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       this.svc.getTreasuryTransaction(tx.treasuryTransactionId).subscribe({
         next: (full) => {
           this.model = { ...full };
+          // Ensure transactionTypeName is matched properly for the dropdown if backend returns something slightly different
+          const matchedType = this.transactionTypes.find(t => t.name.toLowerCase() === full.transactionTypeName?.toLowerCase());
+          if (matchedType) this.model.transactionTypeName = matchedType.name;
+
           this.lines = full.lines ? full.lines.map(l => ({ ...l })) : [];
           this.isEdit = true;
           this.isModalOpen = true;
@@ -175,10 +181,14 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
   // ============ SAVE ============
   save(): void {
-    if (!this.model.transactionTypeId) {
-      alert('⚠️ Please select a Transaction Type');
+    const selectedType = this.transactionTypes.find(t => t.name === this.model.transactionTypeName);
+    if (!selectedType) {
+      alert('⚠️ Please select a valid Transaction Type');
       return;
     }
+    
+    this.model.transactionTypeId = selectedType.id;
+
     if (!this.model.receiptNo) {
       alert('⚠️ Please enter a Receipt No');
       return;
@@ -195,7 +205,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
     this.saving = true;
     const payload: TreasuryTransactionCreate = {
-      transactionTypeId: this.model.transactionTypeId || 0,
+      transactionTypeId: this.model.transactionTypeId,
       receiptNo: this.model.receiptNo || '',
       transactionDate: this.model.transactionDate || new Date().toISOString(),
       periodId: this.model.periodId || 0,
@@ -356,6 +366,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   private emptyModel(): TreasuryTransaction {
     return {
       transactionTypeId: undefined,
+      transactionTypeName: undefined,
       receiptNo: '',
       transactionDate: '',
       periodId: undefined,

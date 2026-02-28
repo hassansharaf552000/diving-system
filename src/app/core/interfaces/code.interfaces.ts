@@ -365,6 +365,36 @@ export interface CodeAgent {
   recordTime?: string;
 }
 
+// ========== ENTRY TRAFFIC ==========
+
+export interface EntryTraffic {
+  excursionName?: string;
+  agentName?: string;
+  priceListName?: string;
+  hotelName?: string;
+  nationalityName?: string;
+  excursionSupplierName?: string;
+  boatName?: string;
+  transportationSupplierName?: string;
+  
+  costSupplierGBP?: number;
+  freeSupplierCost?: string | boolean;
+  guideName?: string;
+  guideDuty?: string;
+  costGuideEGP?: number;
+  carTypeName?: string;
+  roundType?: string;
+  orderNumber?: string | number;
+  
+  adl?: number;
+  chd?: number;
+  inf?: number;
+  totalCount?: number;
+  
+  // fallback for any other properties returned
+  [key: string]: any;
+}
+
 // ========== TREASURY TRANSACTIONS ==========
 
 export interface TreasuryTransactionLine {
