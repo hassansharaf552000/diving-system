@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { Rep, Agent } from '../../../core/interfaces/code.interfaces';
+import { LookupMap } from '../../../shared/services/export.service';
 
 @Component({ selector: 'app-code-rep', standalone: false, templateUrl: './code-rep.component.html', styleUrl: './code-rep.component.scss' })
 export class CodeRepComponent implements OnInit {
@@ -12,6 +13,11 @@ export class CodeRepComponent implements OnInit {
   ngOnInit(): void { this.loadData(); this.svc.getAgents().subscribe(d => { this.agents = d; this.cdr.detectChanges(); }); }
   loadData(): void { this.svc.getReps().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Rep[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.repName || '').toLowerCase().includes(t) || (i.agentName || '').toLowerCase().includes(t)); }
+  get lookups(): LookupMap {
+    return {
+      agentId: this.agents.filter(a => a.id != null).map(a => ({ id: a.id!, name: a.agentName }))
+    };
+  }
   openAdd(): void { this.model = { repName: '', address: '', phone: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Rep): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

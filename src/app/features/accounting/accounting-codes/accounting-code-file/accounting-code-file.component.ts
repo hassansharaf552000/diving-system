@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
 import { CodeFileNumber, CodePeriod, CodeAgent } from '../../../../core/interfaces/code.interfaces';
+import { LookupMap } from '../../../../shared/services/export.service';
 
 @Component({
   selector: 'app-accounting-code-file',
@@ -59,6 +60,13 @@ export class AccountingCodeFileComponent implements OnInit {
       (i.agentName || '').toLowerCase().includes(t) ||
       (i.periodName || '').toLowerCase().includes(t)
     );
+  }
+
+  get lookups(): LookupMap {
+    return {
+      agentId: this.agents.filter(a => a.agentId != null).map(a => ({ id: a.agentId!, name: a.agentName })),
+      periodId: this.periods.filter(p => p.periodId != null).map(p => ({ id: p.periodId!, name: p.periodName }))
+    };
   }
 
   openAdd(): void {

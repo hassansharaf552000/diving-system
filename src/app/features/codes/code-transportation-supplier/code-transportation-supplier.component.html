@@ -5,7 +5,7 @@
       <tr *ngFor="let item of filtered"><td><strong>{{ item.supplierName }}</strong></td><td>{{ item.email }}</td><td>{{ item.phone }}</td><td><span [class]="item.isActive ? 'status-active' : 'status-inactive'">{{ item.isActive ? 'Active' : 'Inactive' }}</span></td><td><div class="actions-cell"><button class="action-btn edit-btn" (click)="openEdit(item)">✏️</button><button class="action-btn delete-btn" (click)="confirmDelete(item)">🗑️</button></div></td></tr>
       <tr *ngIf="filtered.length === 0"><td colspan="5" class="empty-row">No suppliers found</td></tr></tbody></table>
     <div class="table-footer"><span class="records-info">Showing {{ filtered.length }} of {{ items.length }} records</span>
-        <app-export-buttons [data]="filtered"></app-export-buttons></div></div>
+        <app-export-buttons [data]="filtered" importEndpoint="/api/TransportationSuppliers/import" [columns]="['supplierName','vatNo','fileNo','email','address','phone','isActive']" resourceName="TransportationSuppliers" (imported)="loadData()"></app-export-buttons></div></div>
 </div>
 <app-modal [title]="isEdit ? 'Edit Supplier' : 'Add New Supplier'" [isOpen]="isModalOpen" (closed)="closeModal()" size="medium">
   <div class="modal-form">

@@ -1,5 +1,68 @@
 <div class="export-actions">
+  <!-- Export -->
   <button class="btn-export btn-excel" (click)="exportExcel()" title="Export as Excel">
-    <span>📊 Export as Excel</span>
+    <span>📊 Export</span>
   </button>
+
+  <!-- Download Template (only shown when importEndpoint is set) -->
+  <button *ngIf="importEndpoint" class="btn-export btn-template" (click)="downloadTemplate()" [disabled]="downloading" title="Download Excel Template">
+    <span>{{ downloading ? '⏳ Generating...' : '📋 Template' }}</span>
+  </button>
+
+  <!-- Import -->
+  <button *ngIf="importEndpoint" class="btn-export btn-import" (click)="triggerImport()" [disabled]="importing" title="Import from Excel">
+    <span>{{ importing ? '⏳ Importing...' : '📥 Import' }}</span>
+  </button>
+
+  <!-- Hidden file input -->
+  <input #fileInput type="file" accept=".xlsx,.xls,.csv" style="display:none" (change)="onFileSelected($event)">
 </div>
+
+<!-- Import Result Modal -->
+<app-modal title="Import Result" [isOpen]="showResultModal" (closed)="closeResultModal()" size="small">
+
+  <div class="import-result-body">
+
+    <!-- Success -->
+    <div *ngIf="importSuccess" class="result-card result-success">
+      <div class="result-icon-circle success-circle">✅</div>
+      <div class="result-text">
+        <span class="result-label">Success</span>
+        <span class="result-message">{{ importSuccess }}</span>
+      </div>
+    </div>
+
+    <!-- Skipped rows -->
+    <div *ngIf="importWarning || importSkipped.length > 0" class="result-card result-warning">
+      <div class="result-icon-circle warning-circle">⚠️</div>
+      <div class="result-text">
+        <div class="result-label-row">
+          <span class="result-label">Skipped</span>
+          <span *ngIf="importSkipped.length > 0" class="skipped-badge">{{ importSkipped.length }}</span>
+        </div>
+        <span class="result-message">{{ importWarning }}</span>
+        <div *ngIf="importSkipped.length > 0" class="skipped-list">
+          <div *ngFor="let row of importSkipped" class="skipped-item">
+            <span class="skipped-dot">•</span> {{ row }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Errors -->
+    <div *ngIf="importError" class="result-card result-error">
+      <div class="result-icon-circle error-circle">❌</div>
+      <div class="result-text">
+        <span class="result-label">Error</span>
+        <span class="result-message">{{ importError }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="result-footer">
+    <button class="btn-close-result" (click)="closeResultModal()">OK, Got it</button>
+  </div>
+
+</app-modal>

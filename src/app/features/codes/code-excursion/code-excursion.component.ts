@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { Excursion, ExcursionSupplier } from '../../../core/interfaces/code.interfaces';
+import { LookupMap } from '../../../shared/services/export.service';
 
 @Component({ selector: 'app-code-excursion', standalone: false, templateUrl: './code-excursion.component.html', styleUrl: './code-excursion.component.scss' })
 export class CodeExcursionComponent implements OnInit {
@@ -12,6 +13,11 @@ export class CodeExcursionComponent implements OnInit {
   ngOnInit(): void { this.loadData(); this.svc.getExcursionSuppliers().subscribe(d => { this.suppliers = d; this.cdr.detectChanges(); }); }
   loadData(): void { this.svc.getExcursions().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Excursion[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.excursionName || '').toLowerCase().includes(t) || (i.supplierName || '').toLowerCase().includes(t)); }
+  get lookups(): LookupMap {
+    return {
+      supplierId: this.suppliers.filter(s => s.id != null).map(s => ({ id: s.id!, name: s.supplierName }))
+    };
+  }
   openAdd(): void { this.model = { excursionName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Excursion): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

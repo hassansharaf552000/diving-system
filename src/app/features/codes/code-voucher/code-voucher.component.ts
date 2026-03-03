@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { Voucher, Rep } from '../../../core/interfaces/code.interfaces';
+import { LookupMap } from '../../../shared/services/export.service';
 
 @Component({ selector: 'app-code-voucher', standalone: false, templateUrl: './code-voucher.component.html', styleUrl: './code-voucher.component.scss' })
 export class CodeVoucherComponent implements OnInit {
@@ -12,6 +13,11 @@ export class CodeVoucherComponent implements OnInit {
   ngOnInit(): void { this.loadData(); this.svc.getReps().subscribe(d => { this.reps = d; this.cdr.detectChanges(); }); }
   loadData(): void { this.svc.getVouchers().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Voucher[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.repName || '').toLowerCase().includes(t) || String(i.fromNumber || '').includes(t)); }
+  get lookups(): LookupMap {
+    return {
+      repId: this.reps.filter(r => r.id != null).map(r => ({ id: r.id!, name: r.repName }))
+    };
+  }
   openAdd(): void { this.model = {}; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Voucher): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

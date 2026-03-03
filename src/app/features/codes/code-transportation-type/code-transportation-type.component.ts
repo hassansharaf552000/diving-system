@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
 import { TransportationType, TransportationSupplier } from '../../../core/interfaces/code.interfaces';
+import { LookupMap } from '../../../shared/services/export.service';
 
 @Component({ selector: 'app-code-transportation-type', standalone: false, templateUrl: './code-transportation-type.component.html', styleUrl: './code-transportation-type.component.scss' })
 export class CodeTransportationTypeComponent implements OnInit {
@@ -12,6 +13,11 @@ export class CodeTransportationTypeComponent implements OnInit {
   ngOnInit(): void { this.loadData(); this.svc.getTransportationSuppliers().subscribe(d => { this.suppliers = d; this.cdr.detectChanges(); }); }
   loadData(): void { this.svc.getTransportationTypes().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): TransportationType[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.typeName || '').toLowerCase().includes(t)); }
+  get lookups(): LookupMap {
+    return {
+      supplierId: this.suppliers.filter(s => s.id != null).map(s => ({ id: s.id!, name: s.supplierName }))
+    };
+  }
   openAdd(): void { this.model = { typeName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: TransportationType): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

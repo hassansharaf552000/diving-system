@@ -53,7 +53,7 @@
       </table>
       <div class="table-footer">
         <span class="records-info">Showing {{ filtered.length }} of {{ items.length }} records</span>
-        <app-export-buttons [data]="filtered"></app-export-buttons>
+        <app-export-buttons [data]="filtered" importEndpoint="/api/CodeFileNumbers/import" [columns]="['fileNumber','fileName','agentId','periodId','active']" [lookups]="lookups" resourceName="CodeFileNumbers" (imported)="loadData()"></app-export-buttons>
       </div>
     </div>
   </div>

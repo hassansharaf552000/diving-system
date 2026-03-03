@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
 import { CodeBeneficiaryName, CodeBeneficiaryType } from '../../../../core/interfaces/code.interfaces';
+import { LookupMap } from '../../../../shared/services/export.service';
 
 @Component({
   selector: 'app-accounting-code-beneficiary-name',
@@ -54,6 +55,14 @@ export class AccountingCodeBeneficiaryNameComponent implements OnInit {
       (i.commercialName || '').toLowerCase().includes(t) ||
       (i.phone || '').toLowerCase().includes(t)
     );
+  }
+
+  get lookups(): LookupMap {
+    return {
+      beneficiaryTypeId: this.beneficiaryTypes
+        .filter(t => t.beneficiaryTypeId != null)
+        .map(t => ({ id: t.beneficiaryTypeId!, name: t.beneficiaryTypeName }))
+    };
   }
 
   openAdd(): void {

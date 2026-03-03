@@ -2,12 +2,14 @@ export interface Agent {
   id?: number;
   agentCode?: string;
   agentName: string;
-  nationality?: string;
+  nationalityId?: number | null;
+  nationalityName?: string | null;  // populated by GET response
   vatNo?: string;
   fileNo?: string;
   email?: string;
   address?: string;
   phone?: string;
+  isActive?: boolean;
   recordBy?: string;
   recordTime?: string;
 }

@@ -1,11 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
-import { Agent } from '../../../core/interfaces/code.interfaces';
+import { Agent, Nationality } from '../../../core/interfaces/code.interfaces';
+import { LookupMap } from '../../../shared/services/export.service';
 
 @Component({ selector: 'app-code-agent', standalone: false, templateUrl: './code-agent.component.html', styleUrl: './code-agent.component.scss' })
 export class CodeAgentComponent implements OnInit {
   items: Agent[] = [];
+  nationalities: Nationality[] = [];
   saving = false;
   model: Agent = { agentName: '' };
   isModalOpen = false;
@@ -16,7 +18,11 @@ export class CodeAgentComponent implements OnInit {
 
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
 
-  ngOnInit(): void { this.loadData(); }
+  ngOnInit(): void { this.loadData(); this.loadNationalities(); }
+
+  loadNationalities(): void {
+    this.svc.getNationalities().subscribe(d => { this.nationalities = d; this.cdr.detectChanges(); });
+  }
 
   loadData(): void {
     this.svc.getAgents().subscribe(d => { this.items = d; this.cdr.detectChanges(); });
@@ -27,9 +33,18 @@ export class CodeAgentComponent implements OnInit {
     const t = this.searchTerm.toLowerCase();
     return this.items.filter(i =>
       (i.agentName || '').toLowerCase().includes(t) ||
-      (i.nationality || '').toLowerCase().includes(t) ||
+      (i.nationalityName || '').toLowerCase().includes(t) ||
       (i.agentCode || '').toLowerCase().includes(t)
     );
+  }
+
+  /** Lookup map for the Excel template: nationalityId column → { id, name }[] */
+  get lookups(): LookupMap {
+    return {
+      nationalityId: this.nationalities
+        .filter(n => n.id != null)
+        .map(n => ({ id: n.id!, name: n.nationalityName }))
+    };
   }
 
   openAdd(): void {

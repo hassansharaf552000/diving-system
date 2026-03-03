@@ -55,7 +55,7 @@
       </table>
       <div class="table-footer">
         <span class="records-info">Showing {{ filtered.length }} of {{ items.length }} records</span>
-        <app-export-buttons [data]="filtered"></app-export-buttons>
+        <app-export-buttons [data]="filtered" importEndpoint="/api/CodeBeneficiaryNames/import" [columns]="['beneficiaryName','beneficiaryTypeId','commercialName','vatNo','fileNo','address','phone','active']" [lookups]="lookups" resourceName="CodeBeneficiaryNames" (imported)="loadData()"></app-export-buttons>
       </div>
     </div>
   </div>
