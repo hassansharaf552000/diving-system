@@ -39,7 +39,34 @@ export class ExportButtonsComponent {
   constructor(private exportService: ExportService, private http: HttpClient, private ngZone: NgZone) {}
 
   exportExcel(): void {
-    this.exportService.exportToExcel(this.data, this.filename || this.resourceName || 'export_data');
+    // Build id→name maps for every lookup column, so we export readable names instead of raw IDs.
+    const idToName: { [col: string]: { [id: string]: string } } = {};
+    for (const col of Object.keys(this.lookups)) {
+      idToName[col] = {};
+      for (const entry of this.lookups[col]) {
+        idToName[col][String(entry.id)] = entry.name;
+      }
+    }
+
+    // Filter exported rows to only the template columns (so re-importing matches the import template).
+    // For lookup columns, replace the stored ID with the human-readable name.
+    let exportData = this.data;
+    if (this.columns && this.columns.length > 0) {
+      exportData = this.data.map(row => {
+        const filtered: any = {};
+        this.columns.forEach(col => {
+          const rawVal = row[col] !== undefined ? row[col] : '';
+          // If this column has a lookup, output the name instead of the ID
+          if (idToName[col] && rawVal !== '') {
+            filtered[col] = idToName[col][String(rawVal)] ?? rawVal;
+          } else {
+            filtered[col] = rawVal;
+          }
+        });
+        return filtered;
+      });
+    }
+    this.exportService.exportToExcel(exportData, this.filename || this.resourceName || 'export_data');
   }
 
   downloading = false;
@@ -53,7 +80,7 @@ export class ExportButtonsComponent {
     this.exportService.downloadTemplate(
       this.columns,
       this.resourceName || this.filename || 'template',
-      this.lookups
+      {}
     ).then(() => {
       this.downloading = false;
     }).catch(err => {
@@ -83,28 +110,13 @@ export class ExportButtonsComponent {
     this.importError = null;
     this.importSuccess = null;
 
-    const hasLookups = Object.keys(this.lookups).length > 0;
-
-    if (hasLookups) {
-      this.exportService.parseFlatExcel(file, this.lookups).then(rows => {
-        return this.exportService.rowsToExcelFile(rows, file.name);
-      }).then(mappedFile => {
-        const formData = new FormData();
-        formData.append('file', mappedFile, file.name);
-        this.http.post<any>(`${this.api}${this.importEndpoint}`, formData).subscribe({
-          next: (res) => this.ngZone.run(() => this.handleImportSuccess(res)),
-          error: (err) => this.ngZone.run(() => this.handleImportError(err))
-        });
-      }).catch(err => {
-        // Promise-level failure (file read / re-serialize error) — still show modal
-        this.ngZone.run(() => this.handleImportError({ error: { message: err?.message || String(err) } }));
-      });
-    } else {
-      this.exportService.importFromExcel(this.importEndpoint, file).subscribe({
-        next: (res: any) => this.handleImportSuccess(res),
-        error: (err: any) => this.handleImportError(err)
-      });
-    }
+    // Always send the original file directly to the API.
+    // No parse/re-serialize round-trip — avoids blank row creation and column reordering.
+    // Users fill in the template with values (IDs or text) which the backend handles directly.
+    this.exportService.importFromExcel(this.importEndpoint, file).subscribe({
+      next: (res: any) => this.handleImportSuccess(res),
+      error: (err: any) => this.handleImportError(err)
+    });
   }
 
   private handleImportSuccess(res: any): void {

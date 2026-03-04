@@ -30,7 +30,7 @@
           <tr *ngFor="let item of filtered">
             <td>{{ item.agentCode }}</td>
             <td><strong>{{ item.agentName }}</strong></td>
-            <td>{{ item.nationalityName }}</td>
+            <td>{{ item.nationalityName || getNationalityName(item.nationalityId) }}</td>
             <td>{{ item.email }}</td>
             <td>{{ item.phone }}</td>
             <td>
@@ -47,7 +47,7 @@
       </table>
       <div class="table-footer">
         <span class="records-info">Showing {{ filtered.length }} of {{ items.length }} records</span>
-        <app-export-buttons [data]="filtered" importEndpoint="/api/Agents/import" [columns]="['agentCode','agentName','nationalityId','vatNo','fileNo','email','address','phone']" [lookups]="lookups" resourceName="Agents" (imported)="loadData()"></app-export-buttons>
+        <app-export-buttons [data]="filtered" importEndpoint="/api/Agents/import" [columns]="['agentCode','agentName','nationalityName','vatNo','fileNo','email','address','phone']" [lookups]="lookups" resourceName="Agents" (imported)="loadData()"></app-export-buttons>
       </div>
     </div>
   </div>

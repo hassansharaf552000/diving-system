@@ -9,14 +9,17 @@ import {
   OperationAccount,
   CodePeriod,
   CodeBeneficiaryName,
-  CodeBeneficiaryType,
   CodeCostCenter,
   CodeFileNumber
 } from '../../../../core/interfaces/code.interfaces';
 
-interface TransactionType {
+export interface TransactionTypeDef {
   id: number;
   name: string;
+  prefix: string;
+  /** Which side is allowed on lines: 'credit' | 'debit' | 'both' */
+  lineRule: 'credit' | 'debit' | 'both';
+  badgeClass: string;
 }
 
 @Component({
@@ -27,12 +30,13 @@ interface TransactionType {
 })
 export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
-  // Transaction type names mapped to IDs for sending to backend
-  transactionTypes = [
-    { name: 'Advance', id: 2 },
-    { name: 'Revenue', id: 1 },
-    { name: 'Expense', id: 2 },
-    { name: 'Advance Settlement', id: 1 }
+  // Five distinct transaction types matching the reference UI
+  transactionTypes: TransactionTypeDef[] = [
+    { id: 1, name: 'Revenue',             prefix: 'REV', lineRule: 'credit', badgeClass: 'type-1' },
+    { id: 2, name: 'Expense',             prefix: 'EXP', lineRule: 'debit',  badgeClass: 'type-2' },
+    { id: 3, name: 'Advance',             prefix: 'ADV', lineRule: 'debit',  badgeClass: 'type-3' },
+    { id: 4, name: 'Advance Settlement',  prefix: 'ADS', lineRule: 'credit', badgeClass: 'type-4' },
+    { id: 5, name: 'Due',                 prefix: 'DUE', lineRule: 'both',   badgeClass: 'type-5' },
   ];
 
   paymentTypes: string[] = ['Cash', 'Check', 'Transfer', 'Credit Card'];
@@ -42,7 +46,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   searchTerm = '';
   searchFromDate = '';
   searchToDate = '';
-  searchTypeName: string | null = null;
+  searchTypeId: number | null = null;
 
   // Data
   transactions: TreasuryTransaction[] = [];
@@ -52,7 +56,6 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   accounts: OperationAccount[] = [];
   periods: CodePeriod[] = [];
   beneficiaryNames: CodeBeneficiaryName[] = [];
-  beneficiaryTypes: CodeBeneficiaryType[] = [];
   costCenters: CodeCostCenter[] = [];
   fileNumbers: CodeFileNumber[] = [];
 
@@ -64,6 +67,15 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   // Header model
   model: TreasuryTransaction = this.emptyModel();
 
+  // Currently selected type tab (for Add modal)
+  selectedTypeDef: TransactionTypeDef = this.transactionTypes[0];
+
+  // Auto-generated receipt number displayed in the modal
+  generatedReceiptNo = '';
+
+  // Counters per prefix for auto receipt generation (local only; server generates the real one)
+  private receiptCounters: Record<string, number> = { REV: 1, EXP: 1, ADV: 1, ADS: 1, DUE: 1 };
+
   // Line being added/edited via modal
   isLineModalOpen = false;
   isLineEdit = false;
@@ -71,7 +83,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   lineSaving = false;
   lineModel: TreasuryTransactionLine = this.emptyLine();
 
-  // Lines for the selected transaction
+  // Lines for the current transaction (add/edit)
   lines: TreasuryTransactionLine[] = [];
 
   // Delete dialog
@@ -95,7 +107,6 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       accounts: this.svc.getRootAccounts(),
       periods: this.svc.getCodePeriods(),
       beneficiaryNames: this.svc.getCodeBeneficiaryNames(),
-      beneficiaryTypes: this.svc.getCodeBeneficiaryTypes(),
       costCenters: this.svc.getCodeCostCenters(),
       fileNumbers: this.svc.getCodeFileNumbers()
     }).subscribe({
@@ -103,7 +114,6 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
         this.accounts = data.accounts;
         this.periods = data.periods;
         this.beneficiaryNames = data.beneficiaryNames;
-        this.beneficiaryTypes = data.beneficiaryTypes;
         this.costCenters = data.costCenters;
         this.fileNumbers = data.fileNumbers;
         this.cdr.detectChanges();
@@ -114,14 +124,11 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
   // ============ SEARCH ============
   searchTransactions(): void {
-    const selectedType = this.transactionTypes.find(t => t.name === this.searchTypeName);
-    const searchTypeId = selectedType ? selectedType.id : undefined;
-
     this.svc.searchTreasuryTransactions(
       this.searchTerm || undefined,
       this.searchFromDate || undefined,
       this.searchToDate || undefined,
-      searchTypeId
+      this.searchTypeId ?? undefined
     ).subscribe({
       next: (data) => {
         this.transactions = data;
@@ -137,7 +144,6 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       this.svc.getTreasuryTransaction(tx.treasuryTransactionId).subscribe({
         next: (full) => {
           this.selectedTransaction = full;
-          this.model = { ...full };
           this.lines = full.lines ? full.lines.map(l => ({ ...l })) : [];
           this.cdr.detectChanges();
         },
@@ -146,11 +152,31 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     }
   }
 
+  // ============ TYPE TAB SELECTION ============
+  selectTypeDef(typeDef: TransactionTypeDef): void {
+    this.selectedTypeDef = typeDef;
+    this.model.transactionTypeId = typeDef.id;
+    this.model.transactionTypeName = typeDef.name;
+    this.generatedReceiptNo = this.buildReceiptNo(typeDef.prefix);
+    this.model.receiptNo = this.generatedReceiptNo;
+  }
+
+  private buildReceiptNo(prefix: string): string {
+    const n = this.receiptCounters[prefix] || 1;
+    return `${prefix}-${String(n).padStart(3, '0')}`;
+  }
+
   // ============ ADD NEW ============
   openAdd(): void {
     this.model = this.emptyModel();
     this.lines = [];
     this.isEdit = false;
+    // Default to first type (Revenue)
+    this.selectedTypeDef = this.transactionTypes[0];
+    this.model.transactionTypeId = this.selectedTypeDef.id;
+    this.model.transactionTypeName = this.selectedTypeDef.name;
+    this.generatedReceiptNo = this.buildReceiptNo(this.selectedTypeDef.prefix);
+    this.model.receiptNo = this.generatedReceiptNo;
     this.isModalOpen = true;
   }
 
@@ -160,10 +186,16 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       this.svc.getTreasuryTransaction(tx.treasuryTransactionId).subscribe({
         next: (full) => {
           this.model = { ...full };
-          // Ensure transactionTypeName is matched properly for the dropdown if backend returns something slightly different
-          const matchedType = this.transactionTypes.find(t => t.name.toLowerCase() === full.transactionTypeName?.toLowerCase());
-          if (matchedType) this.model.transactionTypeName = matchedType.name;
-
+          // Match the type tab
+          const matchedType = this.transactionTypes.find(
+            t => t.id === full.transactionTypeId || t.name.toLowerCase() === full.transactionTypeName?.toLowerCase()
+          );
+          if (matchedType) {
+            this.selectedTypeDef = matchedType;
+            this.model.transactionTypeId = matchedType.id;
+            this.model.transactionTypeName = matchedType.name;
+          }
+          this.generatedReceiptNo = full.receiptNo || '';
           this.lines = full.lines ? full.lines.map(l => ({ ...l })) : [];
           this.isEdit = true;
           this.isModalOpen = true;
@@ -181,66 +213,75 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
   // ============ SAVE ============
   save(): void {
-    const selectedType = this.transactionTypes.find(t => t.name === this.model.transactionTypeName);
-    if (!selectedType) {
-      alert('⚠️ Please select a valid Transaction Type');
+    if (!this.selectedTypeDef) {
+      alert('⚠️ Please select a Transaction Type');
       return;
     }
-    
-    this.model.transactionTypeId = selectedType.id;
-
-    if (!this.model.receiptNo) {
-      alert('⚠️ Please enter a Receipt No');
+    if (!this.model.transactionDate) {
+      alert('⚠️ Please select a Date');
       return;
     }
     if (this.lines.length === 0) {
       alert('⚠️ Please add at least one line');
       return;
     }
-    const firstLine = this.lines[0];
-    if ((firstLine.debit || 0) <= 0 && (firstLine.credit || 0) <= 0) {
-      alert('⚠️ Manual line must have either Debit or Credit > 0');
-      return;
-    }
 
     this.saving = true;
     const payload: TreasuryTransactionCreate = {
-      transactionTypeId: this.model.transactionTypeId,
-      receiptNo: this.model.receiptNo || '',
+      transactionTypeId: this.selectedTypeDef.id,
+      receiptNo: this.model.receiptNo || this.generatedReceiptNo,
       transactionDate: this.model.transactionDate || new Date().toISOString(),
       periodId: this.model.periodId || 0,
       beneficiaryNameId: this.model.beneficiaryNameId || undefined,
-      beneficiaryTypeId: this.model.beneficiaryTypeId || undefined,
       currency: this.model.currency || 'EGP',
       rate: this.model.rate || 1,
       dueDate: this.model.dueDate || undefined,
       withdrawBank: this.model.withdrawBank || undefined,
       paymentType: this.model.paymentType || 'Cash',
       paymentDefaultAccountId: this.model.paymentDefaultAccountId || 0,
-      description: this.model.description || '',
       recordBy: this.model.recordBy || '',
-      // Manual line fields from the first line
-      manualLineAccountId: firstLine.accountId || 0,
-      manualLineFileNumberId: firstLine.fileNumberId || undefined,
-      manualLineCostCenterId: firstLine.costCenterId || undefined,
-      manualLinePeriodId: firstLine.periodId || undefined,
-      manualLineServiceId: firstLine.serviceId || undefined,
-      manualLineTaxPercent: firstLine.taxPercent || undefined,
-      manualLineTaxNo: firstLine.taxNo || undefined,
-      manualLineDescription: firstLine.lineDescription || '',
-      manualLineDebit: firstLine.debit || 0,
-      manualLineCredit: firstLine.credit || 0
+      // Pass all lines — use first line for manual line fields
+      manualLineAccountId: this.lines[0]?.accountId || 0,
+      manualLineFileNumberId: this.lines[0]?.fileNumberId || undefined,
+      manualLineCostCenterId: this.lines[0]?.costCenterId || undefined,
+      manualLinePeriodId: this.lines[0]?.periodId || undefined,
+      manualLineServiceId: this.lines[0]?.serviceId || undefined,
+      manualLineTaxPercent: this.lines[0]?.taxPercent || undefined,
+      manualLineTaxNo: this.lines[0]?.taxNo || undefined,
+      manualLineDescription: this.lines[0]?.lineDescription || '',
+      manualLineDebit: this.lines[0]?.debit || 0,
+      manualLineCredit: this.lines[0]?.credit || 0
     };
 
     if (this.isEdit && this.model.treasuryTransactionId) {
       this.svc.updateTreasuryTransaction(this.model.treasuryTransactionId, payload).subscribe({
-        next: () => { this.saving = false; this.closeModal(); this.searchTransactions(); this.cdr.detectChanges(); },
-        error: (err) => { this.saving = false; console.error('Update error:', err); alert('Failed to update: ' + (err.error?.message || err.message)); }
+        next: () => {
+          this.saving = false;
+          this.closeModal();
+          this.searchTransactions();
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.saving = false;
+          console.error('Update error:', err);
+          alert('Failed to update: ' + (err.error?.message || err.message));
+        }
       });
     } else {
       this.svc.createTreasuryTransaction(payload).subscribe({
-        next: () => { this.saving = false; this.closeModal(); this.searchTransactions(); this.cdr.detectChanges(); },
-        error: (err) => { this.saving = false; console.error('Create error:', err); alert('Failed to create: ' + (err.error?.message || err.message)); }
+        next: () => {
+          // increment local counter after successful creation
+          this.receiptCounters[this.selectedTypeDef.prefix] = (this.receiptCounters[this.selectedTypeDef.prefix] || 1) + 1;
+          this.saving = false;
+          this.closeModal();
+          this.searchTransactions();
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.saving = false;
+          console.error('Create error:', err);
+          alert('Failed to create: ' + (err.error?.message || err.message));
+        }
       });
     }
   }
@@ -276,6 +317,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   // ============ LINE MODAL ============
   openAddLine(): void {
     this.lineModel = this.emptyLine();
+    this.applyTypeDefaults();
     this.isLineEdit = false;
     this.editingLineIndex = -1;
     this.isLineModalOpen = true;
@@ -295,12 +337,68 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     this.lineSaving = false;
   }
 
+  /** Apply debit/credit constraints based on the selected transaction type */
+  applyTypeDefaults(): void {
+    const rule = this.selectedTypeDef?.lineRule || 'both';
+    if (rule === 'credit') {
+      this.lineModel.debit = 0;
+    } else if (rule === 'debit') {
+      this.lineModel.credit = 0;
+    }
+  }
+
+  /** Whether debit input should be disabled for this transaction type */
+  get debitDisabled(): boolean {
+    return this.selectedTypeDef?.lineRule === 'credit';
+  }
+
+  /** Whether credit input should be disabled for this transaction type */
+  get creditDisabled(): boolean {
+    return this.selectedTypeDef?.lineRule === 'debit';
+  }
+
+  /** Hint text shown below debit field */
+  get debitHint(): string {
+    const rule = this.selectedTypeDef?.lineRule;
+    if (rule === 'credit') return '🚫 Not allowed for this type';
+    return '✅ Debit allowed';
+  }
+
+  /** Hint text shown below credit field */
+  get creditHint(): string {
+    const rule = this.selectedTypeDef?.lineRule;
+    if (rule === 'debit') return '🚫 Not allowed for this type';
+    return '✅ Credit allowed';
+  }
+
   saveLine(): void {
     if (!this.lineModel.accountId) {
       alert('⚠️ Please select an Account');
       return;
     }
 
+    const rule = this.selectedTypeDef?.lineRule || 'both';
+    const debit  = this.lineModel.debit  || 0;
+    const credit = this.lineModel.credit || 0;
+
+    if (debit === 0 && credit === 0) {
+      alert('⚠️ Debit or Credit must be > 0');
+      return;
+    }
+    if (rule === 'credit' && debit > 0) {
+      alert('⚠️ Only Credit is allowed for ' + this.selectedTypeDef.name);
+      return;
+    }
+    if (rule === 'debit' && credit > 0) {
+      alert('⚠️ Only Debit is allowed for ' + this.selectedTypeDef.name);
+      return;
+    }
+    if (debit > 0 && credit > 0) {
+      alert('⚠️ Cannot have both Debit and Credit > 0 on the same line');
+      return;
+    }
+
+    // Resolve display names
     const acc = this.accounts.find(a => a.id === this.lineModel.accountId);
     if (acc) this.lineModel.accountName = acc.accountName;
 
@@ -314,8 +412,8 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     if (fn) this.lineModel.fileNumberValue = fn.fileNumber;
 
     const rate = this.model.rate || 1;
-    this.lineModel.eqDebit = this.lineModel.debit * rate;
-    this.lineModel.eqCredit = this.lineModel.credit * rate;
+    this.lineModel.eqDebit  = debit  * rate;
+    this.lineModel.eqCredit = credit * rate;
 
     if (this.isLineEdit && this.editingLineIndex >= 0) {
       this.lines[this.editingLineIndex] = { ...this.lineModel };
@@ -352,9 +450,11 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     return this.lines.reduce((sum, l) => sum + (l.eqCredit || 0), 0);
   }
 
-  getTransactionTypeName(id?: number): string {
-    if (!id) return '';
-    return this.transactionTypes.find(t => t.id === id)?.name || '';
+  getBadgeClass(tx: TreasuryTransaction): string {
+    const typeDef = this.transactionTypes.find(
+      t => t.id === tx.transactionTypeId || t.name === tx.transactionTypeName
+    );
+    return typeDef?.badgeClass || 'type-1';
   }
 
   // ============ NAVIGATION ============
@@ -371,14 +471,12 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       transactionDate: '',
       periodId: undefined,
       beneficiaryNameId: undefined,
-      beneficiaryTypeId: undefined,
       currency: 'EGP',
       rate: 1,
       dueDate: '',
       withdrawBank: '',
       paymentType: 'Cash',
       paymentDefaultAccountId: undefined,
-      description: '',
       active: true,
       recordBy: '',
       lines: []

@@ -27,6 +27,9 @@ export class CodeTransportationCostComponent implements OnInit {
       destinationId: this.destinations.filter(d => d.id != null).map(d => ({ id: d.id!, name: d.destinationName }))
     };
   }
+  getSupplierName(id?: number): string { if (id == null) return ''; return this.suppliers.find(s => s.id === id)?.supplierName || ''; }
+  getCarTypeName(id?: number): string { if (id == null) return ''; return this.carTypes.find(c => c.id === id)?.typeName || ''; }
+  getDestinationName(id?: number): string { if (id == null) return ''; return this.destinations.find(d => d.id === id)?.destinationName || ''; }
   openAdd(): void { this.model = { roundType: 'One Way' }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: TransportationCost): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

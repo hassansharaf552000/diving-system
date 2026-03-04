@@ -430,8 +430,6 @@ export interface TreasuryTransaction {
   periodName?: string;
   beneficiaryNameId?: number;
   beneficiaryNameValue?: string;
-  beneficiaryTypeId?: number;
-  beneficiaryTypeName?: string;
   currency?: string;
   rate?: number;
   dueDate?: string;
@@ -439,7 +437,6 @@ export interface TreasuryTransaction {
   paymentType?: string;
   paymentDefaultAccountId?: number;
   paymentDefaultAccountName?: string;
-  description?: string;
   active?: boolean;
   recordBy?: string;
   recordTime?: string;
@@ -454,14 +451,12 @@ export interface TreasuryTransactionCreate {
   transactionDate: string;
   periodId: number;
   beneficiaryNameId?: number;
-  beneficiaryTypeId?: number;
   currency: string;
   rate: number;
   dueDate?: string;
   withdrawBank?: string;
   paymentType: string;
   paymentDefaultAccountId: number;
-  description?: string;
   recordBy: string;
   manualLineAccountId?: number;
   manualLineFileNumberId?: number;

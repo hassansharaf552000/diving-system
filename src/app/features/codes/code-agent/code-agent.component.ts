@@ -47,6 +47,12 @@ export class CodeAgentComponent implements OnInit {
     };
   }
 
+  /** Resolve nationality display name locally when the API response doesn't include it */
+  getNationalityName(id?: number | null): string {
+    if (id == null) return '';
+    return this.nationalities.find(n => n.id === id)?.nationalityName || '';
+  }
+
   openAdd(): void {
     this.model = { agentName: '' };
     this.isEdit = false;

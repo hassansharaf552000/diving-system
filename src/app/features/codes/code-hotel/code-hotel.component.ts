@@ -18,6 +18,10 @@ export class CodeHotelComponent implements OnInit {
       destinationId: this.destinations.filter(d => d.id != null).map(d => ({ id: d.id!, name: d.destinationName }))
     };
   }
+  getDestinationName(id?: number): string {
+    if (id == null) return '';
+    return this.destinations.find(d => d.id === id)?.destinationName || '';
+  }
   openAdd(): void { this.model = { hotelName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Hotel): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

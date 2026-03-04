@@ -22,9 +22,9 @@
         <div class="filter-group">
           <input type="date" [(ngModel)]="searchFromDate" class="filter-input" placeholder="From Date">
           <input type="date" [(ngModel)]="searchToDate" class="filter-input" placeholder="To Date">
-          <select [(ngModel)]="searchTypeName" class="filter-select">
+          <select [(ngModel)]="searchTypeId" class="filter-select">
             <option [ngValue]="null">All Types</option>
-            <option *ngFor="let t of transactionTypes" [ngValue]="t.name">{{ t.name }}</option>
+            <option *ngFor="let t of transactionTypes" [ngValue]="t.id">{{ t.name }}</option>
           </select>
           <button class="btn-filter" (click)="searchTransactions()">🔍 Filter</button>
         </div>
@@ -41,7 +41,6 @@
               <th>Beneficiary</th>
               <th>Currency</th>
               <th>Payment</th>
-              <th>Description</th>
               <th>Recorded By</th>
               <th style="width:90px">Actions</th>
             </tr>
@@ -50,13 +49,14 @@
             <tr *ngFor="let tx of filtered"
                 [class.selected]="tx.treasuryTransactionId === selectedTransaction?.treasuryTransactionId"
                 (click)="selectTransaction(tx)">
-              <td><strong>{{ tx.receiptNo }}</strong></td>
-              <td>{{ tx.transactionTypeName }}</td>
+              <td><span class="receipt-no">{{ tx.receiptNo }}</span></td>
+              <td>
+                <span class="type-badge" [ngClass]="getBadgeClass(tx)">{{ tx.transactionTypeName }}</span>
+              </td>
               <td>{{ tx.transactionDate | date:'dd/MM/yyyy' }}</td>
               <td>{{ tx.beneficiaryNameValue || '-' }}</td>
               <td>{{ tx.currency }}</td>
               <td>{{ tx.paymentType }}</td>
-              <td class="desc-cell">{{ tx.description }}</td>
               <td>{{ tx.recordBy }}</td>
               <td>
                 <div class="actions-cell">
@@ -66,7 +66,7 @@
               </td>
             </tr>
             <tr *ngIf="filtered.length === 0">
-              <td colspan="9" class="empty-row">No transactions found</td>
+              <td colspan="8" class="empty-row">No transactions found</td>
             </tr>
           </tbody>
         </table>
@@ -84,7 +84,6 @@
         <h3>📋 Lines for: {{ selectedTransaction.receiptNo }} — {{ selectedTransaction.transactionTypeName }}</h3>
         <div class="lines-meta">
           <span class="meta-item"><strong>Beneficiary:</strong> {{ selectedTransaction.beneficiaryNameValue || '-' }}</span>
-          <span class="meta-item"><strong>Description:</strong> {{ selectedTransaction.description }}</span>
           <span class="meta-item"><strong>Account:</strong> {{ selectedTransaction.paymentDefaultAccountName }}</span>
         </div>
       </div>
@@ -153,24 +152,39 @@
   <!-- Add/Edit Modal -->
   <app-modal [title]="isEdit ? 'Edit Treasury Transaction' : 'Add New Treasury Transaction'" [isOpen]="isModalOpen" (closed)="closeModal()" size="large">
     <div class="modal-form">
+
+      <!-- Info note -->
+      <div class="info-note">
+        💡 Select a <strong>Transaction Type</strong> first — the Receipt No will be auto-generated.
+      </div>
+
+      <!-- Type Tab Buttons -->
+      <div class="type-tabs">
+        <button
+          *ngFor="let t of transactionTypes"
+          class="type-tab"
+          [class.active]="selectedTypeDef.id === t.id"
+          [ngClass]="selectedTypeDef.id === t.id ? t.badgeClass : ''"
+          (click)="selectTypeDef(t)">
+          {{ t.name }}
+        </button>
+      </div>
+
       <div class="form-row">
-        <div class="form-group">
-          <label>Transaction Type *</label>
-          <select [(ngModel)]="model.transactionTypeName">
-            <option [ngValue]="undefined">-- Select --</option>
-            <option *ngFor="let t of transactionTypes" [ngValue]="t.name">{{ t.name }}</option>
-          </select>
-        </div>
+        <!-- Auto Receipt No display -->
         <div class="form-group">
           <label>Receipt No *</label>
-          <input type="text" [(ngModel)]="model.receiptNo" placeholder="e.g. R-1001">
+          <div class="receipt-display">
+            <span class="receipt-value">{{ generatedReceiptNo }}</span>
+            <span class="auto-tag">AUTO</span>
+          </div>
         </div>
-      </div>
-      <div class="form-row">
         <div class="form-group">
           <label>Date *</label>
           <input type="date" [(ngModel)]="model.transactionDate">
         </div>
+      </div>
+      <div class="form-row">
         <div class="form-group">
           <label>Period</label>
           <select [(ngModel)]="model.periodId">
@@ -178,20 +192,11 @@
             <option *ngFor="let p of periods" [ngValue]="p.periodId">{{ p.periodName }}</option>
           </select>
         </div>
-      </div>
-      <div class="form-row">
         <div class="form-group">
           <label>Beneficiary Name</label>
           <select [(ngModel)]="model.beneficiaryNameId">
             <option [ngValue]="undefined">-</option>
             <option *ngFor="let b of beneficiaryNames" [ngValue]="b.beneficiaryId">{{ b.beneficiaryName }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Beneficiary Type</label>
-          <select [(ngModel)]="model.beneficiaryTypeId">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let bt of beneficiaryTypes" [ngValue]="bt.beneficiaryTypeId">{{ bt.beneficiaryTypeName }}</option>
           </select>
         </div>
       </div>
@@ -215,7 +220,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Default Account</label>
+          <label>Default Account *</label>
           <select [(ngModel)]="model.paymentDefaultAccountId">
             <option [ngValue]="undefined">-- Select --</option>
             <option *ngFor="let a of accounts" [ngValue]="a.id">{{ a.accountNumber }} - {{ a.accountName }}</option>
@@ -232,14 +237,14 @@
           <input type="date" [(ngModel)]="model.dueDate">
         </div>
       </div>
-      <div class="form-group" style="margin-top:4px">
-        <label>Description</label>
-        <input type="text" [(ngModel)]="model.description" placeholder="Enter description">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Recorded By</label>
+          <input type="text" [(ngModel)]="model.recordBy" placeholder="e.g. Mohamed Hamza">
+        </div>
+
       </div>
-      <div class="form-group">
-        <label>Recorded By</label>
-        <input type="text" [(ngModel)]="model.recordBy" placeholder="e.g. Mohamed Hamza">
-      </div>
+
 
       <!-- Lines in modal -->
       <div class="modal-lines-section">
@@ -269,8 +274,8 @@
               <td>{{ line.costCenterName || '-' }}</td>
               <td>{{ line.periodName }}</td>
               <td>{{ line.lineDescription }}</td>
-              <td class="num-cell">{{ line.debit | number:'1.2-2' }}</td>
-              <td class="num-cell">{{ line.credit | number:'1.2-2' }}</td>
+              <td class="num-cell debit-val">{{ line.debit | number:'1.2-2' }}</td>
+              <td class="num-cell credit-val">{{ line.credit | number:'1.2-2' }}</td>
               <td>
                 <button class="action-btn delete-btn" (click)="removeLine(i)">✕</button>
               </td>
@@ -335,14 +340,25 @@
         <label>Description</label>
         <input type="text" [(ngModel)]="lineModel.lineDescription" placeholder="Line description">
       </div>
-      <div class="form-row">
+      <!-- Debit / Credit with type-rule hints -->
+      <div class="form-row amount-row">
         <div class="form-group">
           <label>Debit</label>
-          <input type="number" [(ngModel)]="lineModel.debit" step="0.01">
+          <input type="number" [(ngModel)]="lineModel.debit" step="0.01"
+                 [disabled]="debitDisabled"
+                 [class.field-disabled]="debitDisabled">
+          <div class="field-hint" [class.hint-error]="debitDisabled" [class.hint-ok]="!debitDisabled">
+            {{ debitHint }}
+          </div>
         </div>
         <div class="form-group">
           <label>Credit</label>
-          <input type="number" [(ngModel)]="lineModel.credit" step="0.01">
+          <input type="number" [(ngModel)]="lineModel.credit" step="0.01"
+                 [disabled]="creditDisabled"
+                 [class.field-disabled]="creditDisabled">
+          <div class="field-hint" [class.hint-error]="creditDisabled" [class.hint-ok]="!creditDisabled">
+            {{ creditHint }}
+          </div>
         </div>
       </div>
     </div>
@@ -359,4 +375,5 @@
     (confirmed)="onDeleteConfirmed()"
     (cancelled)="onDeleteCancelled()">
   </app-confirm-dialog>
+
 </div>

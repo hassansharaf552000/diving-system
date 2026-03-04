@@ -18,6 +18,10 @@ export class CodeTransportationTypeComponent implements OnInit {
       supplierId: this.suppliers.filter(s => s.id != null).map(s => ({ id: s.id!, name: s.supplierName }))
     };
   }
+  getSupplierName(id?: number): string {
+    if (id == null) return '';
+    return this.suppliers.find(s => s.id === id)?.supplierName || '';
+  }
   openAdd(): void { this.model = { typeName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: TransportationType): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

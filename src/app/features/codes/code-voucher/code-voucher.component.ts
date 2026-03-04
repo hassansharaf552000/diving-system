@@ -18,6 +18,10 @@ export class CodeVoucherComponent implements OnInit {
       repId: this.reps.filter(r => r.id != null).map(r => ({ id: r.id!, name: r.repName }))
     };
   }
+  getRepName(id?: number): string {
+    if (id == null) return '';
+    return this.reps.find(r => r.id === id)?.repName || '';
+  }
   openAdd(): void { this.model = {}; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Voucher): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

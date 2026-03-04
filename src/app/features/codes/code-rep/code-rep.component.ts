@@ -18,6 +18,10 @@ export class CodeRepComponent implements OnInit {
       agentId: this.agents.filter(a => a.id != null).map(a => ({ id: a.id!, name: a.agentName }))
     };
   }
+  getAgentName(id?: number): string {
+    if (id == null) return '';
+    return this.agents.find(a => a.id === id)?.agentName || '';
+  }
   openAdd(): void { this.model = { repName: '', address: '', phone: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Rep): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

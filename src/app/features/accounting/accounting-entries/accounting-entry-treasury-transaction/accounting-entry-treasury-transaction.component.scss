@@ -49,7 +49,7 @@
   background: var(--dm-surface);
   font-family: inherit;
   color: var(--dm-text);
-  width: 140px;
+  width: 160px;
   transition: border-color 0.2s;
 
   &:focus {
@@ -74,6 +74,28 @@
   }
 }
 
+// ---- Type Badges in table ----
+.receipt-no {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dm-primary);
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+
+  &.type-1 { background: #d1fae5; color: #065f46; }
+  &.type-2 { background: #fee2e2; color: #991b1b; }
+  &.type-3 { background: #dbeafe; color: #1e40af; }
+  &.type-4 { background: #ede9fe; color: #5b21b6; }
+  &.type-5 { background: #fef3c7; color: #92400e; }
+}
+
 // ---- Description cell ----
 .desc-cell {
   max-width: 200px;
@@ -87,6 +109,9 @@
   text-align: right;
   font-family: 'Consolas', 'Courier New', monospace;
 }
+
+.debit-val  { color: #991b1b; }
+.credit-val { color: #065f46; }
 
 // ---- Lines Detail Panel ----
 .lines-panel {
@@ -154,6 +179,104 @@
       color: var(--dm-text);
     }
   }
+}
+
+// ---- Info Note ----
+.info-note {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #1e40af;
+  margin-bottom: 16px;
+}
+
+// ---- Type Tab Buttons ----
+.type-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.type-tab {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid var(--dm-border);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  background: var(--dm-surface);
+  color: var(--dm-text);
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: var(--dm-accent);
+  }
+
+  // Active states mirror type badge colors
+  &.active {
+    &.type-1 { background: #d1fae5; color: #065f46; border-color: #065f46; }
+    &.type-2 { background: #fee2e2; color: #991b1b; border-color: #991b1b; }
+    &.type-3 { background: #dbeafe; color: #1e40af; border-color: #1e40af; }
+    &.type-4 { background: #ede9fe; color: #5b21b6; border-color: #5b21b6; }
+    &.type-5 { background: #fef3c7; color: #92400e; border-color: #92400e; }
+  }
+}
+
+// ---- Receipt Auto-Display ----
+.receipt-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid #2a9d8f;
+  border-radius: 8px;
+  font-size: 13px;
+  background: #f0fdf9;
+  min-height: 38px;
+
+  .receipt-value {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-weight: 700;
+    color: #2a9d8f;
+    letter-spacing: 0.05em;
+    flex: 1;
+  }
+
+  .auto-tag {
+    font-size: 10px;
+    background: #2a9d8f;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+// ---- Amount row in line modal ----
+.amount-row {
+  margin-top: 4px;
+}
+
+// ---- Field hint (debit/credit rules) ----
+.field-hint {
+  font-size: 11px;
+  margin-top: 4px;
+  font-weight: 500;
+
+  &.hint-error { color: #e63946; }
+  &.hint-ok    { color: #2a9d8f; }
+}
+
+.field-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 // ---- Modal Lines Section ----
@@ -228,6 +351,13 @@
   .lines-meta {
     flex-direction: column;
     gap: 6px;
+  }
+  .type-tabs {
+    gap: 6px;
+  }
+  .type-tab {
+    font-size: 11px;
+    padding: 5px 12px;
   }
 }
 
