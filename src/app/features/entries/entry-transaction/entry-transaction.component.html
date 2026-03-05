@@ -65,7 +65,7 @@
       <div class="form-row">
         <div class="form-group">
           <label>Voucher *</label>
-          <input type="text" [(ngModel)]="model.voucherNumber">
+          <input type="text" [(ngModel)]="model.voucherNumber" (blur)="onVoucherChange()" (keyup.enter)="onVoucherChange()">
         </div>
         <div class="form-group">
           <label>Date *</label>
@@ -83,7 +83,7 @@
         </div>
         <div class="form-group">
           <label>Agent</label>
-          <select [(ngModel)]="model.agentId">
+          <select [(ngModel)]="model.agentId" (change)="onAgentChange()">
             <option [ngValue]="undefined">-</option>
             <option *ngFor="let a of agents" [ngValue]="a.id">{{ a.agentName }}</option>
           </select>
@@ -127,7 +127,7 @@
       <div class="form-row">
         <div class="form-group">
           <label>Excursion</label>
-          <select [(ngModel)]="model.excursionId">
+          <select [(ngModel)]="model.excursionId" (change)="onExcursionChange()">
             <option [ngValue]="undefined">-</option>
             <option *ngFor="let e of excursions" [ngValue]="e.id">{{ e.excursionName }}</option>
           </select>

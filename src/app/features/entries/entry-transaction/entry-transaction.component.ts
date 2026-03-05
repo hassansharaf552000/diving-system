@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import {
   EntryTransaction, Rep, Agent, Nationality, Hotel, HotelDestination,
-  Excursion, ExcursionSupplier, PriceList
+  Excursion, ExcursionSupplier, PriceList, Voucher
 } from '../../../core/interfaces/code.interfaces';
 import { CodeService } from '../../../core/services/code.service';
 
@@ -30,6 +30,7 @@ export class EntryTransactionComponent implements OnInit {
   excursions: Excursion[] = [];
   suppliers: ExcursionSupplier[] = [];
   priceLists: PriceList[] = [];
+  vouchers: Voucher[] = [];
   paymentTypes: string[] = ['Cash', 'Credit', 'FOC'];
 
   // Modal state
@@ -78,7 +79,8 @@ export class EntryTransactionComponent implements OnInit {
       destinations: this.svc.getHotelDestinations(),
       excursions: this.svc.getExcursions(),
       suppliers: this.svc.getExcursionSuppliers(),
-      priceLists: this.svc.getPriceLists()
+      priceLists: this.svc.getPriceLists(),
+      vouchers: this.svc.getVouchers()
     }).subscribe({
       next: (data: any) => {
         this.reps = data.reps;
@@ -89,10 +91,44 @@ export class EntryTransactionComponent implements OnInit {
         this.excursions = data.excursions;
         this.suppliers = data.suppliers;
         this.priceLists = data.priceLists;
+        this.vouchers = data.vouchers;
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error loading dropdowns:', err)
     });
+  }
+
+  // ============ AUTO-POPULATE ============
+
+  /** When voucher number changes, find the matching voucher and auto-set the Rep */
+  onVoucherChange(): void {
+    const num = parseInt(this.model.voucherNumber || '', 10);
+    if (isNaN(num)) { return; }
+    const match = this.vouchers.find(
+      v => v.fromNumber != null && v.toNumber != null && num >= v.fromNumber && num <= v.toNumber
+    );
+    if (match?.repId) {
+      this.model.repId = match.repId;
+      this.cdr.detectChanges();
+    }
+  }
+
+  /** When agent changes, auto-set Nationality from the agent's record */
+  onAgentChange(): void {
+    const agent = this.agents.find(a => a.id === this.model.agentId);
+    if (agent?.nationalityId) {
+      this.model.nationalityId = agent.nationalityId;
+      this.cdr.detectChanges();
+    }
+  }
+
+  /** When excursion changes, auto-set Supplier from the excursion's default supplier */
+  onExcursionChange(): void {
+    const excursion = this.excursions.find(e => e.id === this.model.excursionId);
+    if (excursion?.supplierId) {
+      this.model.excursionSupplierId = excursion.supplierId;
+      this.cdr.detectChanges();
+    }
   }
 
   // ============ SEARCH ============
