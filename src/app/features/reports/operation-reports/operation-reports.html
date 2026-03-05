@@ -1,0 +1,46 @@
+<div class="reports-page">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <h1>📊 Operation Reports</h1>
+            <p>Comprehensive operation reports about center performance</p>
+        </div>
+        <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" [(ngModel)]="searchTerm" placeholder="Search operation reports...">
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="empty-state" *ngIf="isLoading" style="text-align: center; padding: 40px;">
+        <span class="empty-icon" style="animation: pulse 1.5s infinite;">⏳</span>
+        <h3>Loading reports...</h3>
+    </div>
+
+    <ng-container *ngIf="!isLoading">
+        <div class="cards-grid">
+            <div class="card-item" *ngFor="let report of filteredReports" (click)="openReport(report)">
+                <div class="card-accent" [style.background]="report.gradient"></div>
+                <div class="card-body">
+                    <div class="card-icon-wrap" [style.background]="report.gradient">
+                        <span class="card-icon">{{ report.icon }}</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ report.label }}</h3>
+                        <p>{{ report.desc }}</p>
+                    </div>
+                    <div class="card-meta">
+                        <span class="arrow-circle">→</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="filteredReports.length === 0">
+            <span class="empty-icon">🔍</span>
+            <h3>No reports found</h3>
+            <p>Try adjusting your search term</p>
+        </div>
+    </ng-container>
+</div>

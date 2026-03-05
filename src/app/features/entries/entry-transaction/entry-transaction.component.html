@@ -10,13 +10,14 @@
         <button class="btn-add" (click)="openAdd()">＋ Add New Transaction</button>
       </div>
     </div>
-    
+
     <div class="code-table-wrap">
       <div class="table-search">
         <span class="search-icon">🔍</span>
-        <input type="text" [(ngModel)]="searchTerm" placeholder="Search transactions..." (keyup.enter)="searchTransactions()">
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Search transactions..."
+          (keyup.enter)="searchTransactions()">
       </div>
-      
+
       <table class="code-table">
         <thead>
           <tr>
@@ -49,23 +50,25 @@
           </tr>
         </tbody>
       </table>
-      
+
       <div class="table-footer">
         <span class="records-info">Showing {{ transactions.length }} records</span>
-        <app-export-buttons [data]="transactions"></app-export-buttons>             
+        <app-export-buttons [data]="transactions"></app-export-buttons>
       </div>
-    </div>            
+    </div>
   </div>
 
   <!-- Add/Edit Modal (reusing the same form structure but editable) -->
-  <app-modal [title]="isEdit ? 'Edit Transaction' : 'Add New Transaction'" [isOpen]="isModalOpen" (closed)="closeModal()" size="large">
+  <app-modal [title]="isEdit ? 'Edit Transaction' : 'Add New Transaction'" [isOpen]="isModalOpen"
+    (closed)="closeModal()" size="large">
     <div class="modal-form">
-      
+
       <!-- General Form Area -->
       <div class="form-row">
         <div class="form-group">
           <label>Voucher *</label>
-          <input type="text" [(ngModel)]="model.voucherNumber" (blur)="onVoucherChange()" (keyup.enter)="onVoucherChange()">
+          <input type="text" [(ngModel)]="model.voucherNumber" (blur)="onVoucherChange()"
+            (keyup.enter)="onVoucherChange()">
         </div>
         <div class="form-group">
           <label>Date *</label>
@@ -76,7 +79,7 @@
       <div class="form-row">
         <div class="form-group">
           <label>Rep</label>
-          <select [(ngModel)]="model.repId">
+          <select [(ngModel)]="model.repId" (change)="onRepChange()">
             <option [ngValue]="undefined">-</option>
             <option *ngFor="let r of reps" [ngValue]="r.id">{{ r.repName }}</option>
           </select>
@@ -170,7 +173,7 @@
           </select>
         </div>
       </div>
-      
+
       <div class="form-row">
         <div class="form-group" style="flex: 1;">
           <label>Note</label>
@@ -180,7 +183,8 @@
 
       <!-- Matched rate indicator -->
       <div *ngIf="matchedRate" class="rate-match-badge">
-        ✅ Rates loaded: ADL selling {{ matchedRate.sellingAdlEGP | number:'1.2-2' }} EGP &nbsp;|&nbsp; CHD selling {{ matchedRate.sellingChdEGP | number:'1.2-2' }} EGP
+        ✅ Rates loaded: ADL selling {{ matchedRate.sellingAdlEGP | number:'1.2-2' }} EGP &nbsp;|&nbsp; CHD selling {{
+        matchedRate.sellingChdEGP | number:'1.2-2' }} EGP
       </div>
       <div *ngIf="model.excursionId && !matchedRate" class="rate-match-badge rate-no-match">
         ⚠️ No matching price record found for this combination
@@ -227,10 +231,14 @@
             <tr>
               <td>Discount</td>
               <td colspan="2"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEGP" step="0.01" (change)="onDiscountChange()"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountUSD" step="0.01" (change)="onDiscountChange()"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEUR" step="0.01" (change)="onDiscountChange()"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountGBP" step="0.01" (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEGP" step="0.01"
+                  (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountUSD" step="0.01"
+                  (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEUR" step="0.01"
+                  (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountGBP" step="0.01"
+                  (change)="onDiscountChange()"></td>
               <td class="text-center"><input type="checkbox" [(ngModel)]="model.discountFree"></td>
             </tr>
             <tr>
@@ -257,16 +265,15 @@
 
     </div>
     <div class="modal-footer">
-      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update' : '＋ Add Transaction' }}</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update' : '＋ Add Transaction'
+        }}</button>
       <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
     </div>
   </app-modal>
 
   <!-- Delete Confirmation -->
-  <app-confirm-dialog
-    [isOpen]="showDeleteConfirm"
-    [itemName]="'Transaction voucher ' + (deleteTarget?.voucherNumber || '')"
-    (confirmed)="onDeleteConfirmed()"
+  <app-confirm-dialog [isOpen]="showDeleteConfirm"
+    [itemName]="'Transaction voucher ' + (deleteTarget?.voucherNumber || '')" (confirmed)="onDeleteConfirmed()"
     (cancelled)="onDeleteCancelled()">
   </app-confirm-dialog>
 

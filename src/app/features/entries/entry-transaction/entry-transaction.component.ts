@@ -116,7 +116,18 @@ export class EntryTransactionComponent implements OnInit {
     );
     if (match?.repId) {
       this.model.repId = match.repId;
+      this.onRepChange();
       this.cdr.detectChanges();
+    }
+  }
+
+  /** When rep changes, auto-set Agent from the rep's record */
+  onRepChange(): void {
+    const rep = this.reps.find(r => r.id === this.model.repId);
+    if (rep?.agentId) {
+      this.model.agentId = rep.agentId;
+      // Also trigger agent change to auto-set nationality
+      this.onAgentChange();
     }
   }
 

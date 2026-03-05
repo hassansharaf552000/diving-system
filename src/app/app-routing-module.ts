@@ -11,7 +11,19 @@ import { EntryRevenueComponent } from './features/entries/entry-revenue/entry-re
 import { EntryGuideAllowanceComponent } from './features/entries/entry-guide-allowance/entry-guide-allowance.component';
 import { EntryRepCommissionComponent } from './features/entries/entry-rep-commission/entry-rep-commission.component';
 import { EntryBoatCoastComponent } from './features/entries/entry-boat-coast/entry-boat-coast.component';
-import { ReportsComponent } from './features/reports/reports.component';
+import { OperationReports } from './features/reports/operation-reports/operation-reports';
+import { Traffic } from './features/reports/operation/traffic/traffic';
+import { InvoiceAgent } from './features/reports/operation/invoice-agent/invoice-agent';
+import { InvoiceBoatSupplier } from './features/reports/operation/invoice-boat-supplier/invoice-boat-supplier';
+import { InvoiceExcursionSupplier } from './features/reports/operation/invoice-excursion-supplier/invoice-excursion-supplier';
+import { InvoiceTransportationSupplier } from './features/reports/operation/invoice-transportation-supplier/invoice-transportation-supplier';
+import { GuideAllowance } from './features/reports/operation/guide-allowance/guide-allowance';
+import { RepCommission } from './features/reports/operation/rep-commission/rep-commission';
+import { VoucherDataQuery } from './features/reports/operation/voucher-data-query/voucher-data-query';
+import { Search } from './features/reports/operation/search/search';
+import { CodesReports as OperationCodesReports } from './features/reports/operation/codes-reports/codes-reports';
+
+import { AccountingReports } from './features/reports/accounting-reports/accounting-reports';
 import { HelpComponent } from './features/help/help.component';
 import { CodesListComponent } from './features/codes/codes-list/codes-list.component';
 import { CodeAgentComponent } from './features/codes/code-agent/code-agent.component';
@@ -49,6 +61,24 @@ import { AccountingFollowPaymentComponent } from './features/accounting/accounti
 import { AccountingUpdateTransactionsRateComponent } from './features/accounting/accounting-entries/accounting-update-transactions-rate/accounting-update-transactions-rate.component';
 import { AccountingPostTransactionsComponent } from './features/accounting/accounting-entries/accounting-post-transactions/accounting-post-transactions.component';
 
+import { CodesReports as AccountingCodesReports } from './features/reports/accounting/codes-reports/codes-reports';
+import { Counter } from './features/reports/accounting/counter/counter';
+import { Transaction } from './features/reports/accounting/transaction/transaction';
+import { TaxTransaction } from './features/reports/accounting/tax-transaction/tax-transaction';
+import { SupplierBalance } from './features/reports/accounting/supplier-balance/supplier-balance';
+import { AccountBalance } from './features/reports/accounting/account-balance/account-balance';
+import { GeneralFollow } from './features/reports/accounting/general-follow/general-follow';
+import { CashBalance } from './features/reports/accounting/cash-balance/cash-balance';
+import { SearchMovements } from './features/reports/accounting/search-movements/search-movements';
+import { GeneralSubsidiaryLedger } from './features/reports/accounting/general-subsidiary-ledger/general-subsidiary-ledger';
+import { AccountSubsidiaryLedger } from './features/reports/accounting/account-subsidiary-ledger/account-subsidiary-ledger';
+import { FileServiceSubsidiaryLedger } from './features/reports/accounting/file-service-subsidiary-ledger/file-service-subsidiary-ledger';
+import { CostCenterSubsidiaryLedger } from './features/reports/accounting/cost-center-subsidiary-ledger/cost-center-subsidiary-ledger';
+import { DeletedSubsidiaryLedger } from './features/reports/accounting/deleted-subsidiary-ledger/deleted-subsidiary-ledger';
+import { FileProfitAndLoss } from './features/reports/accounting/file-profit-and-loss/file-profit-and-loss';
+import { ProfitAndLoss } from './features/reports/accounting/profit-and-loss/profit-and-loss';
+import { TrialBalance } from './features/reports/accounting/trial-balance/trial-balance';
+
 const routes: Routes = [
   // Landing page
   { path: '', component: LandingComponent },
@@ -84,7 +114,17 @@ const routes: Routes = [
       { path: 'codes/transportation-cost', component: CodeTransportationCostComponent },
       { path: 'codes/voucher', component: CodeVoucherComponent },
       { path: 'codes/excursion-cost-selling', component: CodeExcursionCostSellingComponent },
-      { path: 'reports', component: ReportsComponent }
+      { path: 'reports', component: OperationReports },
+      { path: 'reports/codes-reports', component: OperationCodesReports },
+      { path: 'reports/traffic', component: Traffic },
+      { path: 'reports/invoice-agent', component: InvoiceAgent },
+      { path: 'reports/invoice-boat-supplier', component: InvoiceBoatSupplier },
+      { path: 'reports/invoice-excursion-supplier', component: InvoiceExcursionSupplier },
+      { path: 'reports/invoice-transportation-supplier', component: InvoiceTransportationSupplier },
+      { path: 'reports/guide-allowance', component: GuideAllowance },
+      { path: 'reports/rep-commission', component: RepCommission },
+      { path: 'reports/voucher-data-query', component: VoucherDataQuery },
+      { path: 'reports/search', component: Search }
     ]
   },
   
@@ -111,7 +151,24 @@ const routes: Routes = [
       { path: 'entries/followpayment', component: AccountingFollowPaymentComponent },
       { path: 'entries/updatetransactionsrate', component: AccountingUpdateTransactionsRateComponent },
       { path: 'entries/posttransactions', component: AccountingPostTransactionsComponent },
-      { path: 'reports', component: ReportsComponent } // Will be replaced with accounting reports
+      { path: 'reports', component: AccountingReports }, // Will be replaced with accounting reports
+      { path: 'reports/codes-reports', component: AccountingCodesReports },
+      { path: 'reports/counter', component: Counter },
+      { path: 'reports/transaction', component: Transaction },
+      { path: 'reports/tax-transaction', component: TaxTransaction },
+      { path: 'reports/supplier-balance', component: SupplierBalance },
+      { path: 'reports/account-balance', component: AccountBalance },
+      { path: 'reports/general-follow', component: GeneralFollow },
+      { path: 'reports/cash-balance', component: CashBalance },
+      { path: 'reports/search-movements', component: SearchMovements },
+      { path: 'reports/general-subsidiary-ledger', component: GeneralSubsidiaryLedger },
+      { path: 'reports/account-subsidiary-ledger', component: AccountSubsidiaryLedger },
+      { path: 'reports/file-service-subsidiary-ledger', component: FileServiceSubsidiaryLedger },
+      { path: 'reports/cost-center-subsidiary-ledger', component: CostCenterSubsidiaryLedger },
+      { path: 'reports/deleted-subsidiary-ledger', component: DeletedSubsidiaryLedger },
+      { path: 'reports/file-profit-and-loss', component: FileProfitAndLoss },
+      { path: 'reports/profit-and-loss', component: ProfitAndLoss },
+      { path: 'reports/trial-balance', component: TrialBalance }
     ]
   },
   
