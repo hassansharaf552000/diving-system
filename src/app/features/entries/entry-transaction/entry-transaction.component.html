@@ -117,7 +117,7 @@
         </div>
         <div class="form-group">
           <label>Destination</label>
-          <select [(ngModel)]="model.hotelDestinationId">
+          <select [(ngModel)]="model.hotelDestinationId" (change)="onFilterChange()">
             <option [ngValue]="undefined">-</option>
             <option *ngFor="let d of destinations" [ngValue]="d.id">{{ d.destinationName }}</option>
           </select>
@@ -135,11 +135,11 @@
         <div class="form-group" style="display: flex; gap: 5px;">
           <div style="flex: 1;">
             <label>ADL</label>
-            <input type="number" [(ngModel)]="model.adl" min="0">
+            <input type="number" [(ngModel)]="model.adl" min="0" (change)="recalculatePrices()">
           </div>
           <div style="flex: 1;">
             <label>CHD</label>
-            <input type="number" [(ngModel)]="model.chd" min="0">
+            <input type="number" [(ngModel)]="model.chd" min="0" (change)="recalculatePrices()">
           </div>
           <div style="flex: 1;">
             <label>INF</label>
@@ -151,14 +151,14 @@
       <div class="form-row">
         <div class="form-group">
           <label>Supplier</label>
-          <select [(ngModel)]="model.excursionSupplierId">
+          <select [(ngModel)]="model.excursionSupplierId" (change)="onFilterChange()">
             <option [ngValue]="undefined">-</option>
             <option *ngFor="let s of suppliers" [ngValue]="s.id">{{ s.supplierName }}</option>
           </select>
         </div>
         <div class="form-group">
           <label>Price List</label>
-          <select [(ngModel)]="model.priceListId">
+          <select [(ngModel)]="model.priceListId" (change)="onFilterChange()">
             <option [ngValue]="undefined">-</option>
             <option *ngFor="let p of priceLists" [ngValue]="p.id">{{ p.priceListName }}</option>
           </select>
@@ -176,6 +176,14 @@
           <label>Note</label>
           <input type="text" [(ngModel)]="model.note" placeholder="Optional notes" style="width: 100%;">
         </div>
+      </div>
+
+      <!-- Matched rate indicator -->
+      <div *ngIf="matchedRate" class="rate-match-badge">
+        ✅ Rates loaded: ADL selling {{ matchedRate.sellingAdlEGP | number:'1.2-2' }} EGP &nbsp;|&nbsp; CHD selling {{ matchedRate.sellingChdEGP | number:'1.2-2' }} EGP
+      </div>
+      <div *ngIf="model.excursionId && !matchedRate" class="rate-match-badge rate-no-match">
+        ⚠️ No matching price record found for this combination
       </div>
 
       <hr style="margin: 15px 0; border: 0; border-top: 1px dashed #ccc;">
@@ -219,10 +227,10 @@
             <tr>
               <td>Discount</td>
               <td colspan="2"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEGP" step="0.01"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountUSD" step="0.01"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEUR" step="0.01"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountGBP" step="0.01"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEGP" step="0.01" (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountUSD" step="0.01" (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEUR" step="0.01" (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountGBP" step="0.01" (change)="onDiscountChange()"></td>
               <td class="text-center"><input type="checkbox" [(ngModel)]="model.discountFree"></td>
             </tr>
             <tr>

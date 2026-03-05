@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import {
   EntryTransaction, Rep, Agent, Nationality, Hotel, HotelDestination,
-  Excursion, ExcursionSupplier, PriceList, Voucher
+  Excursion, ExcursionSupplier, PriceList, Voucher, ExcursionCostSelling
 } from '../../../core/interfaces/code.interfaces';
 import { CodeService } from '../../../core/services/code.service';
 
@@ -31,6 +31,11 @@ export class EntryTransactionComponent implements OnInit {
   suppliers: ExcursionSupplier[] = [];
   priceLists: PriceList[] = [];
   vouchers: Voucher[] = [];
+  costSellings: ExcursionCostSelling[] = [];
+  matchedRate: ExcursionCostSelling | null = null;
+  // Base selling prices (before discount) — stored so discount can be re-applied correctly
+  private baseSellingEGP = 0; private baseSellingUSD = 0;
+  private baseSellingEUR = 0; private baseSellingGBP = 0;
   paymentTypes: string[] = ['Cash', 'Credit', 'FOC'];
 
   // Modal state
@@ -80,7 +85,8 @@ export class EntryTransactionComponent implements OnInit {
       excursions: this.svc.getExcursions(),
       suppliers: this.svc.getExcursionSuppliers(),
       priceLists: this.svc.getPriceLists(),
-      vouchers: this.svc.getVouchers()
+      vouchers: this.svc.getVouchers(),
+      costSellings: this.svc.getExcursionCostSellings()
     }).subscribe({
       next: (data: any) => {
         this.reps = data.reps;
@@ -92,6 +98,7 @@ export class EntryTransactionComponent implements OnInit {
         this.suppliers = data.suppliers;
         this.priceLists = data.priceLists;
         this.vouchers = data.vouchers;
+        this.costSellings = data.costSellings;
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error loading dropdowns:', err)
@@ -118,8 +125,8 @@ export class EntryTransactionComponent implements OnInit {
     const agent = this.agents.find(a => a.id === this.model.agentId);
     if (agent?.nationalityId) {
       this.model.nationalityId = agent.nationalityId;
-      this.cdr.detectChanges();
     }
+    this.findMatchingCostSelling();
   }
 
   /** When excursion changes, auto-set Supplier from the excursion's default supplier */
@@ -127,8 +134,79 @@ export class EntryTransactionComponent implements OnInit {
     const excursion = this.excursions.find(e => e.id === this.model.excursionId);
     if (excursion?.supplierId) {
       this.model.excursionSupplierId = excursion.supplierId;
-      this.cdr.detectChanges();
     }
+    this.findMatchingCostSelling();
+  }
+
+  /** Called when any of the 5 filter fields change to re-match the cost selling record */
+  onFilterChange(): void {
+    this.findMatchingCostSelling();
+  }
+
+  /**
+   * Finds the best-matching ExcursionCostSelling record.
+   * Scoring: each matching optional field adds 1 point (null field in record = match any).
+   * Excursion is mandatory. Highest score wins.
+   */
+  findMatchingCostSelling(): void {
+    if (!this.model.excursionId) { this.matchedRate = null; return; }
+
+    let best: ExcursionCostSelling | null = null;
+    let bestScore = -1;
+
+    for (const cs of this.costSellings) {
+      if (cs.excursionId !== this.model.excursionId) continue; // must match
+
+      let score = 0;
+      if (cs.agentId        == null || cs.agentId        === this.model.agentId)           score++;
+      if (cs.destinationId  == null || cs.destinationId  === this.model.hotelDestinationId) score++;
+      if (cs.supplierId     == null || cs.supplierId     === this.model.excursionSupplierId) score++;
+      if (cs.priceListId    == null || cs.priceListId    === this.model.priceListId)         score++;
+
+      if (score > bestScore) { bestScore = score; best = cs; }
+    }
+
+    this.matchedRate = best;
+    this.recalculatePrices();
+    this.cdr.detectChanges();
+  }
+
+  /** Multiplies matched unit rates by ADL / CHD pax counts and fills all price fields */
+  recalculatePrices(): void {
+    if (!this.matchedRate) return;
+
+    const adl = this.model.adl || 0;
+    const chd = this.model.chd || 0;
+    const r   = this.matchedRate;
+
+    // Store base (gross) selling before discount
+    this.baseSellingEGP = (adl * (r.sellingAdlEGP || 0)) + (chd * (r.sellingChdEGP || 0));
+    this.baseSellingUSD = (adl * (r.sellingAdlUSD || 0)) + (chd * (r.sellingChdUSD || 0));
+    this.baseSellingEUR = (adl * (r.sellingAdlEUR || 0)) + (chd * (r.sellingChdEUR || 0));
+    this.baseSellingGBP = (adl * (r.sellingAdlGBP || 0)) + (chd * (r.sellingChdGBP || 0));
+
+    this.model.costEGP = (adl * (r.costAdlEGP || 0)) + (chd * (r.costChdEGP || 0));
+    this.model.costUSD = (adl * (r.costAdlUSD || 0)) + (chd * (r.costChdUSD || 0));
+    this.model.costEUR = (adl * (r.costAdlEUR || 0)) + (chd * (r.costChdEUR || 0));
+    this.model.costGBP = (adl * (r.costAdlGBP || 0)) + (chd * (r.costChdGBP || 0));
+
+    // Apply any existing discount on top of new base prices
+    this.applyDiscount();
+    this.cdr.detectChanges();
+  }
+
+  /** Called when any discount field changes — subtracts discount from base selling */
+  onDiscountChange(): void {
+    this.applyDiscount();
+    this.cdr.detectChanges();
+  }
+
+  private applyDiscount(): void {
+    // Always subtract discount from base selling (base = 0 means no rate matched, selling stays 0)
+    this.model.sellingEGP = Math.max(0, this.baseSellingEGP - (this.model.discountEGP || 0));
+    this.model.sellingUSD = Math.max(0, this.baseSellingUSD - (this.model.discountUSD || 0));
+    this.model.sellingEUR = Math.max(0, this.baseSellingEUR - (this.model.discountEUR || 0));
+    this.model.sellingGBP = Math.max(0, this.baseSellingGBP - (this.model.discountGBP || 0));
   }
 
   // ============ SEARCH ============
@@ -149,7 +227,10 @@ export class EntryTransactionComponent implements OnInit {
     this.model.transactionDate = this.currentDate;
     this.model.revenueDate = this.currentDate;
     this.model.refundDate = this.currentDate;
-    
+    // Reset base selling
+    this.baseSellingEGP = 0; this.baseSellingUSD = 0;
+    this.baseSellingEUR = 0; this.baseSellingGBP = 0;
+    this.matchedRate = null;
     this.isEdit = false;
     this.isModalOpen = true;
   }
@@ -164,6 +245,13 @@ export class EntryTransactionComponent implements OnInit {
           if (this.model.transactionDate) this.model.transactionDate = this.model.transactionDate.split('T')[0];
           if (this.model.revenueDate) this.model.revenueDate = this.model.revenueDate.split('T')[0];
           if (this.model.refundDate) this.model.refundDate = this.model.refundDate.split('T')[0];
+
+          // Initialize base selling = current selling + any existing discount (restore gross value)
+          this.baseSellingEGP = (this.model.sellingEGP || 0) + (this.model.discountEGP || 0);
+          this.baseSellingUSD = (this.model.sellingUSD || 0) + (this.model.discountUSD || 0);
+          this.baseSellingEUR = (this.model.sellingEUR || 0) + (this.model.discountEUR || 0);
+          this.baseSellingGBP = (this.model.sellingGBP || 0) + (this.model.discountGBP || 0);
+          this.matchedRate = null;
           
           this.isEdit = true;
           this.isModalOpen = true;
@@ -177,6 +265,10 @@ export class EntryTransactionComponent implements OnInit {
   closeModal(): void {
     this.isModalOpen = false;
     this.saving = false;
+    this.matchedRate = null;
+    this.baseSellingEGP = 0; this.baseSellingUSD = 0;
+    this.baseSellingEUR = 0; this.baseSellingGBP = 0;
+    this.cdr.detectChanges();
   }
 
   // ============ SAVE ============
