@@ -254,13 +254,25 @@ export class EntryTrafficComponent implements OnInit {
       ? this.codeService.updateEntryTransactionGuide(this.guideModel.id, payload)
       : this.codeService.createEntryTransactionGuide(payload);
 
+    const isEdit = this.isEditGuide && !!this.guideModel.id;
+    const editId = this.guideModel.id;
+    const guideName = this.guides.find(g => g.id === this.guideModel.guideId)?.guideName || '';
+
     obs.subscribe({
-      next: () => {
+      next: (saved: EntryTransactionGuide) => {
         this.savingGuide = false;
+        if (isEdit) {
+          const idx = this.assignedGuides.findIndex(g => g.id === editId);
+          if (idx !== -1) {
+            this.assignedGuides[idx] = { ...saved, guideName: saved.guideName || guideName };
+          }
+        } else {
+          this.assignedGuides = [...this.assignedGuides, { ...saved, guideName: saved.guideName || guideName }];
+        }
         this.isEditGuide = false;
         this.guideModel = this.emptyGuideModel();
         this.guideSearchTerm = '';
-        this.loadAssignedGuides();
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.savingGuide = false;
@@ -278,8 +290,12 @@ export class EntryTrafficComponent implements OnInit {
 
   onDeleteGuideConfirmed(): void {
     if (this.deleteGuideTarget?.id) {
-      this.codeService.deleteEntryTransactionGuide(this.deleteGuideTarget.id).subscribe({
-        next: () => { this.loadAssignedGuides(); },
+      const deletedId = this.deleteGuideTarget.id;
+      this.codeService.deleteEntryTransactionGuide(deletedId).subscribe({
+        next: () => {
+          this.assignedGuides = this.assignedGuides.filter(g => g.id !== deletedId);
+          this.cdr.detectChanges();
+        },
         error: (err) => { console.error(err); alert('Failed to delete guide assignment.'); }
       });
     }

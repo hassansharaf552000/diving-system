@@ -259,7 +259,11 @@
 
       <div class="guide-form-group">
         <label>Duty</label>
-        <input type="text" [(ngModel)]="guideModel.guideDuty" placeholder="e.g. Full Day">
+        <select [(ngModel)]="guideModel.guideDuty">
+          <option value="">-- Select --</option>
+          <option value="snorkeling">Snorkeling</option>
+          <option value="diving">Diving</option>
+        </select>
       </div>
 
       <div class="guide-form-group" style="max-width:140px">

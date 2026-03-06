@@ -209,6 +209,20 @@ tr.row-selected td {
     box-sizing: border-box;
     &:focus { border-color: var(--dm-accent); }
   }
+
+  select {
+    padding: 7px 10px;
+    border: 1px solid var(--dm-border);
+    border-radius: var(--dm-radius-sm);
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--dm-surface);
+    color: var(--dm-text);
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    &:focus { border-color: var(--dm-accent); }
+  }
 }
 
 .guide-form-actions {
