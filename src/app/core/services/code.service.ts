@@ -8,7 +8,7 @@ import {
   Rep, TransportationType, TransportationSupplier,
   TransportationCost, Voucher, ExcursionCostSelling,
   EntryTransaction, CodeDefinition, EntryTraffic,
-  EntryRevenueResponse
+  EntryRevenueResponse, EntryTransactionGuide
 } from '../interfaces/code.interfaces';
 
 @Injectable({ providedIn: 'root' })
@@ -175,6 +175,20 @@ export class CodeService {
 
   deletePayEntryRevenue(id: number, payload: any): Observable<any> {
     return this.http.patch(`${this.api}/api/EntryRevenue/${id}/deletepay`, payload);
+  }
+
+  // ========== ENTRY TRANSACTION GUIDES ==========
+  getEntryTransactionGuides(entryTransactionId: number): Observable<EntryTransactionGuide[]> {
+    return this.http.get<EntryTransactionGuide[]>(`${this.api}/api/EntryTransactionGuides?entryTransactionId=${entryTransactionId}`);
+  }
+  createEntryTransactionGuide(data: any): Observable<EntryTransactionGuide> {
+    return this.http.post<EntryTransactionGuide>(`${this.api}/api/EntryTransactionGuides`, data);
+  }
+  updateEntryTransactionGuide(id: number, data: any): Observable<EntryTransactionGuide> {
+    return this.http.put<EntryTransactionGuide>(`${this.api}/api/EntryTransactionGuides/${id}`, data);
+  }
+  deleteEntryTransactionGuide(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.api}/api/EntryTransactionGuides/${id}`);
   }
 
   // ========== CODES (Menu definitions) ==========

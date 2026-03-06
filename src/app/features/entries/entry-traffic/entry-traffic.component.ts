@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import {
-  EntryTraffic, Excursion, PriceList, Agent, Hotel,
+  EntryTraffic, EntryTransactionGuide, Excursion, Guide, PriceList, Agent, Hotel,
   Nationality, ExcursionSupplier, Boat, TransportationSupplier
 } from '../../../core/interfaces/code.interfaces';
 import { CodeService } from '../../../core/services/code.service';
@@ -37,11 +37,31 @@ export class EntryTrafficComponent implements OnInit {
   excursionSuppliers: ExcursionSupplier[] = [];
   boats: Boat[] = [];
   transportationSuppliers: TransportationSupplier[] = [];
+  guides: Guide[] = [];
 
   // Data
   trafficData: EntryTraffic[] = [];
   totals: any = {};
   loading = false;
+  selectedRow: EntryTraffic | null = null;
+
+  // ===== Guide Assignment Modal =====
+  isGuideModalOpen = false;
+  guideModalTitle = '';
+  activeTransactionId: number | null = null;
+  assignedGuides: EntryTransactionGuide[] = [];
+  loadingGuides = false;
+  savingGuide = false;
+  isEditGuide = false;
+  guideModel: { id?: number; guideId: number | undefined; guideDuty: string; costGuideEGP: number } = this.emptyGuideModel();
+
+  // Searchable guide dropdown
+  guideSearchTerm = '';
+  showGuideDrop = false;
+
+  // Guide delete confirm
+  showDeleteGuideConfirm = false;
+  deleteGuideTarget: EntryTransactionGuide | null = null;
 
   constructor(
     private codeService: CodeService,
@@ -71,7 +91,8 @@ export class EntryTrafficComponent implements OnInit {
       nationalities: this.codeService.getNationalities(),
       excursionSuppliers: this.codeService.getExcursionSuppliers(),
       boats: this.codeService.getBoats(),
-      transportationSuppliers: this.codeService.getTransportationSuppliers()
+      transportationSuppliers: this.codeService.getTransportationSuppliers(),
+      guides: this.codeService.getGuides()
     }).subscribe({
       next: (res) => {
         this.excursions = res.excursions;
@@ -82,6 +103,7 @@ export class EntryTrafficComponent implements OnInit {
         this.excursionSuppliers = res.excursionSuppliers;
         this.boats = res.boats;
         this.transportationSuppliers = res.transportationSuppliers;
+        this.guides = res.guides;
         this.loading = false;
         this.cdr.detectChanges();
       },
@@ -98,6 +120,7 @@ export class EntryTrafficComponent implements OnInit {
       next: (res: any) => {
         this.trafficData = res?.rows || res || [];
         this.totals = res?.totals || {};
+        this.selectedRow = null;
         this.loading = false;
         this.cdr.detectChanges();
       },
@@ -125,6 +148,7 @@ export class EntryTrafficComponent implements OnInit {
     this.setDefaultDates();
     this.trafficData = [];
     this.totals = {};
+    this.selectedRow = null;
     this.cdr.detectChanges();
   }
 
@@ -143,5 +167,132 @@ export class EntryTrafficComponent implements OnInit {
 
   get totalCount(): number {
     return this.totals?.count || 0;
+  }
+
+  // ============ GUIDE ASSIGNMENT ============
+
+  get filteredGuides(): Guide[] {
+    if (!this.guideSearchTerm) return this.guides;
+    const term = this.guideSearchTerm.toLowerCase();
+    return this.guides.filter(g => g.guideName.toLowerCase().includes(term));
+  }
+
+  openGuideModal(row: EntryTraffic): void {
+    this.activeTransactionId = row['entryTransactionId'] ?? null;
+    if (!this.activeTransactionId) { alert('No transaction ID for this row.'); return; }
+    this.guideModalTitle = `Assign Guides — ${row['voucherNumber'] || ''} ${row.excursionName || ''}`.trim();
+    this.isEditGuide = false;
+    this.guideModel = this.emptyGuideModel();
+    this.guideSearchTerm = '';
+    this.showGuideDrop = false;
+    this.isGuideModalOpen = true;
+    this.loadAssignedGuides();
+  }
+
+  closeGuideModal(): void {
+    this.isGuideModalOpen = false;
+    this.activeTransactionId = null;
+    this.assignedGuides = [];
+    this.guideModel = this.emptyGuideModel();
+    this.isEditGuide = false;
+    this.guideSearchTerm = '';
+  }
+
+  loadAssignedGuides(): void {
+    if (!this.activeTransactionId) return;
+    this.loadingGuides = true;
+    this.codeService.getEntryTransactionGuides(this.activeTransactionId).subscribe({
+      next: (data) => {
+        this.assignedGuides = data;
+        this.loadingGuides = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => { console.error(err); this.loadingGuides = false; this.cdr.detectChanges(); }
+    });
+  }
+
+  selectGuide(g: Guide): void {
+    this.guideModel.guideId = g.id;
+    this.guideSearchTerm = g.guideName;
+    this.showGuideDrop = false;
+    this.cdr.detectChanges();
+  }
+
+  onGuideInputBlur(): void {
+    setTimeout(() => { this.showGuideDrop = false; this.cdr.detectChanges(); }, 200);
+  }
+
+  openEditGuide(ag: EntryTransactionGuide): void {
+    this.isEditGuide = true;
+    this.guideModel = { id: ag.id, guideId: ag.guideId, guideDuty: ag.guideDuty || '', costGuideEGP: ag.costGuideEGP || 0 };
+    const found = this.guides.find(g => g.id === ag.guideId);
+    this.guideSearchTerm = found?.guideName || ag.guideName || '';
+    this.showGuideDrop = false;
+    this.cdr.detectChanges();
+  }
+
+  cancelEditGuide(): void {
+    this.isEditGuide = false;
+    this.guideModel = this.emptyGuideModel();
+    this.guideSearchTerm = '';
+  }
+
+  saveGuide(): void {
+    if (!this.guideModel.guideId) { alert('Please select a guide.'); return; }
+    if (!this.activeTransactionId) return;
+    this.savingGuide = true;
+
+    const payload = {
+      entryTransactionId: this.activeTransactionId,
+      guideId: this.guideModel.guideId,
+      guideDuty: this.guideModel.guideDuty,
+      costGuideEGP: this.guideModel.costGuideEGP,
+      recordBy: ''
+    };
+
+    const obs = this.isEditGuide && this.guideModel.id
+      ? this.codeService.updateEntryTransactionGuide(this.guideModel.id, payload)
+      : this.codeService.createEntryTransactionGuide(payload);
+
+    obs.subscribe({
+      next: () => {
+        this.savingGuide = false;
+        this.isEditGuide = false;
+        this.guideModel = this.emptyGuideModel();
+        this.guideSearchTerm = '';
+        this.loadAssignedGuides();
+      },
+      error: (err) => {
+        this.savingGuide = false;
+        console.error(err);
+        alert('Failed to save guide: ' + (err.error?.message || err.message));
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  confirmDeleteGuide(ag: EntryTransactionGuide): void {
+    this.deleteGuideTarget = ag;
+    this.showDeleteGuideConfirm = true;
+  }
+
+  onDeleteGuideConfirmed(): void {
+    if (this.deleteGuideTarget?.id) {
+      this.codeService.deleteEntryTransactionGuide(this.deleteGuideTarget.id).subscribe({
+        next: () => { this.loadAssignedGuides(); },
+        error: (err) => { console.error(err); alert('Failed to delete guide assignment.'); }
+      });
+    }
+    this.showDeleteGuideConfirm = false;
+    this.deleteGuideTarget = null;
+  }
+
+  onDeleteGuideCancelled(): void {
+    this.showDeleteGuideConfirm = false;
+    this.deleteGuideTarget = null;
+  }
+
+  private emptyGuideModel() {
+    return { id: undefined as number | undefined, guideId: undefined as number | undefined, guideDuty: '', costGuideEGP: 0 };
   }
 }

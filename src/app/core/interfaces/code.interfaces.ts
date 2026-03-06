@@ -398,6 +398,10 @@ export interface EntryTraffic {
   roundType?: string;
   orderNumber?: string | number;
   
+  entryTransactionId?: number;
+  voucherNumber?: string;
+  transactionDate?: string;
+
   adl?: number;
   chd?: number;
   inf?: number;
@@ -405,6 +409,19 @@ export interface EntryTraffic {
   
   // fallback for any other properties returned
   [key: string]: any;
+}
+
+// ========== ENTRY TRANSACTION GUIDES ==========
+
+export interface EntryTransactionGuide {
+  id?: number;
+  entryTransactionId: number;
+  guideId: number;
+  guideName?: string;
+  guideDuty?: string;
+  costGuideEGP?: number;
+  recordBy?: string;
+  recordTime?: string;
 }
 
 // ========== ENTRY REVENUE ==========

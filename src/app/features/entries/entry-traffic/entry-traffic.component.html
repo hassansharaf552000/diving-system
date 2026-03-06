@@ -85,6 +85,9 @@
           <button class="btn-clear" (click)="clearFilter()" [disabled]="loading">
             ✕ Clear Filter
           </button>
+          <button class="btn-assign-guide" (click)="openGuideModal(selectedRow!)" [disabled]="!selectedRow" title="Select a row first, then click to assign guides">
+            👤 Assign Guide{{ selectedRow ? (' — ' + (selectedRow.excursionName || selectedRow.voucherNumber || 'Selected')) : '' }}
+          </button>
         </div>
       </div>
 
@@ -119,7 +122,10 @@
             <tr *ngIf="loading">
               <td colspan="20" class="empty-row">Loading data...</td>
             </tr>
-            <tr *ngFor="let row of trafficData">
+            <tr *ngFor="let row of trafficData"
+                [class.row-selected]="row === selectedRow"
+                (click)="selectedRow = row"
+                style="cursor:pointer">
               <td>{{ row.excursionName || '-' }}</td>
               <td>{{ row.agentName || '-' }}</td>
               <td>{{ row.priceListName || '-' }}</td>
@@ -215,3 +221,101 @@
     </div>
   </div>
 </div>
+
+<!-- ===== Guide Assignment Modal ===== -->
+<app-modal [title]="guideModalTitle" [isOpen]="isGuideModalOpen" (closed)="closeGuideModal()" size="medium">
+
+  <!-- Add / Edit Form -->
+  <div class="guide-form">
+    <h4 class="guide-form-title">{{ isEditGuide ? '✏️ Edit Guide Assignment' : '➕ Add Guide' }}</h4>
+
+    <div class="guide-form-row">
+      <!-- Searchable Guide Dropdown -->
+      <div class="guide-form-group">
+        <label>Guide *</label>
+        <div class="searchable-drop-wrap">
+          <input
+            type="text"
+            class="search-drop-input"
+            [(ngModel)]="guideSearchTerm"
+            placeholder="Type to search guide..."
+            (focus)="showGuideDrop = true"
+            (input)="showGuideDrop = true"
+            (blur)="onGuideInputBlur()"
+            autocomplete="off">
+          <div class="search-drop-list" *ngIf="showGuideDrop && filteredGuides.length > 0">
+            <div
+              class="search-drop-item"
+              *ngFor="let g of filteredGuides"
+              (mousedown)="selectGuide(g)">
+              {{ g.guideName }}
+            </div>
+          </div>
+          <div class="search-drop-empty" *ngIf="showGuideDrop && filteredGuides.length === 0">
+            No guides found
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-form-group">
+        <label>Duty</label>
+        <input type="text" [(ngModel)]="guideModel.guideDuty" placeholder="e.g. Full Day">
+      </div>
+
+      <div class="guide-form-group" style="max-width:140px">
+        <label>Cost EGP</label>
+        <input type="number" [(ngModel)]="guideModel.costGuideEGP" min="0" step="0.01">
+      </div>
+    </div>
+
+    <div class="guide-form-actions">
+      <button class="btn-save" (click)="saveGuide()" [disabled]="savingGuide">
+        {{ savingGuide ? '⏳ Saving...' : (isEditGuide ? '💾 Update' : '➕ Add') }}
+      </button>
+      <button class="btn-cancel-modal" *ngIf="isEditGuide" (click)="cancelEditGuide()">Cancel</button>
+    </div>
+  </div>
+
+  <hr style="margin: 14px 0; border:0; border-top: 1px dashed #ccc;">
+
+  <!-- Assigned Guides List -->
+  <div class="assigned-guides">
+    <div *ngIf="loadingGuides" class="guides-loading">Loading...</div>
+    <div *ngIf="!loadingGuides && assignedGuides.length === 0" class="guides-empty">No guides assigned yet.</div>
+    <table class="guides-table" *ngIf="!loadingGuides && assignedGuides.length > 0">
+      <thead>
+        <tr>
+          <th>Guide Name</th>
+          <th>Duty</th>
+          <th>Cost EGP</th>
+          <th style="width:70px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ag of assignedGuides">
+          <td>{{ ag.guideName }}</td>
+          <td>{{ ag.guideDuty || '-' }}</td>
+          <td class="num-cell">{{ ag.costGuideEGP | number:'1.2-2' }}</td>
+          <td>
+            <div class="actions-cell">
+              <button class="action-btn edit-btn" (click)="openEditGuide(ag)" title="Edit">✏️</button>
+              <button class="action-btn delete-btn" (click)="confirmDeleteGuide(ag)" title="Remove">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn-cancel-modal" (click)="closeGuideModal()">Close</button>
+  </div>
+</app-modal>
+
+<!-- Guide Delete Confirm -->
+<app-confirm-dialog
+  [isOpen]="showDeleteGuideConfirm"
+  [itemName]="'guide assignment for ' + (deleteGuideTarget?.guideName || '')"
+  (confirmed)="onDeleteGuideConfirmed()"
+  (cancelled)="onDeleteGuideCancelled()">
+</app-confirm-dialog>
