@@ -1,4 +1,4 @@
-<div class="code-page">
+﻿<div class="code-page">
   <div class="code-card">
     <!-- Toolbar -->
     <div class="code-toolbar">
@@ -17,7 +17,7 @@
       <div class="search-bar">
         <div class="table-search">
           <span class="search-icon">🔍</span>
-          <input type="text" [(ngModel)]="searchTerm" placeholder="Search transactions...">
+          <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" placeholder="Search transactions...">
         </div>
         <div class="filter-group">
           <input type="date" [(ngModel)]="searchFromDate" class="filter-input" placeholder="From Date">
@@ -46,7 +46,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let tx of filtered"
+            <tr *ngFor="let tx of paginatedItems"
                 [class.selected]="tx.treasuryTransactionId === selectedTransaction?.treasuryTransactionId"
                 (click)="selectTransaction(tx)">
               <td><span class="receipt-no">{{ tx.receiptNo }}</span></td>
@@ -73,7 +73,7 @@
       </div>
 
       <div class="table-footer">
-        <span class="records-info">Showing {{ filtered.length }} of {{ transactions.length }} records</span>
+        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
         <app-export-buttons [data]="filtered"></app-export-buttons>
       </div>
     </div>

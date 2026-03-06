@@ -141,7 +141,7 @@
             <tr *ngIf="loading">
               <td colspan="27" class="empty-row">Loading data...</td>
             </tr>
-            <tr *ngFor="let row of revenueData" (click)="selectRow(row)"
+            <tr *ngFor="let row of paginatedRevenueData" (click)="selectRow(row)"
               [class.selected]="selectedRow?.entryTransactionId === row.entryTransactionId"
               [class.row-paid]="row.isPaid">
               <td>{{ row.voucherNumber || '-' }}</td>
@@ -184,6 +184,11 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="table-footer">
+        <app-pagination [totalItems]="revenueData.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
       </div>
 
       <!-- Totals Footer -->

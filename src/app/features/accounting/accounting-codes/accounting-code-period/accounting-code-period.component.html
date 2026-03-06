@@ -1,4 +1,4 @@
-<div class="code-page">
+﻿<div class="code-page">
   <div class="code-card">
     <div class="code-toolbar">
       <div class="toolbar-left">
@@ -13,7 +13,7 @@
     <div class="code-table-wrap">
       <div class="table-search">
         <span class="search-icon">🔍</span>
-        <input type="text" [(ngModel)]="searchTerm" placeholder="Search periods...">
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" placeholder="Search periods...">
       </div>
       <table class="code-table">
         <thead>
@@ -26,7 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of filtered">
+          <tr *ngFor="let item of paginatedItems">
             <td><strong>{{ item.periodName }}</strong></td>
             <td>
               <span [class]="item.active ? 'status-active' : 'status-inactive'">
@@ -48,7 +48,7 @@
         </tbody>
       </table>
       <div class="table-footer">
-        <span class="records-info">Showing {{ filtered.length }} of {{ items.length }} records</span>
+        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
         <app-export-buttons [data]="filtered" importEndpoint="/api/CodePeriods/import" [columns]="['periodName','active']" resourceName="CodePeriods" (imported)="loadData()"></app-export-buttons>
       </div>
     </div>

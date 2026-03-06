@@ -1,4 +1,4 @@
-<div class="code-page">
+﻿<div class="code-page">
   <div class="code-card">
     <div class="code-toolbar">
       <div class="toolbar-left">
@@ -14,7 +14,7 @@
     <div class="code-table-wrap">
       <div class="table-search">
         <span class="search-icon">🔍</span>
-        <input type="text" [(ngModel)]="searchTerm" placeholder="Search accounts..."
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" placeholder="Search accounts..."
                (input)="onSearch()" (keyup.escape)="clearSearch()">
         <button *ngIf="searchTerm" class="clear-search-btn" (click)="clearSearch()">✕</button>
       </div>
@@ -32,7 +32,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of displayList" [class.level-row]="true"
+          <tr *ngFor="let item of paginatedDisplayList" [class.level-row]="true"
               [class.root-row]="item.level === 0">
             <td>
               <button *ngIf="!isSearching && (item.hasChildren || item.hasChildren === undefined)"
@@ -83,10 +83,7 @@
       </table>
 
       <div class="table-footer" style="display: flex; justify-content: space-between; align-items: center;">
-        <span class="records-info">
-          Showing {{ displayList.length }} records
-          <span *ngIf="isSearching"> (search results)</span>
-        </span>
+        <app-pagination [totalItems]="displayList.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
         <app-export-buttons [data]="displayList" importEndpoint="/api/OperationAccounts/import" [columns]="['accountNumber','accountName','parentId','isActive']" resourceName="OperationAccounts" (imported)="loadRoots()"></app-export-buttons>
       </div>
     </div>

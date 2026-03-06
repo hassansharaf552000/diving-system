@@ -8,6 +8,7 @@ import { SearchBoxComponent } from './components/search-box/search-box.component
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ExportButtonsComponent } from './components/export-buttons/export-buttons.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ToastComponent } from './components/toast/toast.component';
     SearchBoxComponent,
     ConfirmDialogComponent,
     ExportButtonsComponent,
-    ToastComponent
+    ToastComponent,
+    PaginationComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,7 @@ import { ToastComponent } from './components/toast/toast.component';
     ConfirmDialogComponent,
     ExportButtonsComponent,
     ToastComponent,
+    PaginationComponent,
     CommonModule,
     FormsModule
   ]

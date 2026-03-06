@@ -46,7 +46,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let c of counters"
+            <tr *ngFor="let c of paginatedCounters"
                 [class.selected]="c.treasuryCounterId === selectedCounter?.treasuryCounterId"
                 (click)="selectCounter(c)">
               <td>{{ c.counterDate | date:'dd/MM/yyyy' }}</td>
@@ -68,7 +68,7 @@
       </div>
 
       <div class="table-footer">
-        <span class="records-info">Showing {{ counters.length }} records</span>
+        <app-pagination [totalItems]="counters.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
         <app-export-buttons [data]="counters"></app-export-buttons>
       </div>
     </div>

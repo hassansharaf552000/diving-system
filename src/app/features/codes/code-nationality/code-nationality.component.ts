@@ -11,6 +11,11 @@ export class CodeNationalityComponent implements OnInit {
   ngOnInit(): void { this.loadData(); }
   loadData(): void { this.svc.getNationalities().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Nationality[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.nationalityName || '').toLowerCase().includes(t)); }
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedItems() { const start = (this.currentPage - 1) * this.pageSize; return this.filtered.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
   openAdd(): void { this.model = { nationalityName: '', isActive: false }; this.isEdit = false; this.isModalOpen = true; }
   openEdit(item: Nationality): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }

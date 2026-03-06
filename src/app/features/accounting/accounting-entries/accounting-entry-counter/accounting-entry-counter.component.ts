@@ -67,6 +67,12 @@ export class AccountingEntryCounterComponent implements OnInit {
   }
 
   // ============ SEARCH ============
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedCounters() { const start = (this.currentPage - 1) * this.pageSize; return this.counters.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
+
   searchCounters(): void {
     this.svc.searchTreasuryCounters(
       this.searchCurrency || undefined,

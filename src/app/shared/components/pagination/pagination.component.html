@@ -1,0 +1,22 @@
+<div class="pagination-bar">
+  <div class="page-size-selector">
+    <label>Show</label>
+    <select [(ngModel)]="internalPageSize" (change)="onPageSizeChanged()">
+      <option *ngFor="let s of pageSizes" [ngValue]="s">{{ s }}</option>
+    </select>
+    <label>entries</label>
+  </div>
+
+  <span class="records-info">{{ recordsInfo }}</span>
+
+  <div class="pagination-controls">
+    <button class="page-btn nav-btn" (click)="goToPage(1)" [disabled]="currentPage === 1" title="First">«</button>
+    <button class="page-btn nav-btn" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" title="Previous">‹</button>
+    <ng-container *ngFor="let p of pageNumbers">
+      <button *ngIf="p !== -1" class="page-btn" [class.active]="p === currentPage" (click)="goToPage(p)">{{ p }}</button>
+      <span *ngIf="p === -1" class="ellipsis">…</span>
+    </ng-container>
+    <button class="page-btn nav-btn" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" title="Next">›</button>
+    <button class="page-btn nav-btn" (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages" title="Last">»</button>
+  </div>
+</div>

@@ -13,6 +13,11 @@ export class CodeHotelComponent implements OnInit {
   ngOnInit(): void { this.loadData(); this.svc.getHotelDestinations().subscribe(d => { this.destinations = d; this.cdr.detectChanges(); }); }
   loadData(): void { this.svc.getHotels().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Hotel[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.hotelName || '').toLowerCase().includes(t) || (i.destinationName || '').toLowerCase().includes(t)); }
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedItems() { const start = (this.currentPage - 1) * this.pageSize; return this.filtered.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
   get lookups(): LookupMap {
     return {
       destinationId: this.destinations.filter(d => d.id != null).map(d => ({ id: d.id!, name: d.destinationName }))

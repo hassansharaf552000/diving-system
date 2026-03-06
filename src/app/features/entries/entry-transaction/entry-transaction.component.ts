@@ -234,8 +234,15 @@ export class EntryTransactionComponent implements OnInit {
     this.model.sellingGBP = Math.max(0, this.baseSellingGBP - (this.model.discountGBP || 0));
   }
 
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedTransactions() { const start = (this.currentPage - 1) * this.pageSize; return this.transactions.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
+
   // ============ SEARCH ============
   searchTransactions(): void {
+    this.currentPage = 1;
     this.svc.getEntryTransactions(this.searchTerm || undefined).subscribe({
       next: (data: EntryTransaction[]) => {
         this.transactions = data;

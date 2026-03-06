@@ -95,8 +95,15 @@ export class EntryRevenueComponent implements OnInit {
     });
   }
 
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedRevenueData() { const start = (this.currentPage - 1) * this.pageSize; return this.revenueData.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
+
   viewRevenue() {
     this.loading = true;
+    this.currentPage = 1;
     this.selectedRow = null; // reset selection
     this.codeService.getEntryRevenue(this.filters).subscribe({
       next: (res: any) => {

@@ -122,7 +122,7 @@
             <tr *ngIf="loading">
               <td colspan="20" class="empty-row">Loading data...</td>
             </tr>
-            <tr *ngFor="let row of trafficData"
+            <tr *ngFor="let row of paginatedTrafficData"
                 [class.row-selected]="row === selectedRow"
                 (click)="selectedRow = row"
                 style="cursor:pointer">
@@ -152,6 +152,11 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="table-footer">
+        <app-pagination [totalItems]="trafficData.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
       </div>
 
       <!-- Totals Footer -->

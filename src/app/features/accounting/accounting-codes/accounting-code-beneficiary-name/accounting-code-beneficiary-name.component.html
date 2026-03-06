@@ -1,4 +1,4 @@
-<div class="code-page">
+﻿<div class="code-page">
   <div class="code-card">
     <div class="code-toolbar">
       <div class="toolbar-left">
@@ -13,7 +13,7 @@
     <div class="code-table-wrap">
       <div class="table-search">
         <span class="search-icon">🔍</span>
-        <input type="text" [(ngModel)]="searchTerm" placeholder="Search beneficiaries...">
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" placeholder="Search beneficiaries...">
       </div>
       <table class="code-table">
         <thead>
@@ -29,7 +29,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of filtered">
+          <tr *ngFor="let item of paginatedItems">
             <td><strong>{{ item.beneficiaryName }}</strong></td>
             <td>{{ item.beneficiaryTypeName }}</td>
             <td>{{ item.commercialName }}</td>
@@ -54,7 +54,7 @@
         </tbody>
       </table>
       <div class="table-footer">
-        <span class="records-info">Showing {{ filtered.length }} of {{ items.length }} records</span>
+        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
         <app-export-buttons [data]="filtered" importEndpoint="/api/CodeBeneficiaryNames/import" [columns]="['beneficiaryName','beneficiaryTypeId','commercialName','vatNo','fileNo','address','phone','active']" [lookups]="lookups" resourceName="CodeBeneficiaryNames" (imported)="loadData()"></app-export-buttons>
       </div>
     </div>

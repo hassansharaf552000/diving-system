@@ -13,6 +13,11 @@ export class CodeExcursionComponent implements OnInit {
   ngOnInit(): void { this.loadData(); this.svc.getExcursionSuppliers().subscribe(d => { this.suppliers = d; this.cdr.detectChanges(); }); }
   loadData(): void { this.svc.getExcursions().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): Excursion[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.excursionName || '').toLowerCase().includes(t) || (i.supplierName || '').toLowerCase().includes(t)); }
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedItems() { const start = (this.currentPage - 1) * this.pageSize; return this.filtered.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
   get lookups(): LookupMap {
     return {
       supplierId: this.suppliers.filter(s => s.id != null).map(s => ({ id: s.id!, name: s.supplierName }))

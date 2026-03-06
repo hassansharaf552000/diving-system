@@ -114,8 +114,15 @@ export class EntryTrafficComponent implements OnInit {
     });
   }
 
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedTrafficData() { const start = (this.currentPage - 1) * this.pageSize; return this.trafficData.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
+
   viewTraffic() {
     this.loading = true;
+    this.currentPage = 1;
     this.codeService.getEntryTraffic(this.filters).subscribe({
       next: (res: any) => {
         this.trafficData = res?.rows || res || [];

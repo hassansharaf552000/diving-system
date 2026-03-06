@@ -38,6 +38,12 @@ export class CodeAgentComponent implements OnInit {
     );
   }
 
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedItems() { const start = (this.currentPage - 1) * this.pageSize; return this.filtered.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
+
   /** Lookup map for the Excel template: nationalityId column → { id, name }[] */
   get lookups(): LookupMap {
     return {

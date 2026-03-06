@@ -1,4 +1,4 @@
-<div class="code-page">
+﻿<div class="code-page">
   <div class="code-card">
     <div class="code-toolbar">
       <div class="toolbar-left">
@@ -14,7 +14,7 @@
     <div class="code-table-wrap">
       <div class="table-search">
         <span class="search-icon">🔍</span>
-        <input type="text" [(ngModel)]="searchTerm" placeholder="Search transactions..."
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" placeholder="Search transactions..."
           (keyup.enter)="searchTransactions()">
       </div>
 
@@ -31,7 +31,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let tx of transactions">
+          <tr *ngFor="let tx of paginatedTransactions">
             <td><strong>{{ tx.voucherNumber }}</strong></td>
             <td>{{ tx.transactionDate | date:'dd-MM-yyyy' }}</td>
             <td>{{ tx.repName }}</td>
@@ -52,7 +52,7 @@
       </table>
 
       <div class="table-footer">
-        <span class="records-info">Showing {{ transactions.length }} records</span>
+        <app-pagination [totalItems]="transactions.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
         <app-export-buttons [data]="transactions" [columns]="exportColumns"
           filename="entry_transactions"
           importEndpoint="/api/EntryTransactions/import"

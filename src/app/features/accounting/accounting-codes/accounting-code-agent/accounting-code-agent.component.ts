@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
 import { CodeAgent } from '../../../../core/interfaces/code.interfaces';
@@ -44,6 +44,11 @@ export class AccountingCodeAgentComponent implements OnInit {
       (i.recordBy || '').toLowerCase().includes(t)
     );
   }
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedItems() { const start = (this.currentPage - 1) * this.pageSize; return this.filtered.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
 
   openAdd(): void {
     this.model = { agentName: '', active: true };

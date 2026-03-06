@@ -429,6 +429,12 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedItems() { const start = (this.currentPage - 1) * this.pageSize; return this.filtered.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
+
   // ============ COMPUTED ============
   get filtered(): TreasuryTransaction[] {
     return this.transactions;

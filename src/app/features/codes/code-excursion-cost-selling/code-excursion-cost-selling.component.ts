@@ -23,6 +23,11 @@ export class CodeExcursionCostSellingComponent implements OnInit {
   }
   loadData(): void { this.svc.getExcursionCostSellings().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
   get filtered(): ExcursionCostSelling[] { if (!this.searchTerm) return this.items; const t = this.searchTerm.toLowerCase(); return this.items.filter(i => (i.excursionName || '').toLowerCase().includes(t) || (i.agentName || '').toLowerCase().includes(t) || (i.destinationName || '').toLowerCase().includes(t) || (i.supplierName || '').toLowerCase().includes(t) || (i.priceListName || '').toLowerCase().includes(t)); }
+  pageSize = 10;
+  currentPage = 1;
+  get paginatedItems() { const start = (this.currentPage - 1) * this.pageSize; return this.filtered.slice(start, start + this.pageSize); }
+  onPageChange(page: number): void { this.currentPage = page; }
+  onPageSizeChange(size: number): void { this.pageSize = size; this.currentPage = 1; }
   getExcursionName(id?: number): string { if (id == null) return ''; return this.excursions.find(e => e.id === id)?.excursionName || ''; }
   getPriceListName(id?: number): string { if (id == null) return ''; return this.priceLists.find(p => p.id === id)?.priceListName || ''; }
   getDestinationName(id?: number): string { if (id == null) return ''; return this.destinations.find(d => d.id === id)?.destinationName || ''; }
