@@ -133,12 +133,23 @@
 
 .totals-bar {
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 20px;
   margin-top: 20px;
   background: var(--dm-surface);
   padding: 15px;
   border-radius: var(--dm-radius-sm);
   border: 1px solid var(--dm-border);
+
+  .totals-group {
+    display: flex;
+    gap: 15px;
+    
+    &.financial {
+      border-left: 2px dashed var(--dm-border);
+      padding-left: 20px;
+    }
+  }
 
   .total-box {
     display: flex;
@@ -150,6 +161,28 @@
     border: 1px solid var(--dm-border);
     border-radius: 4px;
     min-width: 80px;
+
+    &.financial {
+      min-width: 100px;
+      background: rgba(39, 174, 96, 0.05); /* slightly green */
+      border-color: rgba(39, 174, 96, 0.2);
+
+      .label {
+        color: #27ae60;
+      }
+      .value {
+        color: #27ae60;
+      }
+
+      &.cost {
+        background: rgba(235, 87, 87, 0.05); /* slightly red */
+        border-color: rgba(235, 87, 87, 0.2);
+
+        .label, .value {
+          color: #eb5757;
+        }
+      }
+    }
 
     .label {
       font-size: 11px;

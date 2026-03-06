@@ -1,4 +1,255 @@
-<div class="entry-placeholder">
-  <h2>💰 Revenue</h2>
-  <p>Revenue entry — coming soon</p>
+<div class="code-page">
+  <div class="code-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>💰 Entry Revenue</h2>
+      </div>
+    </div>
+
+    <div class="code-table-wrap">
+      <!-- Search / Filter panel -->
+      <div class="filters-panel">
+        <div class="filters-grid">
+          <div class="filter-item">
+            <label>From Date:</label>
+            <input type="date" [(ngModel)]="filters.fromDate" class="filter-input">
+          </div>
+          <div class="filter-item">
+            <label>To Date:</label>
+            <input type="date" [(ngModel)]="filters.toDate" class="filter-input">
+          </div>
+          <div class="filter-item">
+            <label>From Voucher:</label>
+            <input type="number" [(ngModel)]="filters.fromVoucher" class="filter-input">
+          </div>
+          <div class="filter-item">
+            <label>To Voucher:</label>
+            <input type="number" [(ngModel)]="filters.toVoucher" class="filter-input">
+          </div>
+          <div class="filter-item">
+            <label>Rep:</label>
+            <select [(ngModel)]="filters.repId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of reps" [ngValue]="item.id">{{ item.repName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Agent:</label>
+            <select [(ngModel)]="filters.agentId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of agents" [ngValue]="item.id">{{ item.agentName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Hotel:</label>
+            <select [(ngModel)]="filters.hotelId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of hotels" [ngValue]="item.id">{{ item.hotelName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Excursion:</label>
+            <select [(ngModel)]="filters.excursionId" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option *ngFor="let item of excursions" [ngValue]="item.id">{{ item.excursionName }}</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>Payment:</label>
+            <select [(ngModel)]="filters.isPaid" class="filter-select">
+              <option [ngValue]="undefined">-- Select --</option>
+              <option [ngValue]="true">Paid</option>
+              <option [ngValue]="false">Not Paid</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filters-actions payment-actions-row">
+          <div class="payment-controls" *ngIf="selectedRow">
+            <div class="payment-info">
+              <strong>Voucher:</strong> {{ selectedRow.voucherNumber }} |
+              <strong>Status:</strong>
+              <span [class.status-paid]="selectedRow.isPaid" [class.status-unpaid]="!selectedRow.isPaid">
+                {{ selectedRow.isPaid ? 'PAID' : 'NOT PAID' }}
+              </span>
+            </div>
+            <div class="payment-inputs">
+              <label>Date:</label>
+              <input type="date" [(ngModel)]="paymentDate" class="filter-input small-input" [disabled]="paymentLoading">
+              <label>REC #:</label>
+              <input type="text" [(ngModel)]="paymentRecNo" class="filter-input small-input"
+                [disabled]="paymentLoading">
+
+              <button class="btn-pay" *ngIf="!selectedRow.isPaid" (click)="pay()" [disabled]="paymentLoading">
+                Add Payment
+              </button>
+              <button class="btn-update" *ngIf="selectedRow.isPaid" (click)="updatePay()" [disabled]="paymentLoading">
+                Update
+              </button>
+              <button class="btn-delete" *ngIf="selectedRow.isPaid" (click)="deletePay()" [disabled]="paymentLoading">
+                Delete
+              </button>
+            </div>
+          </div>
+
+          <div class="main-actions">
+            <button class="btn-filter" (click)="viewRevenue()" [disabled]="loading || paymentLoading">
+              {{ loading ? '⏳ Loading...' : '🔍 View' }}
+            </button>
+            <button class="btn-clear" (click)="clearFilter()" [disabled]="loading || paymentLoading">
+              ✕ Clear Filter
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Traffic Table -->
+      <div class="table-scroll-wrap">
+        <table class="code-table traffic-table">
+          <thead>
+            <tr>
+              <th>Voucher</th>
+              <th>Voucher Date</th>
+              <th>Excursion Name</th>
+              <th>Price List</th>
+              <th>Hotel Name</th>
+              <th>Room</th>
+              <th>Excursion Date</th>
+              <th>Excursion Suppl.</th>
+              <th>Rep Name</th>
+              <th>Agent Name</th>
+              <th>Note</th>
+              <th>Payment Type</th>
+              <th>Is Paid</th>
+              <th>Paid Date</th>
+              <th>Paid Rec #</th>
+              <th>ADL</th>
+              <th>CHD</th>
+              <th>INF</th>
+              <th>Count</th>
+              <th>Sell EGP</th>
+              <th>Sell USD</th>
+              <th>Sell EUR</th>
+              <th>Sell GBP</th>
+              <th>Rev. EGP</th>
+              <th>Rev. USD</th>
+              <th>Rev. EUR</th>
+              <th>Rev. GBP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="27" class="empty-row">Loading data...</td>
+            </tr>
+            <tr *ngFor="let row of revenueData" (click)="selectRow(row)"
+              [class.selected]="selectedRow?.entryTransactionId === row.entryTransactionId"
+              [class.row-paid]="row.isPaid">
+              <td>{{ row.voucherNumber || '-' }}</td>
+              <td>{{ row.transactionDate | date:'dd/MM/yyyy' }}</td>
+              <td>{{ row.excursionName || '-' }}</td>
+              <td>{{ row.priceListName || '-' }}</td>
+              <td>{{ row.hotelName || '-' }}</td>
+              <td>{{ row.roomNumber || '-' }}</td>
+              <td>{{ row.revenueDate | date:'dd/MM/yyyy' }}</td>
+              <td>{{ row.excursionSupplierName || '-' }}</td>
+              <td>{{ row.repName || '-' }}</td>
+              <td>{{ row.agentName || '-' }}</td>
+              <td>{{ row.note || '-' }}</td>
+              <td>{{ row.paymentType || '-' }}</td>
+              <td class="centered">
+                <span class="badge" [class.badge-paid]="row.isPaid" [class.badge-unpaid]="!row.isPaid">
+                  {{ row.isPaid ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>{{ row.paymentDate | date:'dd/MM/yyyy' }}</td>
+              <td>{{ row.paymentRecNo || '-' }}</td>
+
+              <td class="num-cell-center">{{ row.adl || 0 }}</td>
+              <td class="num-cell-center">{{ row.chd || 0 }}</td>
+              <td class="num-cell-center">{{ row.inf || 0 }}</td>
+              <td class="num-cell-center sum-count">{{ (row.adl || 0) + (row.chd || 0) + (row.inf || 0) }}</td>
+
+              <td class="num-cell">{{ row.sellingEGP | number:'1.2-2' }}</td>
+              <td class="num-cell">{{ row.sellingUSD | number:'1.2-2' }}</td>
+              <td class="num-cell">{{ row.sellingEUR | number:'1.2-2' }}</td>
+              <td class="num-cell">{{ row.sellingGBP | number:'1.2-2' }}</td>
+
+              <td class="num-cell">{{ row.revenueEGP | number:'1.2-2' }}</td>
+              <td class="num-cell">{{ row.revenueUSD | number:'1.2-2' }}</td>
+              <td class="num-cell">{{ row.revenueEUR | number:'1.2-2' }}</td>
+              <td class="num-cell">{{ row.revenueGBP | number:'1.2-2' }}</td>
+            </tr>
+            <tr *ngIf="!loading && revenueData.length === 0">
+              <td colspan="27" class="empty-row">No revenue data found for the selected filters</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Totals Footer -->
+      <div class="totals-bar" *ngIf="revenueData.length > 0">
+        <div class="totals-group">
+          <div class="total-box highlight">
+            <span class="label">Voucher Count</span>
+            <span class="value">{{ totals.countVoucher }}</span>
+          </div>
+        </div>
+
+        <div class="totals-group financial"
+          *ngIf="totals.totalSellingUSD || totals.totalSellingEGP || totals.totalSellingEUR || totals.totalSellingGBP">
+          <div class="total-box financial" *ngIf="totals.totalSellingEGP">
+            <span class="label">Sell EGP</span>
+            <span class="value">{{ totals.totalSellingEGP | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial" *ngIf="totals.totalSellingUSD">
+            <span class="label">Sell USD</span>
+            <span class="value">{{ totals.totalSellingUSD | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial" *ngIf="totals.totalSellingEUR">
+            <span class="label">Sell EUR</span>
+            <span class="value">{{ totals.totalSellingEUR | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial" *ngIf="totals.totalSellingGBP">
+            <span class="label">Sell GBP</span>
+            <span class="value">{{ totals.totalSellingGBP | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <div class="totals-group financial cost"
+          *ngIf="totals.totalRevenueUSD || totals.totalRevenueEGP || totals.totalRevenueEUR || totals.totalRevenueGBP">
+          <div class="total-box financial cost" *ngIf="totals.totalRevenueEGP">
+            <span class="label">Rev EGP</span>
+            <span class="value">{{ totals.totalRevenueEGP | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial cost" *ngIf="totals.totalRevenueUSD">
+            <span class="label">Rev USD</span>
+            <span class="value">{{ totals.totalRevenueUSD | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial cost" *ngIf="totals.totalRevenueEUR">
+            <span class="label">Rev EUR</span>
+            <span class="value">{{ totals.totalRevenueEUR | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial cost" *ngIf="totals.totalRevenueGBP">
+            <span class="label">Rev GBP</span>
+            <span class="value">{{ totals.totalRevenueGBP | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
+
+<!-- Update Confirmation -->
+<app-confirm-dialog [isOpen]="showUpdateConfirm" title="Confirm Update Payment"
+  message="Are you sure you want to update the payment information?"
+  [itemName]="'Voucher ' + (selectedRow?.voucherNumber || '')" confirmText="Update" theme="primary" icon="💾"
+  warningText="" (confirmed)="onUpdateConfirmed()" (cancelled)="showUpdateConfirm = false">
+</app-confirm-dialog>
+
+<!-- Delete Confirmation -->
+<app-confirm-dialog [isOpen]="showDeleteConfirm" title="Confirm Delete Payment"
+  message="Are you sure you want to delete the payment information?"
+  [itemName]="'Voucher ' + (selectedRow?.voucherNumber || '')" confirmText="Delete" (confirmed)="onDeleteConfirmed()"
+  (cancelled)="showDeleteConfirm = false">
+</app-confirm-dialog>

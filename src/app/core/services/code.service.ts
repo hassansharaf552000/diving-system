@@ -7,7 +7,8 @@ import {
   Hotel, HotelDestination, Nationality, PriceList, Rate,
   Rep, TransportationType, TransportationSupplier,
   TransportationCost, Voucher, ExcursionCostSelling,
-  EntryTransaction, CodeDefinition, EntryTraffic
+  EntryTransaction, CodeDefinition, EntryTraffic,
+  EntryRevenueResponse
 } from '../interfaces/code.interfaces';
 
 @Injectable({ providedIn: 'root' })
@@ -150,6 +151,30 @@ export class CodeService {
     });
     const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
     return this.http.get<EntryTraffic[]>(`${this.api}/api/EntryTraffic${queryString}`);
+  }
+
+  // ========== ENTRY REVENUE ==========
+  getEntryRevenue(params: any): Observable<EntryRevenueResponse> {
+    const queryParams: string[] = [];
+    Object.keys(params).forEach(key => {
+      if (params[key] !== null && params[key] !== undefined && params[key] !== '') {
+        queryParams.push(`${key}=${encodeURIComponent(params[key])}`);
+      }
+    });
+    const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    return this.http.get<EntryRevenueResponse>(`${this.api}/api/EntryRevenue${queryString}`);
+  }
+
+  payEntryRevenue(id: number, payload: any): Observable<any> {
+    return this.http.patch(`${this.api}/api/EntryRevenue/${id}/pay`, payload);
+  }
+
+  updatePayEntryRevenue(id: number, payload: any): Observable<any> {
+    return this.http.patch(`${this.api}/api/EntryRevenue/${id}/updatepay`, payload);
+  }
+
+  deletePayEntryRevenue(id: number, payload: any): Observable<any> {
+    return this.http.patch(`${this.api}/api/EntryRevenue/${id}/deletepay`, payload);
   }
 
   // ========== CODES (Menu definitions) ==========

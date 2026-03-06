@@ -7,6 +7,7 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ExportButtonsComponent } from './components/export-buttons/export-buttons.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ExportButtonsComponent } from './components/export-buttons/export-butto
     DataTableComponent,
     SearchBoxComponent,
     ConfirmDialogComponent,
-    ExportButtonsComponent
+    ExportButtonsComponent,
+    ToastComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import { ExportButtonsComponent } from './components/export-buttons/export-butto
     SearchBoxComponent,
     ConfirmDialogComponent,
     ExportButtonsComponent,
+    ToastComponent,
     CommonModule,
     FormsModule
   ]

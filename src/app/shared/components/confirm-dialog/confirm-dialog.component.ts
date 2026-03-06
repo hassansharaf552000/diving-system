@@ -13,6 +13,9 @@ export class ConfirmDialogComponent {
   @Input() itemName = '';
   @Input() confirmText = 'Delete';
   @Input() cancelText = 'Cancel';
+  @Input() theme: 'danger' | 'primary' | 'warning' | 'success' = 'danger';
+  @Input() warningText: string = 'This action cannot be undone.';
+  @Input() icon = '🗑️';
   @Output() confirmed = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 

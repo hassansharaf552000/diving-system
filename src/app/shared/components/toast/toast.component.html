@@ -1,0 +1,18 @@
+<div class="toast-container" *ngIf="(toasts$ | async) as toasts">
+    <div class="toast-item" *ngFor="let toast of toasts" [ngClass]="'toast-' + toast.type" (click)="remove(toast.id)">
+        <div class="toast-icon">
+            <ng-container [ngSwitch]="toast.type">
+                <span *ngSwitchCase="'success'">✅</span>
+                <span *ngSwitchCase="'error'">❌</span>
+                <span *ngSwitchCase="'warning'">⚠️</span>
+                <span *ngSwitchCase="'info'">ℹ️</span>
+            </ng-container>
+        </div>
+        <div class="toast-message">
+            {{ toast.message }}
+        </div>
+        <div class="toast-close">
+            ✕
+        </div>
+    </div>
+</div>

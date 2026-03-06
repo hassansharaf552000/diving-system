@@ -21,6 +21,8 @@ export class ExportButtonsComponent {
    * and on import the chosen name will be swapped for the id automatically.
    */
   @Input() lookups: LookupMap = {};
+  /** Path to a static template file in /assets (e.g. 'EntryTransactions_Import_Template.xlsx'). When set, the Template button downloads this file instead of generating one. */
+  @Input() templateAsset: string = '';
   @Output() imported = new EventEmitter<void>();
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -72,6 +74,13 @@ export class ExportButtonsComponent {
   downloading = false;
 
   downloadTemplate(): void {
+    if (this.templateAsset) {
+      const link = document.createElement('a');
+      link.href = this.templateAsset;
+      link.download = this.templateAsset;
+      link.click();
+      return;
+    }
     if (!this.columns || this.columns.length === 0) {
       alert('No columns defined for this template.');
       return;

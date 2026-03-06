@@ -267,6 +267,16 @@ export interface EntryTransaction {
   costGBP?: number;
   costFree?: boolean;
   
+  // New fields for Export/Traffic
+  boatId?: number | null;
+  boatName?: string | null;
+  carTypeId?: number | null;
+  carTypeName?: string | null;
+  transportationSupplierId?: number | null;
+  transportationSupplierName?: string | null;
+  round?: string | null;
+  orderNumber?: string | null;
+
   active?: boolean;
   recordBy?: string;
   recordTime?: string;
@@ -395,6 +405,58 @@ export interface EntryTraffic {
   
   // fallback for any other properties returned
   [key: string]: any;
+}
+
+// ========== ENTRY REVENUE ==========
+
+export interface EntryRevenueRow {
+  entryTransactionId?: number;
+  voucherNumber?: string;
+  transactionDate?: string;
+  repName?: string;
+  agentName?: string;
+  excursionName?: string;
+  hotelName?: string;
+  priceListName?: string;
+  excursionSupplierName?: string;
+  revenueDate?: string;
+  revenueRecNo?: string;
+  revenueEGP?: number;
+  revenueUSD?: number;
+  revenueEUR?: number;
+  revenueGBP?: number;
+  revenueFree?: boolean;
+  sellingEGP?: number;
+  sellingUSD?: number;
+  sellingEUR?: number;
+  sellingGBP?: number;
+  sellingFree?: boolean;
+  paymentType?: string;
+  isPaid?: boolean;
+  paymentDate?: string;
+  paymentRecNo?: string;
+  roomNumber?: string;
+  note?: string;
+  adl?: number;
+  chd?: number;
+  inf?: number;
+}
+
+export interface EntryRevenueTotals {
+  countVoucher?: number;
+  totalRevenueEGP?: number;
+  totalRevenueUSD?: number;
+  totalRevenueEUR?: number;
+  totalRevenueGBP?: number;
+  totalSellingEGP?: number;
+  totalSellingUSD?: number;
+  totalSellingEUR?: number;
+  totalSellingGBP?: number;
+}
+
+export interface EntryRevenueResponse {
+  rows: EntryRevenueRow[];
+  totals: EntryRevenueTotals;
 }
 
 // ========== TREASURY TRANSACTIONS ==========

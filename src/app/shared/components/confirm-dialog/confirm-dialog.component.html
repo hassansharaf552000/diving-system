@@ -1,9 +1,12 @@
 <div class="confirm-overlay" *ngIf="isOpen" (click)="onCancel()">
   <div class="confirm-card" (click)="$event.stopPropagation()">
-    <!-- Danger Icon -->
-    <div class="danger-icon-wrap">
-      <div class="danger-icon">
-        <span class="icon-exclaim">!</span>
+    <!-- Icon -->
+    <div class="icon-wrap" [ngClass]="'theme-' + theme">
+      <div class="circle-icon">
+        <span class="icon-char" *ngIf="theme === 'danger'">!</span>
+        <span class="icon-char" *ngIf="theme === 'primary'">?</span>
+        <span class="icon-char" *ngIf="theme === 'warning'">⚠️</span>
+        <span class="icon-char" *ngIf="theme === 'success'">✓</span>
       </div>
     </div>
 
@@ -11,14 +14,16 @@
     <h3 class="confirm-title">{{ title }}</h3>
     <p class="confirm-message">{{ message }}</p>
     <p class="confirm-item" *ngIf="itemName">
-      <span class="item-label">{{ itemName }}</span>
+      <span class="item-label" [ngClass]="'label-' + theme">{{ itemName }}</span>
     </p>
-    <p class="confirm-warning">This action cannot be undone.</p>
+    <p class="confirm-warning" *ngIf="warningText">{{ warningText }}</p>
 
     <!-- Buttons -->
     <div class="confirm-actions">
       <button class="btn-cancel" (click)="onCancel()">{{ cancelText }}</button>
-      <button class="btn-confirm" (click)="onConfirm()">🗑️ {{ confirmText }}</button>
+      <button class="btn-confirm" [ngClass]="'btn-' + theme" (click)="onConfirm()">
+        <span *ngIf="icon">{{ icon }} </span>{{ confirmText }}
+      </button>
     </div>
   </div>
 </div>

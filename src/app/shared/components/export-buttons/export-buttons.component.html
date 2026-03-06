@@ -4,8 +4,8 @@
     <span>📊 Export</span>
   </button>
 
-  <!-- Download Template (only shown when importEndpoint is set) -->
-  <button *ngIf="importEndpoint" class="btn-export btn-template" (click)="downloadTemplate()" [disabled]="downloading" title="Download Excel Template">
+  <!-- Download Template (shown when importEndpoint or templateAsset is set) -->
+  <button *ngIf="importEndpoint || templateAsset" class="btn-export btn-template" (click)="downloadTemplate()" [disabled]="downloading" title="Download Excel Template">
     <span>{{ downloading ? '⏳ Generating...' : '📋 Template' }}</span>
   </button>
 

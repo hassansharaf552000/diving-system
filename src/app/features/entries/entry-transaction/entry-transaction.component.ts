@@ -38,6 +38,20 @@ export class EntryTransactionComponent implements OnInit {
   private baseSellingEUR = 0; private baseSellingGBP = 0;
   paymentTypes: string[] = ['Cash', 'Credit', 'FOC'];
 
+  // Excel Columns
+  exportColumns: string[] = [
+    'voucherNumber', 'transactionDate', 'boatName', 'repName', 'agentName', 
+    'nationalityName', 'hotelName', 'roomNumber', 'pickUpTime', 'hotelDestinationName',
+    'excursionName', 'excursionSupplierName', 'priceListName', 'paymentType',
+    'adl', 'chd', 'inf', 'note',
+    'sellingUSD', 'sellingEGP', 'sellingEUR', 'sellingGBP',
+    'costUSD', 'costEGP', 'costEUR', 'costGBP',
+    'revenueDate', 'revenueRecNo', 'revenueUSD', 'revenueEGP', 'revenueEUR', 'revenueGBP',
+    'refundDate', 'refundRecNo', 'refundUSD', 'refundEGP', 'refundEUR', 'refundGBP',
+    'discountUSD', 'discountEGP', 'discountEUR', 'discountGBP',
+    'carTypeName', 'transportationSupplierName', 'round', 'orderNumber'
+  ];
+
   // Modal state
   isModalOpen = false;
   isEdit = false;
@@ -417,6 +431,15 @@ export class EntryTransactionComponent implements OnInit {
       costGBP: 0,
       costFree: false,
       
+      boatId: null,
+      boatName: null,
+      carTypeId: null,
+      carTypeName: null,
+      transportationSupplierId: null,
+      transportationSupplierName: null,
+      round: null,
+      orderNumber: null,
+
       active: true,
       recordBy: ''
     };

@@ -40,6 +40,7 @@ export class EntryTrafficComponent implements OnInit {
 
   // Data
   trafficData: EntryTraffic[] = [];
+  totals: any = {};
   loading = false;
 
   constructor(
@@ -94,8 +95,9 @@ export class EntryTrafficComponent implements OnInit {
   viewTraffic() {
     this.loading = true;
     this.codeService.getEntryTraffic(this.filters).subscribe({
-      next: (res) => {
-        this.trafficData = res || [];
+      next: (res: any) => {
+        this.trafficData = res?.rows || res || [];
+        this.totals = res?.totals || {};
         this.loading = false;
         this.cdr.detectChanges();
       },
@@ -122,23 +124,24 @@ export class EntryTrafficComponent implements OnInit {
     };
     this.setDefaultDates();
     this.trafficData = [];
+    this.totals = {};
     this.cdr.detectChanges();
   }
 
   // Derived Summary Counts
   get totalADL(): number {
-    return this.trafficData.reduce((sum, item) => sum + (item.adl || 0), 0);
+    return this.totals?.totalADL || 0;
   }
 
   get totalCHD(): number {
-    return this.trafficData.reduce((sum, item) => sum + (item.chd || 0), 0);
+    return this.totals?.totalCHD || 0;
   }
 
   get totalINF(): number {
-    return this.trafficData.reduce((sum, item) => sum + (item.inf || 0), 0);
+    return this.totals?.totalINF || 0;
   }
 
   get totalCount(): number {
-    return this.trafficData.reduce((sum, item) => sum + ((item.adl || 0) + (item.chd || 0) + (item.inf || 0)), 0);
+    return this.totals?.count || 0;
   }
 }

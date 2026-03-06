@@ -149,22 +149,66 @@
       </div>
 
       <!-- Totals Footer -->
-      <div class="totals-bar" *ngIf="trafficData.length > 0">
-        <div class="total-box">
-          <span class="label">ADL</span>
-          <span class="value">{{ totalADL }}</span>
+      <div class="totals-bar" *ngIf="trafficData.length > 0 || totalCount > 0">
+        <div class="totals-group">
+          <div class="total-box">
+            <span class="label">ADL</span>
+            <span class="value">{{ totalADL }}</span>
+          </div>
+          <div class="total-box">
+            <span class="label">CHD</span>
+            <span class="value">{{ totalCHD }}</span>
+          </div>
+          <div class="total-box">
+            <span class="label">INF</span>
+            <span class="value">{{ totalINF }}</span>
+          </div>
+          <div class="total-box highlight">
+            <span class="label">Count</span>
+            <span class="value">{{ totalCount }}</span>
+          </div>
         </div>
-        <div class="total-box">
-          <span class="label">CHD</span>
-          <span class="value">{{ totalCHD }}</span>
+
+        <div class="totals-group financial" *ngIf="totals?.totalSellingUSD > 0 || totals?.totalSellingEGP > 0 || totals?.totalSellingEUR > 0 || totals?.totalSellingGBP > 0">
+          <div class="total-box financial" *ngIf="totals?.totalSellingEGP > 0">
+            <span class="label">Sell EGP</span>
+            <span class="value">{{ totals.totalSellingEGP | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial" *ngIf="totals?.totalSellingUSD > 0">
+            <span class="label">Sell USD</span>
+            <span class="value">{{ totals.totalSellingUSD | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial" *ngIf="totals?.totalSellingEUR > 0">
+            <span class="label">Sell EUR</span>
+            <span class="value">{{ totals.totalSellingEUR | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial" *ngIf="totals?.totalSellingGBP > 0">
+            <span class="label">Sell GBP</span>
+            <span class="value">{{ totals.totalSellingGBP | number:'1.2-2' }}</span>
+          </div>
         </div>
-        <div class="total-box">
-          <span class="label">INF</span>
-          <span class="value">{{ totalINF }}</span>
-        </div>
-        <div class="total-box highlight">
-          <span class="label">Count</span>
-          <span class="value">{{ totalCount }}</span>
+
+        <div class="totals-group financial cost" *ngIf="totals?.totalCostSupplierEGP > 0 || totals?.totalCostSupplierUSD > 0 || totals?.totalCostSupplierEUR > 0 || totals?.totalCostSupplierGBP > 0 || totals?.totalCostGuideEGP > 0">
+          <div class="total-box financial cost" *ngIf="totals?.totalCostSupplierEGP > 0">
+            <span class="label">Cost Suppl EGP</span>
+            <span class="value">{{ totals.totalCostSupplierEGP | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial cost" *ngIf="totals?.totalCostSupplierUSD > 0">
+            <span class="label">Cost Suppl USD</span>
+            <span class="value">{{ totals.totalCostSupplierUSD | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial cost" *ngIf="totals?.totalCostSupplierEUR > 0">
+            <span class="label">Cost Suppl EUR</span>
+            <span class="value">{{ totals.totalCostSupplierEUR | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial cost" *ngIf="totals?.totalCostSupplierGBP > 0">
+            <span class="label">Cost Suppl GBP</span>
+            <span class="value">{{ totals.totalCostSupplierGBP | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-box financial cost" *ngIf="totals?.totalCostGuideEGP > 0">
+            <span class="label">Cost Guide EGP</span>
+            <span class="value">{{ totals.totalCostGuideEGP | number:'1.2-2' }}</span>
+          </div>
         </div>
       </div>
 
