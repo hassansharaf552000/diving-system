@@ -8,7 +8,8 @@ import {
   Rep, TransportationType, TransportationSupplier,
   TransportationCost, Voucher, ExcursionCostSelling,
   EntryTransaction, CodeDefinition, EntryTraffic,
-  EntryRevenueResponse, EntryTransactionGuide
+  EntryRevenueResponse, EntryTransactionGuide,
+  EntryBoatCostResponse, EntryBoatCostPreviewRequest, EntryBoatCostSaveRequest
 } from '../interfaces/code.interfaces';
 
 @Injectable({ providedIn: 'root' })
@@ -189,6 +190,26 @@ export class CodeService {
   }
   deleteEntryTransactionGuide(id: number): Observable<void> {
     return this.http.delete<void>(`${this.api}/api/EntryTransactionGuides/${id}`);
+  }
+
+  // ========== ENTRY BOAT COSTS ==========
+  previewEntryBoatCosts(data: EntryBoatCostPreviewRequest): Observable<EntryBoatCostResponse> {
+    return this.http.post<EntryBoatCostResponse>(`${this.api}/api/EntryBoatCosts/preview`, data);
+  }
+  saveEntryBoatCosts(data: EntryBoatCostSaveRequest): Observable<any> {
+    return this.http.post(`${this.api}/api/EntryBoatCosts/save-from-preview`, data);
+  }
+  getEntryBoatCosts(): Observable<EntryBoatCostResponse> {
+    return this.http.get<EntryBoatCostResponse>(`${this.api}/api/EntryBoatCosts`);
+  }
+  getEntryBoatCost(id: number): Observable<EntryBoatCostResponse> {
+    return this.http.get<EntryBoatCostResponse>(`${this.api}/api/EntryBoatCosts/${id}`);
+  }
+  updateEntryBoatCost(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.api}/api/EntryBoatCosts/${id}`, data);
+  }
+  deleteEntryBoatCost(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.api}/api/EntryBoatCosts/${id}`);
   }
 
   // ========== CODES (Menu definitions) ==========

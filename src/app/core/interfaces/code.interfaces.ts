@@ -580,3 +580,96 @@ export interface TreasuryCounterCreate {
   lines: { denomination: number; count: number }[];
   recordBy?: string;
 }
+
+// ========== ENTRY BOAT COST ==========
+
+export interface EntryBoatCostRow {
+  entryTransactionId?: number;
+  voucherNumber?: string;
+  repName?: string;
+  agentName?: string;
+  nationalityName?: string;
+  hotelName?: string;
+  destinationName?: string;
+  roomNumber?: string;
+  pickUpTime?: string;
+  excursionName?: string;
+  excursionSupplierName?: string;
+  priceListName?: string;
+  boatName?: string;
+  adl?: number;
+  chd?: number;
+  inf?: number;
+  costBoatSupplierEGP?: number;
+  costBoatSupplierUSD?: number;
+  lunchEGP?: number;
+  permissionEGP?: number;
+  permissionUSD?: number;
+  rentEquipEGP?: number;
+  trulyEGP?: number;
+  extraServiceEGP?: number;
+  othersEGP?: number;
+}
+
+export interface EntryBoatCostTotals {
+  totalADL?: number;
+  totalCHD?: number;
+  totalINF?: number;
+  totalCount?: number;
+  totalCostBoatSupplierEGP?: number;
+  totalCostBoatSupplierUSD?: number;
+  totalLunchEGP?: number;
+  totalPermissionEGP?: number;
+  totalPermissionUSD?: number;
+  totalRentEquipEGP?: number;
+  totalTrulyEGP?: number;
+  totalExtraServiceEGP?: number;
+  totalOthersEGP?: number;
+}
+
+export interface EntryBoatCostAgentSummary {
+  agentName?: string;
+  totalADL?: number;
+  totalCHD?: number;
+  totalINF?: number;
+  sumEGP?: number;
+}
+
+export interface EntryBoatCostResponse {
+  rows: EntryBoatCostRow[];
+  totals: EntryBoatCostTotals;
+  agentSummary: EntryBoatCostAgentSummary[];
+  rateBoatSupplierEGP?: number;
+  rateBoatSupplierUSD?: number;
+  rateLunchEGP?: number;
+  ratePermissionEGP?: number;
+  ratePermissionUSD?: number;
+  rateRentEquipEGP?: number;
+  rateTrulyEGP?: number;
+  rateExtraServiceEGP?: number;
+  rateOthersEGP?: number;
+}
+
+export interface EntryBoatCostPreviewRequest {
+  fromDate: string;
+  toDate: string;
+  boatId?: number;
+  excursionId?: number;
+  excursionSupplierId?: number;
+  priceListId?: number;
+  nationalityId?: number;
+  agentId?: number;
+  costBoatSupplierEGP?: number;
+  costBoatSupplierUSD?: number;
+  lunchEGP?: number;
+  permissionEGP?: number;
+  permissionUSD?: number;
+  rentEquipEGP?: number;
+  trulyEGP?: number;
+  extraServiceEGP?: number;
+  othersEGP?: number;
+}
+
+export interface EntryBoatCostSaveRequest extends EntryBoatCostPreviewRequest {
+  recordBy?: string;
+}
