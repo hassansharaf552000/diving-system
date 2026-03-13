@@ -60,7 +60,7 @@ export class ReportFilterComponent implements OnInit {
   guides: Guide[] = [];
   reps: Rep[] = [];
 
-  guideDuties = ['Main Guide', 'Assistant Guide']; // Default common duties
+  guideDuties = ['Snorkeling', 'Diving']; // Correct options for guide duty
 
   constructor(private codeService: CodeService) {}
 
