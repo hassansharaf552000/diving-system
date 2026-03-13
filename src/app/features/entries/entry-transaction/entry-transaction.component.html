@@ -14,8 +14,8 @@
     <div class="code-table-wrap">
       <div class="table-search">
         <span class="search-icon">🔍</span>
-        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" placeholder="Search transactions..."
-          (keyup.enter)="searchTransactions()">
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1"
+          placeholder="Search transactions..." (keyup.enter)="searchTransactions()">
       </div>
 
       <table class="code-table">
@@ -52,11 +52,10 @@
       </table>
 
       <div class="table-footer">
-        <app-pagination [totalItems]="transactions.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
-        <app-export-buttons [data]="transactions" [columns]="exportColumns"
-          filename="entry_transactions"
-          importEndpoint="/api/EntryTransactions/import"
-          templateAsset="EntryTransactions_Import_Template.xlsx"
+        <app-pagination [totalItems]="transactions.length" [currentPage]="currentPage" [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
+        <app-export-buttons [data]="transactions" [columns]="exportColumns" filename="entry_transactions"
+          importEndpoint="/api/EntryTransactions/import" templateAsset="EntryTransactions_Import_Template.xlsx"
           (imported)="searchTransactions()"></app-export-buttons>
       </div>
     </div>
@@ -83,34 +82,26 @@
       <div class="form-row">
         <div class="form-group">
           <label>Rep</label>
-          <select [(ngModel)]="model.repId" (change)="onRepChange()">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let r of reps" [ngValue]="r.id">{{ r.repName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.repId" (ngModelChange)="onRepChange()" [items]="reps"
+            labelKey="repName" valueKey="id" placeholder="Search rep..."></app-searchable-select>
         </div>
         <div class="form-group">
           <label>Agent</label>
-          <select [(ngModel)]="model.agentId" (change)="onAgentChange()">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let a of agents" [ngValue]="a.id">{{ a.agentName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.agentId" (ngModelChange)="onAgentChange()" [items]="agents"
+            labelKey="agentName" valueKey="id" placeholder="Search agent..."></app-searchable-select>
         </div>
         <div class="form-group">
           <label>Nationality</label>
-          <select [(ngModel)]="model.nationalityId">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let n of nationalities" [ngValue]="n.id">{{ n.nationalityName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.nationalityId" [items]="nationalities" labelKey="nationalityName"
+            valueKey="id" placeholder="Search nationality..."></app-searchable-select>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label>Hotel</label>
-          <select [(ngModel)]="model.hotelId">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let h of hotels" [ngValue]="h.id">{{ h.hotelName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.hotelId" [items]="hotels" labelKey="hotelName" valueKey="id"
+            placeholder="Search hotel..."></app-searchable-select>
         </div>
         <div class="form-group" style="display: flex; gap: 5px;">
           <div style="flex: 1;">
@@ -124,20 +115,18 @@
         </div>
         <div class="form-group">
           <label>Destination</label>
-          <select [(ngModel)]="model.hotelDestinationId" (change)="onFilterChange()">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let d of destinations" [ngValue]="d.id">{{ d.destinationName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.hotelDestinationId" (ngModelChange)="onFilterChange()"
+            [items]="destinations" labelKey="destinationName" valueKey="id"
+            placeholder="Search destination..."></app-searchable-select>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label>Excursion</label>
-          <select [(ngModel)]="model.excursionId" (change)="onExcursionChange()">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let e of excursions" [ngValue]="e.id">{{ e.excursionName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.excursionId" (ngModelChange)="onExcursionChange()"
+            [items]="excursions" labelKey="excursionName" valueKey="id"
+            placeholder="Search excursion..."></app-searchable-select>
         </div>
         <div class="form-group" style="display: flex; gap: 5px;">
           <div style="flex: 1;">
@@ -158,17 +147,14 @@
       <div class="form-row">
         <div class="form-group">
           <label>Supplier</label>
-          <select [(ngModel)]="model.excursionSupplierId" (change)="onFilterChange()">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let s of suppliers" [ngValue]="s.id">{{ s.supplierName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.excursionSupplierId" (ngModelChange)="onFilterChange()"
+            [items]="suppliers" labelKey="supplierName" valueKey="id"
+            placeholder="Search supplier..."></app-searchable-select>
         </div>
         <div class="form-group">
           <label>Price List</label>
-          <select [(ngModel)]="model.priceListId" (change)="onFilterChange()">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let p of priceLists" [ngValue]="p.id">{{ p.priceListName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.priceListId" (ngModelChange)="onFilterChange()" [items]="priceLists"
+            labelKey="priceListName" valueKey="id" placeholder="Search price list..."></app-searchable-select>
         </div>
         <div class="form-group">
           <label>Payment</label>

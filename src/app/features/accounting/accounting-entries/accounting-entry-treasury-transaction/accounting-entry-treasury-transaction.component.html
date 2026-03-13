@@ -17,7 +17,8 @@
       <div class="search-bar">
         <div class="table-search">
           <span class="search-icon">🔍</span>
-          <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" placeholder="Search transactions...">
+          <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1"
+            placeholder="Search transactions...">
         </div>
         <div class="filter-group">
           <input type="date" [(ngModel)]="searchFromDate" class="filter-input" placeholder="From Date">
@@ -47,8 +48,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let tx of paginatedItems"
-                [class.selected]="tx.treasuryTransactionId === selectedTransaction?.treasuryTransactionId"
-                (click)="selectTransaction(tx)">
+              [class.selected]="tx.treasuryTransactionId === selectedTransaction?.treasuryTransactionId"
+              (click)="selectTransaction(tx)">
               <td><span class="receipt-no">{{ tx.receiptNo }}</span></td>
               <td>
                 <span class="type-badge" [ngClass]="getBadgeClass(tx)">{{ tx.transactionTypeName }}</span>
@@ -61,7 +62,8 @@
               <td>
                 <div class="actions-cell">
                   <button class="action-btn edit-btn" (click)="openEdit(tx); $event.stopPropagation()">✏️</button>
-                  <button class="action-btn delete-btn" (click)="confirmDelete(tx); $event.stopPropagation()">🗑️</button>
+                  <button class="action-btn delete-btn"
+                    (click)="confirmDelete(tx); $event.stopPropagation()">🗑️</button>
                 </div>
               </td>
             </tr>
@@ -73,7 +75,8 @@
       </div>
 
       <div class="table-footer">
-        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
+        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
         <app-export-buttons [data]="filtered"></app-export-buttons>
       </div>
     </div>
@@ -83,7 +86,8 @@
       <div class="lines-header">
         <h3>📋 Lines for: {{ selectedTransaction.receiptNo }} — {{ selectedTransaction.transactionTypeName }}</h3>
         <div class="lines-meta">
-          <span class="meta-item"><strong>Beneficiary:</strong> {{ selectedTransaction.beneficiaryNameValue || '-' }}</span>
+          <span class="meta-item"><strong>Beneficiary:</strong> {{ selectedTransaction.beneficiaryNameValue || '-'
+            }}</span>
           <span class="meta-item"><strong>Account:</strong> {{ selectedTransaction.paymentDefaultAccountName }}</span>
         </div>
       </div>
@@ -142,15 +146,19 @@
       </table>
       <div class="lines-footer">
         <span class="footer-info"><strong>RecordBy:</strong> {{ selectedTransaction.recordBy }}</span>
-        <span class="footer-info"><strong>Record Time:</strong> {{ selectedTransaction.recordTime | date:'dd/MM/yyyy hh:mm a' }}</span>
-        <span class="footer-info" *ngIf="selectedTransaction.luRecordBy"><strong>LU RecordBy:</strong> {{ selectedTransaction.luRecordBy }}</span>
-        <span class="footer-info" *ngIf="selectedTransaction.luRecordTime"><strong>LU Record Time:</strong> {{ selectedTransaction.luRecordTime | date:'dd/MM/yyyy hh:mm a' }}</span>
+        <span class="footer-info"><strong>Record Time:</strong> {{ selectedTransaction.recordTime | date:'dd/MM/yyyy
+          hh:mm a' }}</span>
+        <span class="footer-info" *ngIf="selectedTransaction.luRecordBy"><strong>LU RecordBy:</strong> {{
+          selectedTransaction.luRecordBy }}</span>
+        <span class="footer-info" *ngIf="selectedTransaction.luRecordTime"><strong>LU Record Time:</strong> {{
+          selectedTransaction.luRecordTime | date:'dd/MM/yyyy hh:mm a' }}</span>
       </div>
     </div>
   </div>
 
   <!-- Add/Edit Modal -->
-  <app-modal [title]="isEdit ? 'Edit Treasury Transaction' : 'Add New Treasury Transaction'" [isOpen]="isModalOpen" (closed)="closeModal()" size="large">
+  <app-modal [title]="isEdit ? 'Edit Treasury Transaction' : 'Add New Treasury Transaction'" [isOpen]="isModalOpen"
+    (closed)="closeModal()" size="large">
     <div class="modal-form">
 
       <!-- Info note -->
@@ -160,12 +168,8 @@
 
       <!-- Type Tab Buttons -->
       <div class="type-tabs">
-        <button
-          *ngFor="let t of transactionTypes"
-          class="type-tab"
-          [class.active]="selectedTypeDef.id === t.id"
-          [ngClass]="selectedTypeDef.id === t.id ? t.badgeClass : ''"
-          (click)="selectTypeDef(t)">
+        <button *ngFor="let t of transactionTypes" class="type-tab" [class.active]="selectedTypeDef.id === t.id"
+          [ngClass]="selectedTypeDef.id === t.id ? t.badgeClass : ''" (click)="selectTypeDef(t)">
           {{ t.name }}
         </button>
       </div>
@@ -187,17 +191,14 @@
       <div class="form-row">
         <div class="form-group">
           <label>Period</label>
-          <select [(ngModel)]="model.periodId">
-            <option [ngValue]="undefined">-- Select --</option>
-            <option *ngFor="let p of periods" [ngValue]="p.periodId">{{ p.periodName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.periodId" [items]="periods" labelKey="periodName"
+            valueKey="periodId" placeholder="Search period..."></app-searchable-select>
         </div>
         <div class="form-group">
           <label>Beneficiary Name</label>
-          <select [(ngModel)]="model.beneficiaryNameId">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let b of beneficiaryNames" [ngValue]="b.beneficiaryId">{{ b.beneficiaryName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.beneficiaryNameId" [items]="beneficiaryNames"
+            labelKey="beneficiaryName" valueKey="beneficiaryId"
+            placeholder="Search beneficiary..."></app-searchable-select>
         </div>
       </div>
       <div class="form-row">
@@ -221,10 +222,8 @@
         </div>
         <div class="form-group">
           <label>Default Account *</label>
-          <select [(ngModel)]="model.paymentDefaultAccountId">
-            <option [ngValue]="undefined">-- Select --</option>
-            <option *ngFor="let a of accounts" [ngValue]="a.id">{{ a.accountNumber }} - {{ a.accountName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.paymentDefaultAccountId" [items]="accounts" labelKey="accountName"
+            valueKey="id" placeholder="Search account..."></app-searchable-select>
         </div>
       </div>
       <div class="form-row">
@@ -286,44 +285,38 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Transaction' : '＋ Add Transaction' }}</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Transaction' : '＋ Add
+        Transaction' }}</button>
       <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
     </div>
   </app-modal>
 
   <!-- Add/Edit Line Modal -->
-  <app-modal [title]="isLineEdit ? 'Edit Transaction Line' : 'Add Transaction Line'" [isOpen]="isLineModalOpen" (closed)="closeLineModal()" size="medium">
+  <app-modal [title]="isLineEdit ? 'Edit Transaction Line' : 'Add Transaction Line'" [isOpen]="isLineModalOpen"
+    (closed)="closeLineModal()" size="medium">
     <div class="modal-form">
       <div class="form-row">
         <div class="form-group">
           <label>Account *</label>
-          <select [(ngModel)]="lineModel.accountId">
-            <option [ngValue]="undefined">-- Select --</option>
-            <option *ngFor="let a of accounts" [ngValue]="a.id">{{ a.accountNumber }} - {{ a.accountName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="lineModel.accountId" [items]="accounts" labelKey="accountName"
+            valueKey="id" placeholder="Search account..."></app-searchable-select>
         </div>
         <div class="form-group">
           <label>File Number</label>
-          <select [(ngModel)]="lineModel.fileNumberId">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let f of fileNumbers" [ngValue]="f.fileId">{{ f.fileNumber }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="lineModel.fileNumberId" [items]="fileNumbers" labelKey="fileNumber"
+            valueKey="fileId" placeholder="Search file number..."></app-searchable-select>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label>Cost Center</label>
-          <select [(ngModel)]="lineModel.costCenterId">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let c of costCenters" [ngValue]="c.costCenterId">{{ c.costCenterName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="lineModel.costCenterId" [items]="costCenters" labelKey="costCenterName"
+            valueKey="costCenterId" placeholder="Search cost center..."></app-searchable-select>
         </div>
         <div class="form-group">
           <label>Period</label>
-          <select [(ngModel)]="lineModel.periodId">
-            <option [ngValue]="undefined">-</option>
-            <option *ngFor="let p of periods" [ngValue]="p.periodId">{{ p.periodName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="lineModel.periodId" [items]="periods" labelKey="periodName"
+            valueKey="periodId" placeholder="Search period..."></app-searchable-select>
         </div>
       </div>
       <div class="form-row">
@@ -344,18 +337,16 @@
       <div class="form-row amount-row">
         <div class="form-group">
           <label>Debit</label>
-          <input type="number" [(ngModel)]="lineModel.debit" step="0.01"
-                 [disabled]="debitDisabled"
-                 [class.field-disabled]="debitDisabled">
+          <input type="number" [(ngModel)]="lineModel.debit" step="0.01" [disabled]="debitDisabled"
+            [class.field-disabled]="debitDisabled">
           <div class="field-hint" [class.hint-error]="debitDisabled" [class.hint-ok]="!debitDisabled">
             {{ debitHint }}
           </div>
         </div>
         <div class="form-group">
           <label>Credit</label>
-          <input type="number" [(ngModel)]="lineModel.credit" step="0.01"
-                 [disabled]="creditDisabled"
-                 [class.field-disabled]="creditDisabled">
+          <input type="number" [(ngModel)]="lineModel.credit" step="0.01" [disabled]="creditDisabled"
+            [class.field-disabled]="creditDisabled">
           <div class="field-hint" [class.hint-error]="creditDisabled" [class.hint-ok]="!creditDisabled">
             {{ creditHint }}
           </div>
@@ -369,11 +360,8 @@
   </app-modal>
 
   <!-- Delete Confirmation -->
-  <app-confirm-dialog
-    [isOpen]="showDeleteConfirm"
-    [itemName]="'Transaction ' + (deleteTarget?.receiptNo || '')"
-    (confirmed)="onDeleteConfirmed()"
-    (cancelled)="onDeleteCancelled()">
+  <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="'Transaction ' + (deleteTarget?.receiptNo || '')"
+    (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()">
   </app-confirm-dialog>
 
 </div>

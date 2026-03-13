@@ -46,14 +46,18 @@
         </tbody>
       </table>
       <div class="table-footer">
-        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
-        <app-export-buttons [data]="filtered" importEndpoint="/api/Agents/import" [columns]="['agentCode','agentName','nationalityName','vatNo','fileNo','email','address','phone']" [lookups]="lookups" resourceName="Agents" (imported)="loadData()"></app-export-buttons>
+        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
+        <app-export-buttons [data]="filtered" importEndpoint="/api/Agents/import"
+          [columns]="['agentCode','agentName','nationalityName','vatNo','fileNo','email','address','phone']"
+          [lookups]="lookups" resourceName="Agents" (imported)="loadData()"></app-export-buttons>
       </div>
     </div>
   </div>
 
   <!-- Add/Edit Modal -->
-  <app-modal [title]="isEdit ? 'Edit Agent' : 'Add New Agent'" [isOpen]="isModalOpen" (closed)="closeModal()" size="medium">
+  <app-modal [title]="isEdit ? 'Edit Agent' : 'Add New Agent'" [isOpen]="isModalOpen" (closed)="closeModal()"
+    size="medium">
     <div class="modal-form">
       <div class="form-row">
         <div class="form-group">
@@ -68,10 +72,8 @@
       <div class="form-row">
         <div class="form-group">
           <label>Nationality</label>
-          <select [(ngModel)]="model.nationalityId">
-            <option [ngValue]="null">-- Select Nationality --</option>
-            <option *ngFor="let n of nationalities" [ngValue]="n.id">{{ n.nationalityName }}</option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.nationalityId" [items]="nationalities" labelKey="nationalityName"
+            valueKey="id" placeholder="Search nationality..."></app-searchable-select>
         </div>
         <div class="form-group">
           <label>E-Mail</label>
@@ -100,16 +102,14 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Agent' : '＋ Add Agent' }}</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Agent' : '＋ Add Agent'
+        }}</button>
       <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
     </div>
   </app-modal>
 
   <!-- Delete Confirmation -->
-  <app-confirm-dialog
-    [isOpen]="showDeleteConfirm"
-    [itemName]="deleteTarget?.agentName || ''"
-    (confirmed)="onDeleteConfirmed()"
-    (cancelled)="onDeleteCancelled()">
+  <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="deleteTarget?.agentName || ''"
+    (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()">
   </app-confirm-dialog>
 </div>

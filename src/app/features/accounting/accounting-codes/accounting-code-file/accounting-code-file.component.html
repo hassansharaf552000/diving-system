@@ -52,14 +52,18 @@
         </tbody>
       </table>
       <div class="table-footer">
-        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
-        <app-export-buttons [data]="filtered" importEndpoint="/api/CodeFileNumbers/import" [columns]="['fileNumber','fileName','agentId','periodId','active']" [lookups]="lookups" resourceName="CodeFileNumbers" (imported)="loadData()"></app-export-buttons>
+        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
+        <app-export-buttons [data]="filtered" importEndpoint="/api/CodeFileNumbers/import"
+          [columns]="['fileNumber','fileName','agentId','periodId','active']" [lookups]="lookups"
+          resourceName="CodeFileNumbers" (imported)="loadData()"></app-export-buttons>
       </div>
     </div>
   </div>
 
   <!-- Add/Edit Modal -->
-  <app-modal [title]="isEdit ? 'Edit File' : 'Add New File'" [isOpen]="isModalOpen" (closed)="closeModal()" size="medium">
+  <app-modal [title]="isEdit ? 'Edit File' : 'Add New File'" [isOpen]="isModalOpen" (closed)="closeModal()"
+    size="medium">
     <div class="modal-form">
       <div class="form-row">
         <div class="form-group">
@@ -74,21 +78,13 @@
       <div class="form-row">
         <div class="form-group">
           <label>Agent</label>
-          <select [(ngModel)]="model.agentId">
-            <option [ngValue]="undefined" disabled>Select agent</option>
-            <option *ngFor="let a of agents" [ngValue]="a.agentId">
-              {{ a.agentName }}
-            </option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.agentId" [items]="agents" labelKey="agentName" valueKey="agentId"
+            placeholder="Search agent..."></app-searchable-select>
         </div>
         <div class="form-group">
           <label>Period</label>
-          <select [(ngModel)]="model.periodId">
-            <option [ngValue]="undefined" disabled>Select period</option>
-            <option *ngFor="let p of periods" [ngValue]="p.periodId">
-              {{ p.periodName }}
-            </option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.periodId" [items]="periods" labelKey="periodName"
+            valueKey="periodId" placeholder="Search period..."></app-searchable-select>
         </div>
       </div>
       <div class="form-row">
@@ -101,16 +97,14 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update File' : '＋ Add File' }}</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update File' : '＋ Add File'
+        }}</button>
       <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
     </div>
   </app-modal>
 
   <!-- Delete Confirmation -->
-  <app-confirm-dialog
-    [isOpen]="showDeleteConfirm"
-    [itemName]="deleteTarget?.fileName || ''"
-    (confirmed)="onDeleteConfirmed()"
-    (cancelled)="onDeleteCancelled()">
+  <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="deleteTarget?.fileName || ''"
+    (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()">
   </app-confirm-dialog>
 </div>

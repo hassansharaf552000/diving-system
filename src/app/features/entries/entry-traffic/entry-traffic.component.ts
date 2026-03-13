@@ -139,6 +139,28 @@ export class EntryTrafficComponent implements OnInit {
     });
   }
 
+  onExcursionChange(excursionId: number | undefined): void {
+    if (excursionId) {
+      const excursion = this.excursions.find(e => e.id === excursionId);
+      if (excursion?.supplierId) {
+        this.filters.excursionSupplierId = excursion.supplierId;
+      }
+    } else {
+      this.filters.excursionSupplierId = undefined;
+    }
+  }
+
+  onAgentChange(agentId: number | undefined): void {
+    if (agentId) {
+      const agent = this.agents.find(a => a.id === agentId);
+      if (agent?.nationalityId) {
+        this.filters.nationalityId = agent.nationalityId;
+      }
+    } else {
+      this.filters.nationalityId = undefined;
+    }
+  }
+
   clearFilter() {
     this.filters = {
       fromDate: '',

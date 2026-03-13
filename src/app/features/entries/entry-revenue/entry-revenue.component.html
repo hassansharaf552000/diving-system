@@ -28,31 +28,23 @@
           </div>
           <div class="filter-item">
             <label>Rep:</label>
-            <select [(ngModel)]="filters.repId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of reps" [ngValue]="item.id">{{ item.repName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.repId" (ngModelChange)="onRepChange($event)" [items]="reps"
+              labelKey="repName" valueKey="id" placeholder="Search rep..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Agent:</label>
-            <select [(ngModel)]="filters.agentId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of agents" [ngValue]="item.id">{{ item.agentName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.agentId" [items]="agents" labelKey="agentName" valueKey="id"
+              placeholder="Search agent..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Hotel:</label>
-            <select [(ngModel)]="filters.hotelId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of hotels" [ngValue]="item.id">{{ item.hotelName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.hotelId" [items]="hotels" labelKey="hotelName" valueKey="id"
+              placeholder="Search hotel..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Excursion:</label>
-            <select [(ngModel)]="filters.excursionId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of excursions" [ngValue]="item.id">{{ item.excursionName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.excursionId" [items]="excursions" labelKey="excursionName"
+              valueKey="id" placeholder="Search excursion..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Payment:</label>
@@ -188,7 +180,8 @@
 
       <!-- Pagination -->
       <div class="table-footer">
-        <app-pagination [totalItems]="revenueData.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
+        <app-pagination [totalItems]="revenueData.length" [currentPage]="currentPage" [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
       </div>
 
       <!-- Totals Footer -->

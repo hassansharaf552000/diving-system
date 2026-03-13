@@ -120,6 +120,17 @@ export class EntryRevenueComponent implements OnInit {
     });
   }
 
+  onRepChange(repId: number | undefined): void {
+    if (repId) {
+      const rep = this.reps.find(r => r.id === repId);
+      if (rep?.agentId) {
+        this.filters.agentId = rep.agentId;
+      }
+    } else {
+      this.filters.agentId = undefined;
+    }
+  }
+
   clearFilter() {
     this.filters = {
       fromDate: '',

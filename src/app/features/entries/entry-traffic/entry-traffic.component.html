@@ -23,59 +23,44 @@
           </div>
           <div class="filter-item">
             <label>Excursion:</label>
-            <select [(ngModel)]="filters.excursionId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of excursions" [ngValue]="item.id">{{ item.excursionName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.excursionId" (ngModelChange)="onExcursionChange($event)"
+              [items]="excursions" labelKey="excursionName" valueKey="id"
+              placeholder="Search excursion..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Price List:</label>
-            <select [(ngModel)]="filters.priceListId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of priceLists" [ngValue]="item.id">{{ item.priceListName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.priceListId" [items]="priceLists" labelKey="priceListName"
+              valueKey="id" placeholder="Search price list..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Agent:</label>
-            <select [(ngModel)]="filters.agentId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of agents" [ngValue]="item.id">{{ item.agentName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.agentId" (ngModelChange)="onAgentChange($event)"
+              [items]="agents" labelKey="agentName" valueKey="id" placeholder="Search agent..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Hotel Name:</label>
-            <select [(ngModel)]="filters.hotelId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of hotels" [ngValue]="item.id">{{ item.hotelName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.hotelId" [items]="hotels" labelKey="hotelName" valueKey="id"
+              placeholder="Search hotel..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Nationality:</label>
-            <select [(ngModel)]="filters.nationalityId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of nationalities" [ngValue]="item.id">{{ item.nationalityName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.nationalityId" [items]="nationalities"
+              labelKey="nationalityName" valueKey="id" placeholder="Search nationality..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Excursion Supplier:</label>
-            <select [(ngModel)]="filters.excursionSupplierId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of excursionSuppliers" [ngValue]="item.id">{{ item.supplierName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.excursionSupplierId" [items]="excursionSuppliers"
+              labelKey="supplierName" valueKey="id" placeholder="Search excursion supplier..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Boat:</label>
-            <select [(ngModel)]="filters.boatId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of boats" [ngValue]="item.id">{{ item.boatName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.boatId" [items]="boats" labelKey="boatName" valueKey="id"
+              placeholder="Search boat..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Trans. Supplier:</label>
-            <select [(ngModel)]="filters.transportationSupplierId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of transportationSuppliers" [ngValue]="item.id">{{ item.supplierName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.transportationSupplierId" [items]="transportationSuppliers"
+              labelKey="supplierName" valueKey="id" placeholder="Search trans. supplier..."></app-searchable-select>
           </div>
         </div>
         <div class="filters-actions">
@@ -85,8 +70,10 @@
           <button class="btn-clear" (click)="clearFilter()" [disabled]="loading">
             ✕ Clear Filter
           </button>
-          <button class="btn-assign-guide" (click)="openGuideModal(selectedRow!)" [disabled]="!selectedRow" title="Select a row first, then click to assign guides">
-            👤 Assign Guide{{ selectedRow ? (' — ' + (selectedRow.excursionName || selectedRow.voucherNumber || 'Selected')) : '' }}
+          <button class="btn-assign-guide" (click)="openGuideModal(selectedRow!)" [disabled]="!selectedRow"
+            title="Select a row first, then click to assign guides">
+            👤 Assign Guide{{ selectedRow ? (' — ' + (selectedRow.excursionName || selectedRow.voucherNumber ||
+            'Selected')) : '' }}
           </button>
         </div>
       </div>
@@ -122,10 +109,8 @@
             <tr *ngIf="loading">
               <td colspan="20" class="empty-row">Loading data...</td>
             </tr>
-            <tr *ngFor="let row of paginatedTrafficData"
-                [class.row-selected]="row === selectedRow"
-                (click)="selectedRow = row"
-                style="cursor:pointer">
+            <tr *ngFor="let row of paginatedTrafficData" [class.row-selected]="row === selectedRow"
+              (click)="selectedRow = row" style="cursor:pointer">
               <td>{{ row.excursionName || '-' }}</td>
               <td>{{ row.agentName || '-' }}</td>
               <td>{{ row.priceListName || '-' }}</td>
@@ -156,7 +141,8 @@
 
       <!-- Pagination -->
       <div class="table-footer">
-        <app-pagination [totalItems]="trafficData.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
+        <app-pagination [totalItems]="trafficData.length" [currentPage]="currentPage" [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
       </div>
 
       <!-- Totals Footer -->
@@ -180,7 +166,8 @@
           </div>
         </div>
 
-        <div class="totals-group financial" *ngIf="totals?.totalSellingUSD > 0 || totals?.totalSellingEGP > 0 || totals?.totalSellingEUR > 0 || totals?.totalSellingGBP > 0">
+        <div class="totals-group financial"
+          *ngIf="totals?.totalSellingUSD > 0 || totals?.totalSellingEGP > 0 || totals?.totalSellingEUR > 0 || totals?.totalSellingGBP > 0">
           <div class="total-box financial" *ngIf="totals?.totalSellingEGP > 0">
             <span class="label">Sell EGP</span>
             <span class="value">{{ totals.totalSellingEGP | number:'1.2-2' }}</span>
@@ -199,7 +186,8 @@
           </div>
         </div>
 
-        <div class="totals-group financial cost" *ngIf="totals?.totalCostSupplierEGP > 0 || totals?.totalCostSupplierUSD > 0 || totals?.totalCostSupplierEUR > 0 || totals?.totalCostSupplierGBP > 0 || totals?.totalCostGuideEGP > 0">
+        <div class="totals-group financial cost"
+          *ngIf="totals?.totalCostSupplierEGP > 0 || totals?.totalCostSupplierUSD > 0 || totals?.totalCostSupplierEUR > 0 || totals?.totalCostSupplierGBP > 0 || totals?.totalCostGuideEGP > 0">
           <div class="total-box financial cost" *ngIf="totals?.totalCostSupplierEGP > 0">
             <span class="label">Cost Suppl EGP</span>
             <span class="value">{{ totals.totalCostSupplierEGP | number:'1.2-2' }}</span>
@@ -239,20 +227,11 @@
       <div class="guide-form-group">
         <label>Guide *</label>
         <div class="searchable-drop-wrap">
-          <input
-            type="text"
-            class="search-drop-input"
-            [(ngModel)]="guideSearchTerm"
-            placeholder="Type to search guide..."
-            (focus)="showGuideDrop = true"
-            (input)="showGuideDrop = true"
-            (blur)="onGuideInputBlur()"
-            autocomplete="off">
+          <input type="text" class="search-drop-input" [(ngModel)]="guideSearchTerm"
+            placeholder="Type to search guide..." (focus)="showGuideDrop = true" (input)="showGuideDrop = true"
+            (blur)="onGuideInputBlur()" autocomplete="off">
           <div class="search-drop-list" *ngIf="showGuideDrop && filteredGuides.length > 0">
-            <div
-              class="search-drop-item"
-              *ngFor="let g of filteredGuides"
-              (mousedown)="selectGuide(g)">
+            <div class="search-drop-item" *ngFor="let g of filteredGuides" (mousedown)="selectGuide(g)">
               {{ g.guideName }}
             </div>
           </div>
@@ -322,9 +301,7 @@
 </app-modal>
 
 <!-- Guide Delete Confirm -->
-<app-confirm-dialog
-  [isOpen]="showDeleteGuideConfirm"
-  [itemName]="'guide assignment for ' + (deleteGuideTarget?.guideName || '')"
-  (confirmed)="onDeleteGuideConfirmed()"
+<app-confirm-dialog [isOpen]="showDeleteGuideConfirm"
+  [itemName]="'guide assignment for ' + (deleteGuideTarget?.guideName || '')" (confirmed)="onDeleteGuideConfirmed()"
   (cancelled)="onDeleteGuideCancelled()">
 </app-confirm-dialog>

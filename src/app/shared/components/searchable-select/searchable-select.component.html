@@ -1,0 +1,19 @@
+<div class="ss-wrap">
+    <div class="ss-input-row">
+        <input type="text" class="ss-input" [placeholder]="selectedLabel || placeholder"
+            [value]="isOpen ? searchTerm : ''" (focus)="onInputFocus()"
+            (input)="searchTerm = $any($event.target).value; onInputChange()" (blur)="onInputBlur()" autocomplete="off"
+            role="combobox">
+        <span class="ss-selected-label" *ngIf="!isOpen && selectedLabel">{{ selectedLabel }}</span>
+        <button class="ss-clear" *ngIf="selectedValue !== undefined && selectedValue !== null"
+            (mousedown)="clearSelection($event)" type="button" tabindex="-1">✕</button>
+        <span class="ss-arrow" (mousedown)="isOpen = !isOpen">▾</span>
+    </div>
+
+    <div class="ss-dropdown" *ngIf="isOpen">
+        <div class="ss-item" *ngFor="let item of filteredItems" (mousedown)="selectItem(item)">
+            {{ item[labelKey] }}
+        </div>
+        <div class="ss-empty" *ngIf="filteredItems.length === 0">No results</div>
+    </div>
+</div>

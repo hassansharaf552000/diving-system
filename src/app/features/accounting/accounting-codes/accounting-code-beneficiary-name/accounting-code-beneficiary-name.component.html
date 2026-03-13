@@ -13,7 +13,8 @@
     <div class="code-table-wrap">
       <div class="table-search">
         <span class="search-icon">🔍</span>
-        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" placeholder="Search beneficiaries...">
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1"
+          placeholder="Search beneficiaries...">
       </div>
       <table class="code-table">
         <thead>
@@ -54,14 +55,18 @@
         </tbody>
       </table>
       <div class="table-footer">
-        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
-        <app-export-buttons [data]="filtered" importEndpoint="/api/CodeBeneficiaryNames/import" [columns]="['beneficiaryName','beneficiaryTypeId','commercialName','vatNo','fileNo','address','phone','active']" [lookups]="lookups" resourceName="CodeBeneficiaryNames" (imported)="loadData()"></app-export-buttons>
+        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
+        <app-export-buttons [data]="filtered" importEndpoint="/api/CodeBeneficiaryNames/import"
+          [columns]="['beneficiaryName','beneficiaryTypeId','commercialName','vatNo','fileNo','address','phone','active']"
+          [lookups]="lookups" resourceName="CodeBeneficiaryNames" (imported)="loadData()"></app-export-buttons>
       </div>
     </div>
   </div>
 
   <!-- Add/Edit Modal -->
-  <app-modal [title]="isEdit ? 'Edit Beneficiary' : 'Add New Beneficiary'" [isOpen]="isModalOpen" (closed)="closeModal()" size="medium">
+  <app-modal [title]="isEdit ? 'Edit Beneficiary' : 'Add New Beneficiary'" [isOpen]="isModalOpen"
+    (closed)="closeModal()" size="medium">
     <div class="modal-form">
       <div class="form-row">
         <div class="form-group">
@@ -70,12 +75,9 @@
         </div>
         <div class="form-group">
           <label>Beneficiary Type *</label>
-          <select [(ngModel)]="model.beneficiaryTypeId">
-            <option [ngValue]="undefined" disabled>Select type</option>
-            <option *ngFor="let type of beneficiaryTypes" [ngValue]="type.beneficiaryTypeId">
-              {{ type.beneficiaryTypeName }}
-            </option>
-          </select>
+          <app-searchable-select [(ngModel)]="model.beneficiaryTypeId" [items]="beneficiaryTypes"
+            labelKey="beneficiaryTypeName" valueKey="beneficiaryTypeId"
+            placeholder="Search type..."></app-searchable-select>
         </div>
       </div>
       <div class="form-row">
@@ -112,16 +114,14 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Beneficiary' : '＋ Add Beneficiary' }}</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Beneficiary' : '＋ Add
+        Beneficiary' }}</button>
       <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
     </div>
   </app-modal>
 
   <!-- Delete Confirmation -->
-  <app-confirm-dialog
-    [isOpen]="showDeleteConfirm"
-    [itemName]="deleteTarget?.beneficiaryName || ''"
-    (confirmed)="onDeleteConfirmed()"
-    (cancelled)="onDeleteCancelled()">
+  <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="deleteTarget?.beneficiaryName || ''"
+    (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()">
   </app-confirm-dialog>
 </div>

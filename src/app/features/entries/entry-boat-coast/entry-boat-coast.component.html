@@ -20,45 +20,34 @@
           </div>
           <div class="filter-item">
             <label>Boat:</label>
-            <select [(ngModel)]="filters.boatId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of boats" [ngValue]="item.id">{{ item.boatName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.boatId" [items]="boats" labelKey="boatName" valueKey="id"
+              placeholder="Search boat..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Excursion:</label>
-            <select [(ngModel)]="filters.excursionId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of excursions" [ngValue]="item.id">{{ item.excursionName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.excursionId" (ngModelChange)="onExcursionChange($event)"
+              [items]="excursions" labelKey="excursionName" valueKey="id"
+              placeholder="Search excursion..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Price List:</label>
-            <select [(ngModel)]="filters.priceListId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of priceLists" [ngValue]="item.id">{{ item.priceListName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.priceListId" [items]="priceLists" labelKey="priceListName"
+              valueKey="id" placeholder="Search price list..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Nationality:</label>
-            <select [(ngModel)]="filters.nationalityId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of nationalities" [ngValue]="item.id">{{ item.nationalityName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.nationalityId" [items]="nationalities"
+              labelKey="nationalityName" valueKey="id" placeholder="Search nationality..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Excursion Supplier:</label>
-            <select [(ngModel)]="filters.excursionSupplierId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of excursionSuppliers" [ngValue]="item.id">{{ item.supplierName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.excursionSupplierId" [items]="excursionSuppliers"
+              labelKey="supplierName" valueKey="id" placeholder="Search excursion supplier..."></app-searchable-select>
           </div>
           <div class="filter-item">
             <label>Agent:</label>
-            <select [(ngModel)]="filters.agentId" class="filter-select">
-              <option [ngValue]="undefined">-- Select --</option>
-              <option *ngFor="let item of agents" [ngValue]="item.id">{{ item.agentName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.agentId" (ngModelChange)="onAgentChange($event)"
+              [items]="agents" labelKey="agentName" valueKey="id" placeholder="Search agent..."></app-searchable-select>
           </div>
         </div>
         <div class="filters-actions">
@@ -144,7 +133,8 @@
 
       <!-- Pagination -->
       <div class="table-footer">
-        <app-pagination [totalItems]="rows.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
+        <app-pagination [totalItems]="rows.length" [currentPage]="currentPage" [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
       </div>
 
       <!-- Bottom Section: Cost Totals + ADL/CHD/INF/Count -->
@@ -180,15 +170,24 @@
               </tr>
               <!-- Editable Costs Row -->
               <tr class="editable-row">
-                <td><input type="number" [(ngModel)]="costs.costBoatSupplierEGP" (change)="onCostChange()" min="0" step="0.01"></td>
-                <td><input type="number" [(ngModel)]="costs.costBoatSupplierUSD" (change)="onCostChange()" min="0" step="0.01"></td>
-                <td><input type="number" [(ngModel)]="costs.lunchEGP" (change)="onCostChange()" min="0" step="0.01"></td>
-                <td><input type="number" [(ngModel)]="costs.permissionEGP" (change)="onCostChange()" min="0" step="0.01"></td>
-                <td><input type="number" [(ngModel)]="costs.permissionUSD" (change)="onCostChange()" min="0" step="0.01"></td>
-                <td><input type="number" [(ngModel)]="costs.rentEquipEGP" (change)="onCostChange()" min="0" step="0.01"></td>
-                <td><input type="number" [(ngModel)]="costs.trulyEGP" (change)="onCostChange()" min="0" step="0.01"></td>
-                <td><input type="number" [(ngModel)]="costs.extraServiceEGP" (change)="onCostChange()" min="0" step="0.01"></td>
-                <td><input type="number" [(ngModel)]="costs.othersEGP" (change)="onCostChange()" min="0" step="0.01"></td>
+                <td><input type="number" [(ngModel)]="costs.costBoatSupplierEGP" (change)="onCostChange()" min="0"
+                    step="0.01"></td>
+                <td><input type="number" [(ngModel)]="costs.costBoatSupplierUSD" (change)="onCostChange()" min="0"
+                    step="0.01"></td>
+                <td><input type="number" [(ngModel)]="costs.lunchEGP" (change)="onCostChange()" min="0" step="0.01">
+                </td>
+                <td><input type="number" [(ngModel)]="costs.permissionEGP" (change)="onCostChange()" min="0"
+                    step="0.01"></td>
+                <td><input type="number" [(ngModel)]="costs.permissionUSD" (change)="onCostChange()" min="0"
+                    step="0.01"></td>
+                <td><input type="number" [(ngModel)]="costs.rentEquipEGP" (change)="onCostChange()" min="0" step="0.01">
+                </td>
+                <td><input type="number" [(ngModel)]="costs.trulyEGP" (change)="onCostChange()" min="0" step="0.01">
+                </td>
+                <td><input type="number" [(ngModel)]="costs.extraServiceEGP" (change)="onCostChange()" min="0"
+                    step="0.01"></td>
+                <td><input type="number" [(ngModel)]="costs.othersEGP" (change)="onCostChange()" min="0" step="0.01">
+                </td>
               </tr>
             </tbody>
           </table>
@@ -228,15 +227,8 @@
 </div>
 
 <!-- Save Confirm Dialog -->
-<app-confirm-dialog
-  [isOpen]="showSaveConfirm"
-  title="Confirm Save"
-  message="Are you sure you want to save the boat cost data?"
-  confirmText="Save"
-  cancelText="Cancel"
-  theme="primary"
-  icon="💾"
-  warningText="This will save the current preview data."
-  (confirmed)="onSaveConfirmed()"
+<app-confirm-dialog [isOpen]="showSaveConfirm" title="Confirm Save"
+  message="Are you sure you want to save the boat cost data?" confirmText="Save" cancelText="Cancel" theme="primary"
+  icon="💾" warningText="This will save the current preview data." (confirmed)="onSaveConfirmed()"
   (cancelled)="onSaveCancelled()">
 </app-confirm-dialog>
