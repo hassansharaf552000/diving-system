@@ -83,6 +83,7 @@
         <table class="code-table traffic-table">
           <thead>
             <tr>
+              <th class="actions-col">Actions</th>
               <th>Excursion Name</th>
               <th>Agent Name</th>
               <th>Price List</th>
@@ -107,10 +108,15 @@
           </thead>
           <tbody>
             <tr *ngIf="loading">
-              <td colspan="20" class="empty-row">Loading data...</td>
+              <td colspan="21" class="empty-row">Loading data...</td>
             </tr>
             <tr *ngFor="let row of paginatedTrafficData" [class.row-selected]="row === selectedRow"
               (click)="selectedRow = row" style="cursor:pointer">
+              <td class="actions-col" (click)="$event.stopPropagation()">
+                <button class="btn-update-row" (click)="openUpdateModal(row)" title="Update this transaction">
+                  ✏️
+                </button>
+              </td>
               <td>{{ row.excursionName || '-' }}</td>
               <td>{{ row.agentName || '-' }}</td>
               <td>{{ row.priceListName || '-' }}</td>
@@ -133,7 +139,7 @@
               <td class="num-cell-center sum-count">{{ (row.adl || 0) + (row.chd || 0) + (row.inf || 0) }}</td>
             </tr>
             <tr *ngIf="!loading && trafficData.length === 0">
-              <td colspan="20" class="empty-row">No traffic data found for the selected filters</td>
+              <td colspan="21" class="empty-row">No traffic data found for the selected filters</td>
             </tr>
           </tbody>
         </table>
@@ -305,3 +311,73 @@
   [itemName]="'guide assignment for ' + (deleteGuideTarget?.guideName || '')" (confirmed)="onDeleteGuideConfirmed()"
   (cancelled)="onDeleteGuideCancelled()">
 </app-confirm-dialog>
+
+<!-- ===== Inline Update Modal ===== -->
+<app-modal [title]="updateModalTitle" [isOpen]="isUpdateModalOpen" (closed)="closeUpdateModal()" size="large">
+
+  <div class="inline-form">
+
+    <div class="inline-section-label">🚌 Guide & Transport</div>
+    <div class="inline-grid">
+      <div class="inline-form-group">
+        <label>Guide</label>
+        <app-searchable-select [(ngModel)]="inlineModel.guideId" [items]="guides"
+          labelKey="guideName" valueKey="id" placeholder="Search guide..."></app-searchable-select>
+      </div>
+      <div class="inline-form-group">
+        <label>Guide Duty</label>
+        <select [(ngModel)]="inlineModel.guideDuty">
+          <option [ngValue]="null">-- Select --</option>
+          <option value="diving">diving</option>
+          <option value="snorkeling">snorkeling</option>
+        </select>
+      </div>
+      <div class="inline-form-group">
+        <label>Cost Guide EGP</label>
+        <input type="number" [(ngModel)]="inlineModel.costGuideEGP" min="0" step="0.01">
+      </div>
+      
+      <div class="inline-form-group">
+        <label>Boat</label>
+        <app-searchable-select [(ngModel)]="inlineModel.boatId" [items]="boats"
+          labelKey="boatName" valueKey="id" placeholder="Search boat..."></app-searchable-select>
+      </div>
+      <div class="inline-form-group">
+        <label>Car Type</label>
+        <app-searchable-select [(ngModel)]="inlineModel.carTypeId" [items]="transportationTypes"
+          labelKey="typeName" valueKey="id" placeholder="Search car type..."></app-searchable-select>
+      </div>
+      <div class="inline-form-group">
+        <label>Trans. Supplier</label>
+        <app-searchable-select [(ngModel)]="inlineModel.transportationSupplierId" [items]="transportationSuppliers"
+          labelKey="supplierName" valueKey="id" placeholder="Search trans. supplier..."></app-searchable-select>
+      </div>
+      <div class="inline-form-group">
+        <label>Round</label>
+        <select [(ngModel)]="inlineModel.round">
+          <option [ngValue]="null">-- Select --</option>
+          <option value="One-Way">One-Way</option>
+          <option value="Round">Round</option>
+        </select>
+      </div>
+      <div class="inline-form-group">
+        <label>Order No</label>
+        <input type="text" [(ngModel)]="inlineModel.orderNumber" placeholder="Order number">
+      </div>
+      <div class="inline-form-group">
+        <label>Hotel</label>
+        <input type="text" [(ngModel)]="inlineModel.hotelName">
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="inline-form-actions">
+      <button class="btn-save" (click)="saveInline()" [disabled]="savingInline">
+        {{ savingInline ? '⏳ Saving...' : '💾 Save Changes' }}
+      </button>
+      <button class="btn-cancel-modal" (click)="closeUpdateModal()">Cancel</button>
+    </div>
+  </div>
+
+</app-modal>
+

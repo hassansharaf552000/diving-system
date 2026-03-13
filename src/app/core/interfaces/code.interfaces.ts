@@ -411,6 +411,65 @@ export interface EntryTraffic {
   [key: string]: any;
 }
 
+// ========== ENTRY TRANSACTION INLINE PATCH ==========
+
+// ========== ENTRY TRANSACTION INLINE PATCH ==========
+
+export interface EntryTransactionInline {
+  entryTransactionId?: number;
+  voucherNumber?: string | null;
+  transactionDate?: string | null;
+  
+  repName?: string | null;
+  agentName?: string | null;
+  nationalityName?: string | null;
+  hotelName?: string | null;
+  hotelDestinationName?: string | null;
+  roomNumber?: string | null;
+  pickUpTime?: string | null;
+  
+  excursionName?: string | null;
+  priceListName?: string | null;
+  excursionSupplierName?: string | null;
+  
+  adl?: number | null;
+  chd?: number | null;
+  inf?: number | null;
+
+  costSupplierEGP?: number | null;
+  costSupplierUSD?: number | null;
+  costSupplierEUR?: number | null;
+  costSupplierGBP?: number | null;
+  freeSupplierCost?: boolean | null;
+
+  guideEntryId?: number | null;
+  guideId?: number | null;
+  guideName?: string | null;
+  guideDuty?: string | null;
+  costGuideEGP?: number | null;
+
+  boatId?: number | null;
+  boatName?: string | null;
+  carTypeId?: number | null;
+  carTypeName?: string | null;
+  transportationSupplierId?: number | null;
+  transportationSupplierName?: string | null;
+  
+  round?: string | null;
+  orderNumber?: string | null;
+
+  sellingEGP?: number | null;
+  sellingUSD?: number | null;
+  sellingEUR?: number | null;
+  sellingGBP?: number | null;
+  sellingFree?: boolean | null;
+  paymentType?: string | null;
+  
+  note?: string | null;
+  recordBy?: string | null;
+  recordTime?: string | null;
+}
+
 // ========== ENTRY TRANSACTION GUIDES ==========
 
 export interface EntryTransactionGuide {

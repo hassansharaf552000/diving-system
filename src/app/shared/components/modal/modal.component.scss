@@ -100,6 +100,8 @@
 .modal-body {
   overflow-y: auto;
   flex: 1;
+  padding: 24px;
+  max-height: 75vh;
 }
 
 @media (max-width: 576px) {

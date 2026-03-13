@@ -9,7 +9,8 @@ import {
   TransportationCost, Voucher, ExcursionCostSelling,
   EntryTransaction, CodeDefinition, EntryTraffic,
   EntryRevenueResponse, EntryTransactionGuide,
-  EntryBoatCostResponse, EntryBoatCostPreviewRequest, EntryBoatCostSaveRequest
+  EntryBoatCostResponse, EntryBoatCostPreviewRequest, EntryBoatCostSaveRequest,
+  EntryTransactionInline
 } from '../interfaces/code.interfaces';
 
 @Injectable({ providedIn: 'root' })
@@ -141,6 +142,9 @@ export class CodeService {
   createEntryTransaction(data: EntryTransaction): Observable<EntryTransaction> { return this.http.post<EntryTransaction>(`${this.api}/api/EntryTransactions`, data); }
   updateEntryTransaction(id: number, data: EntryTransaction): Observable<EntryTransaction> { return this.http.put<EntryTransaction>(`${this.api}/api/EntryTransactions/${id}`, data); }
   deleteEntryTransaction(id: number): Observable<void> { return this.http.delete<void>(`${this.api}/api/EntryTransactions/${id}`); }
+  patchEntryTransactionInline(id: number, payload: Partial<EntryTransactionInline>): Observable<any> {
+    return this.http.patch(`${this.api}/api/EntryTransactions/${id}/inline`, payload);
+  }
 
   // ========== ENTRY TRAFFIC ==========
   getEntryTraffic(params: any): Observable<EntryTraffic[]> {
