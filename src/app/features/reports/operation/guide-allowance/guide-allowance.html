@@ -1,1 +1,20 @@
-<p>guide-allowance works!</p>
+<div class="code-page">
+  <div class="code-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>Guide Allowance Report</h2>
+      </div>
+    </div>
+    
+    <div class="code-table-wrap" style="padding: 20px;">
+      <app-report-filter
+        [filters]="invoiceFilters"
+        [showFields]="invoiceFields"
+        [reportTypeOptions]="reportTypeOptions"
+        (onView)="handleView($event)"
+        (onPdf)="handlePdf($event)"
+        (onExcel)="handleExcel($event)">
+      </app-report-filter>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+.report-filter-panel {
+  display: flex;
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  gap: 30px;
+  max-width: 750px;
+  margin: 0 auto;
+  border: 1px solid #eaeaea;
+}
+
+.filter-controls {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-color: #3e7b8a;
+    box-shadow: 0 0 0 2px rgba(62, 123, 138, 0.2);
+  }
+
+  label {
+    flex: 0 0 150px;
+    font-weight: 600;
+    color: #495057;
+    padding: 8px 12px;
+    background: #e9ecef;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #ced4da;
+    border-radius: 4px 0 0 4px;
+    font-size: 13px;
+  }
+
+  .filter-input, ::ng-deep .searchable-drop-wrap {
+    flex: 1;
+    border: none;
+    padding: 8px 12px;
+    width: 100%;
+    background: white;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+  }
+  
+  ::ng-deep .searchable-drop-wrap input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0;
+  }
+
+  .filter-select {
+    cursor: pointer;
+  }
+}
+
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 10px 0;
+  justify-content: center;
+
+  .btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    width: 60px;
+    height: 60px;
+    color: white;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    &:active {
+      transform: scale(0.92);
+    }
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+  }
+
+  .btn-view {
+    background-color: #34495e;
+    font-size: 26px;
+    
+    &:hover {
+      background-color: #2c3e50;
+    }
+  }
+
+  .btn-pdf {
+    background-color: #e74c3c;
+    
+    &:hover {
+      background-color: #c0392b;
+    }
+  }
+
+  .btn-excel {
+    background-color: #2ecc71;
+    
+    &:hover {
+      background-color: #27ae60;
+    }
+  }
+}

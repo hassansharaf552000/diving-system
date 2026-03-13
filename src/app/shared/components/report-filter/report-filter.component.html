@@ -1,0 +1,128 @@
+<div class="report-filter-panel">
+  <div class="filter-controls">
+    <!-- From Date -->
+    <div class="filter-item" *ngIf="hasField('fromDate')">
+      <label>From Date :</label>
+      <input type="date" [(ngModel)]="filters.fromDate" class="filter-input">
+    </div>
+
+    <!-- To Date -->
+    <div class="filter-item" *ngIf="hasField('toDate')">
+      <label>To Date :</label>
+      <input type="date" [(ngModel)]="filters.toDate" class="filter-input">
+    </div>
+
+    <!-- Excursion -->
+    <div class="filter-item" *ngIf="hasField('excursionId')">
+      <label>Excursion :</label>
+      <app-searchable-select [(ngModel)]="filters.excursionId" (ngModelChange)="onExcursionChange($event)"
+        [items]="excursions" labelKey="excursionName" valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Price List -->
+    <div class="filter-item" *ngIf="hasField('priceListId')">
+      <label>Price List :</label>
+      <app-searchable-select [(ngModel)]="filters.priceListId" [items]="priceLists" labelKey="priceListName"
+        valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Agent -->
+    <div class="filter-item" *ngIf="hasField('agentId')">
+      <label>Agent :</label>
+      <app-searchable-select [(ngModel)]="filters.agentId" (ngModelChange)="onAgentChange($event)"
+        [items]="agents" labelKey="agentName" valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Hotel Name -->
+    <div class="filter-item" *ngIf="hasField('hotelId')">
+      <label>Hotel Name :</label>
+      <app-searchable-select [(ngModel)]="filters.hotelId" [items]="hotels" labelKey="hotelName" valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Nationality -->
+    <div class="filter-item" *ngIf="hasField('nationalityId')">
+      <label>Nationality :</label>
+      <app-searchable-select [(ngModel)]="filters.nationalityId" [items]="nationalities"
+        labelKey="nationalityName" valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Excursion Supplier -->
+    <div class="filter-item" *ngIf="hasField('excursionSupplierId')">
+      <label>Excursion Supplier :</label>
+      <app-searchable-select [(ngModel)]="filters.excursionSupplierId" [items]="excursionSuppliers"
+        labelKey="supplierName" valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Boat -->
+    <div class="filter-item" *ngIf="hasField('boatId')">
+      <label>Boat :</label>
+      <app-searchable-select [(ngModel)]="filters.boatId" [items]="boats" labelKey="boatName" valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Rep Name -->
+    <div class="filter-item" *ngIf="hasField('repId')">
+      <label>Rep Name:</label>
+      <app-searchable-select [(ngModel)]="filters.repId" [items]="reps" labelKey="repName" valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Trans. Supplier -->
+    <div class="filter-item" *ngIf="hasField('transportationSupplierId')">
+      <label>Trans. Supplier :</label>
+      <app-searchable-select [(ngModel)]="filters.transportationSupplierId" [items]="transportationSuppliers"
+        labelKey="supplierName" valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Car Type -->
+    <div class="filter-item" *ngIf="hasField('carTypeId')">
+      <label>Car Type :</label>
+      <app-searchable-select [(ngModel)]="filters.carTypeId" [items]="transportationTypes"
+        labelKey="typeName" valueKey="id"></app-searchable-select>
+    </div>
+
+    <!-- Order Number -->
+    <div class="filter-item" *ngIf="hasField('orderNumber')">
+      <label>Order No # :</label>
+      <input type="text" [(ngModel)]="filters.orderNumber" class="filter-input" placeholder="Order No #">
+    </div>
+
+    <!-- Guide Name -->
+    <div class="filter-item" *ngIf="hasField('guideName')">
+      <label>Guide Name :</label>
+      <app-searchable-select [(ngModel)]="filters.guideName" [items]="guides" labelKey="guideName"
+        valueKey="guideName"></app-searchable-select>
+    </div>
+
+    <!-- Guide Duty -->
+    <div class="filter-item" *ngIf="hasField('guideDuty')">
+      <label>Guide Duty :</label>
+      <app-searchable-select [(ngModel)]="filters.guideDuty" [items]="guideDuties" [isStatic]="true">
+      </app-searchable-select>
+    </div>
+
+    <!-- Report -->
+    <div class="filter-item" *ngIf="hasField('report')">
+      <label>Report :</label>
+      <app-searchable-select [(ngModel)]="filters.report" [items]="reportOptions" [isStatic]="true">
+      </app-searchable-select>
+    </div>
+
+    <!-- Report Type -->
+    <div class="filter-item" *ngIf="hasField('reportType')">
+      <label>Report Type :</label>
+      <app-searchable-select [(ngModel)]="filters.reportType" [items]="reportTypeOptions" [isStatic]="true">
+      </app-searchable-select>
+    </div>
+  </div>
+
+  <div class="filter-buttons">
+    <button class="btn-action btn-view" (click)="triggerView()" title="View Report">
+       🖨️
+    </button>
+    <button class="btn-action btn-pdf" (click)="triggerPdf()" title="Export PDF">
+      PDF
+    </button>
+    <button class="btn-action btn-excel" (click)="triggerExcel()" title="Export Excel">
+      XLS
+    </button>
+  </div>
+</div>

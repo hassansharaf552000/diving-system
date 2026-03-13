@@ -38,6 +38,8 @@ import { Search } from './operation/search/search';
 
 // Routes moved to app-routing.module.ts
 
+import { SharedModule } from '../../shared/shared.module';
+
 @NgModule({
   declarations: [
     AccountingReports,
@@ -53,7 +55,8 @@ import { Search } from './operation/search/search';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   exports: [AccountingReports, OperationReports]
 })

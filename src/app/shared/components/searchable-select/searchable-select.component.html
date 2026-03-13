@@ -12,7 +12,7 @@
 
     <div class="ss-dropdown" *ngIf="isOpen">
         <div class="ss-item" *ngFor="let item of filteredItems" (mousedown)="selectItem(item)">
-            {{ item[labelKey] }}
+            {{ isStatic ? item : item[labelKey] }}
         </div>
         <div class="ss-empty" *ngIf="filteredItems.length === 0">No results</div>
     </div>

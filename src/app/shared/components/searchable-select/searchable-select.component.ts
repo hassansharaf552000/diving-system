@@ -29,6 +29,7 @@ export class SearchableSelectComponent implements ControlValueAccessor, OnChange
   @Input() valueKey: string = 'id';
   @Input() placeholder: string = 'Search...';
   @Input() nullLabel: string = '-';
+  @Input() isStatic: boolean = false;
 
   searchTerm: string = '';
   isOpen: boolean = false;
@@ -50,9 +51,10 @@ export class SearchableSelectComponent implements ControlValueAccessor, OnChange
   get filteredItems(): any[] {
     if (!this.searchTerm) return this.items;
     const term = this.searchTerm.toLowerCase();
-    return this.items.filter(item =>
-      String(item[this.labelKey] || '').toLowerCase().includes(term)
-    );
+    return this.items.filter(item => {
+      const label = this.isStatic ? String(item || '') : String(item[this.labelKey] || '');
+      return label.toLowerCase().includes(term);
+    });
   }
 
   onInputFocus(): void {
@@ -70,8 +72,13 @@ export class SearchableSelectComponent implements ControlValueAccessor, OnChange
   }
 
   selectItem(item: any): void {
-    this.selectedValue = item[this.valueKey];
-    this.selectedLabel = String(item[this.labelKey] || '');
+    if (this.isStatic) {
+      this.selectedValue = item;
+      this.selectedLabel = String(item || '');
+    } else {
+      this.selectedValue = item[this.valueKey];
+      this.selectedLabel = String(item[this.labelKey] || '');
+    }
     this.searchTerm = '';
     this.isOpen = false;
     this.onChange(this.selectedValue);
@@ -117,8 +124,12 @@ export class SearchableSelectComponent implements ControlValueAccessor, OnChange
       this.selectedLabel = '';
       return;
     }
-    const found = this.items.find(item => item[this.valueKey] === value);
-    this.selectedLabel = found ? String(found[this.labelKey] || '') : '';
+    if (this.isStatic) {
+      this.selectedLabel = String(value || '');
+    } else {
+      const found = this.items.find(item => item[this.valueKey] === value);
+      this.selectedLabel = found ? String(found[this.labelKey] || '') : '';
+    }
   }
 
   get displayValue(): string {

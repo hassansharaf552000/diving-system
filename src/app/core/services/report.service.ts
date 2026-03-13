@@ -22,4 +22,11 @@ export class ReportService {
   getOperationReports(): Observable<ReportDefinition[]> {
     return this.http.get<ReportDefinition[]>(`${environment.apiUrl}/api/AllOperationReports`);
   }
+
+  downloadReport(endpoint: string, filters: any): Observable<Blob> {
+    return this.http.get(`${environment.apiUrl}${endpoint}`, {
+      params: filters,
+      responseType: 'blob'
+    });
+  }
 }

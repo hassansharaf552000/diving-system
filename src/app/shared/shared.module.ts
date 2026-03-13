@@ -11,6 +11,8 @@ import { ToastComponent } from './components/toast/toast.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { SearchableSelectComponent } from './components/searchable-select/searchable-select.component';
 
+import { ReportFilterComponent } from './components/report-filter/report-filter.component';
+
 @NgModule({
   declarations: [
     ModalComponent,
@@ -20,7 +22,8 @@ import { SearchableSelectComponent } from './components/searchable-select/search
     ExportButtonsComponent,
     ToastComponent,
     PaginationComponent,
-    SearchableSelectComponent
+    SearchableSelectComponent,
+    ReportFilterComponent
   ],
   imports: [
     CommonModule,
@@ -35,6 +38,7 @@ import { SearchableSelectComponent } from './components/searchable-select/search
     ToastComponent,
     PaginationComponent,
     SearchableSelectComponent,
+    ReportFilterComponent,
     CommonModule,
     FormsModule
   ]

@@ -1,1 +1,21 @@
-<p>invoice-boat-supplier works!</p>
+<div class="code-page">
+  <div class="code-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>Boat Supplier Invoice Report</h2>
+      </div>
+    </div>
+    
+    <div class="code-table-wrap" style="padding: 20px;">
+      <app-report-filter
+        [filters]="invoiceFilters"
+        [showFields]="invoiceFields"
+        [reportOptions]="reportOptions"
+        [reportTypeOptions]="reportTypeOptions"
+        (onView)="handleView($event)"
+        (onPdf)="handlePdf($event)"
+        (onExcel)="handleExcel($event)">
+      </app-report-filter>
+    </div>
+  </div>
+</div>
