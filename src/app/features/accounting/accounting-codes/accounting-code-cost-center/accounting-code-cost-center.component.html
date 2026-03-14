@@ -1,4 +1,4 @@
-﻿<div class="code-page">
+<div class="code-page">
   <div class="code-card">
     <div class="code-toolbar">
       <div class="toolbar-left">
@@ -13,7 +13,8 @@
     <div class="code-table-wrap">
       <div class="table-search">
         <span class="search-icon">🔍</span>
-        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" placeholder="Search cost centers...">
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1"
+          placeholder="Search cost centers...">
       </div>
       <table class="code-table">
         <thead>
@@ -52,14 +53,18 @@
         </tbody>
       </table>
       <div class="table-footer">
-        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
-        <app-export-buttons [data]="filtered" importEndpoint="/api/CodeCostCenters/import" [columns]="['costCenterNumber','costCenterName','costCenterGroup','active']" resourceName="CodeCostCenters" (imported)="loadData()"></app-export-buttons>
+        <app-pagination [totalItems]="filtered.length" [currentPage]="currentPage" [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
+        <app-export-buttons [data]="filtered" importEndpoint="/api/CodeCostCenters/import"
+          [columns]="['costCenterNumber','costCenterName','costCenterGroup','active']" resourceName="CodeCostCenters"
+          (imported)="loadData()"></app-export-buttons>
       </div>
     </div>
   </div>
 
   <!-- Add/Edit Modal -->
-  <app-modal [title]="isEdit ? 'Edit Cost Center' : 'Add New Cost Center'" [isOpen]="isModalOpen" (closed)="closeModal()" size="medium">
+  <app-modal [title]="isEdit ? 'Edit Cost Center' : 'Add New Cost Center'" [isOpen]="isModalOpen"
+    (closed)="closeModal()" size="medium">
     <div class="modal-form">
       <div class="form-row">
         <div class="form-group">
@@ -74,7 +79,12 @@
       <div class="form-row">
         <div class="form-group">
           <label>Group</label>
-          <input type="text" [(ngModel)]="model.costCenterGroup" placeholder="e.g. Class">
+          <select [(ngModel)]="model.costCenterGroup">
+            <option value="">Select Group</option>
+            <option value="Class">Class</option>
+            <option value="Main Cost Center">Main Cost Center</option>
+            <option value="Subsidiary Cost Center">Subsidiary Cost Center</option>
+          </select>
         </div>
         <div class="form-group">
           <label class="checkbox-label">
@@ -85,16 +95,14 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Cost Center' : '＋ Add Cost Center' }}</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Cost Center' : '＋ Add Cost
+        Center' }}</button>
       <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
     </div>
   </app-modal>
 
   <!-- Delete Confirmation -->
-  <app-confirm-dialog
-    [isOpen]="showDeleteConfirm"
-    [itemName]="deleteTarget?.costCenterName || ''"
-    (confirmed)="onDeleteConfirmed()"
-    (cancelled)="onDeleteCancelled()">
+  <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="deleteTarget?.costCenterName || ''"
+    (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()">
   </app-confirm-dialog>
 </div>

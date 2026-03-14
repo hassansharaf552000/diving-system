@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
 import { CodeCostCenter } from '../../../../core/interfaces/code.interfaces';
@@ -73,16 +73,24 @@ export class AccountingCodeCostCenterComponent implements OnInit {
       alert('⚠️ Please fill in Cost Center Name');
       return;
     }
+    
     this.saving = true;
-    if (this.isEdit && this.model.costCenterId) {
-      this.svc.updateCodeCostCenter(this.model.costCenterId, this.model).subscribe({
-        next: () => { this.saving = false; this.closeModal(); this.loadData(); this.cdr.detectChanges(); },
-        error: (err) => { this.saving = false; console.error('Update error:', err); alert('Failed to update'); }
+    const isEditing = this.isEdit && this.model.costCenterId;
+    const modelId = this.model.costCenterId;
+    const modelData = { ...this.model };
+
+    // Close modal immediately
+    this.closeModal();
+
+    if (isEditing && modelId) {
+      this.svc.updateCodeCostCenter(modelId, modelData).subscribe({
+        next: () => { this.loadData(); this.cdr.detectChanges(); },
+        error: (err) => { console.error('Update error:', err); alert('Failed to update'); }
       });
     } else {
-      this.svc.createCodeCostCenter(this.model).subscribe({
-        next: () => { this.saving = false; this.closeModal(); this.loadData(); this.cdr.detectChanges(); },
-        error: (err) => { this.saving = false; console.error('Create error:', err); alert('Failed to create'); }
+      this.svc.createCodeCostCenter(modelData).subscribe({
+        next: () => { this.loadData(); this.cdr.detectChanges(); },
+        error: (err) => { console.error('Create error:', err); alert('Failed to create'); }
       });
     }
   }

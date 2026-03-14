@@ -1,4 +1,4 @@
-﻿<div class="code-page">
+<div class="code-page">
   <div class="code-card">
     <div class="code-toolbar">
       <div class="toolbar-left">
@@ -112,7 +112,47 @@
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="checkbox-label">
+          <label>Account Type</label>
+          <select [(ngModel)]="model.accountType">
+            <option value="">Select Type</option>
+            <option value="Debit">Debit</option>
+            <option value="Credit">Credit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Account Group</label>
+          <select [(ngModel)]="model.accountGroup">
+            <option value="">Select Group</option>
+            <option value="Type">Type</option>
+            <option value="Class">Class</option>
+            <option value="Main Account">Main Account</option>
+            <option value="Subsidiary Account">Subsidiary Account</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Account Closing</label>
+          <select [(ngModel)]="model.accountClosing">
+            <option value="">Select Closing</option>
+            <option value="profit and loss">profit and loss</option>
+            <option value="financial center list">financial center list</option>
+          </select>
+        </div>
+        <div class="form-group checkbox-group" style="display: flex; gap: 15px; align-items: flex-end; padding-bottom: 10px; flex-wrap: wrap;">
+          <label class="checkbox-label" style="margin-bottom: 0;">
+            <input type="checkbox" [(ngModel)]="model.taxes">
+            Taxes
+          </label>
+          <label class="checkbox-label" style="margin-bottom: 0;">
+            <input type="checkbox" [(ngModel)]="model.costType">
+            Cost Type
+          </label>
+          <label class="checkbox-label" style="margin-bottom: 0;">
+            <input type="checkbox" [(ngModel)]="model.period">
+            Period
+          </label>
+          <label class="checkbox-label" style="margin-bottom: 0;">
             <input type="checkbox" [(ngModel)]="model.isActive">
             Active
           </label>

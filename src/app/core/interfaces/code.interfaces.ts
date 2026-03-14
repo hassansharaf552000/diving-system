@@ -295,6 +295,12 @@ export interface OperationAccount {
   parentAccountNumber?: string | null;
   parentAccountName?: string | null;
   level: number;
+  accountType?: string;
+  accountGroup?: string;
+  accountClosing?: string;
+  taxes?: boolean;
+  costType?: boolean;
+  period?: boolean;
   isActive: boolean;
   children?: OperationAccount[];
   hasChildren?: boolean;
@@ -311,6 +317,12 @@ export interface OperationAccountCreate {
   accountNumber: string;
   accountName: string;
   parentId: number | null;
+  accountType?: string;
+  accountGroup?: string;
+  accountClosing?: string;
+  taxes?: boolean;
+  costType?: boolean;
+  period?: boolean;
   isActive: boolean;
   createdBy: string;
 }

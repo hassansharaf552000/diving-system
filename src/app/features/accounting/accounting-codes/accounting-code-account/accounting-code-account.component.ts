@@ -27,8 +27,25 @@ export class AccountingCodeAccountComponent implements OnInit {
     accountNumber: string;
     accountName: string;
     parentId: number | null;
+    accountType: string;
+    accountGroup: string;
+    accountClosing: string;
+    taxes: boolean;
+    costType: boolean;
+    period: boolean;
     isActive: boolean;
-  } = { accountNumber: '', accountName: '', parentId: null, isActive: true };
+  } = { 
+    accountNumber: '', 
+    accountName: '', 
+    parentId: null, 
+    accountType: '',
+    accountGroup: '',
+    accountClosing: '',
+    taxes: false,
+    costType: false,
+    period: false,
+    isActive: true 
+  };
 
   // Track which parent to add child under
   addingChildOf: OperationAccount | null = null;
@@ -148,14 +165,36 @@ export class AccountingCodeAccountComponent implements OnInit {
 
   // ---- Add / Edit ----
   openAddRoot(): void {
-    this.model = { accountNumber: '', accountName: '', parentId: null, isActive: true };
+    this.model = {
+      accountNumber: '',
+      accountName: '',
+      parentId: null,
+      accountType: '',
+      accountGroup: '',
+      accountClosing: '',
+      taxes: false,
+      costType: false,
+      period: false,
+      isActive: true
+    };
     this.addingChildOf = null;
     this.isEdit = false;
     this.isModalOpen = true;
   }
 
   openAddChild(parent: OperationAccount): void {
-    this.model = { accountNumber: '', accountName: '', parentId: parent.id, isActive: true };
+    this.model = {
+      accountNumber: '',
+      accountName: '',
+      parentId: parent.id,
+      accountType: '',
+      accountGroup: '',
+      accountClosing: '',
+      taxes: false,
+      costType: false,
+      period: false,
+      isActive: true
+    };
     this.addingChildOf = parent;
     this.isEdit = false;
     this.isModalOpen = true;
@@ -167,6 +206,12 @@ export class AccountingCodeAccountComponent implements OnInit {
       accountNumber: item.accountNumber,
       accountName: item.accountName,
       parentId: item.parentId,
+      accountType: item.accountType || '',
+      accountGroup: item.accountGroup || '',
+      accountClosing: item.accountClosing || '',
+      taxes: item.taxes || false,
+      costType: item.costType || false,
+      period: item.period || false,
       isActive: item.isActive
     };
     this.isEdit = true;
@@ -186,35 +231,52 @@ export class AccountingCodeAccountComponent implements OnInit {
     }
 
     this.saving = true;
+    const isEditing = this.isEdit && this.model.id;
+    const modelId = this.model.id;
+    
+    // Capture data before closing
+    const updateData = {
+      accountNumber: this.model.accountNumber,
+      accountName: this.model.accountName,
+      accountType: this.model.accountType,
+      accountGroup: this.model.accountGroup,
+      accountClosing: this.model.accountClosing,
+      taxes: this.model.taxes,
+      costType: this.model.costType,
+      period: this.model.period,
+      isActive: this.model.isActive
+    } as any;
+    
+    const createData: OperationAccountCreate = {
+      accountNumber: this.model.accountNumber,
+      accountName: this.model.accountName,
+      parentId: this.model.parentId,
+      accountType: this.model.accountType,
+      accountGroup: this.model.accountGroup,
+      accountClosing: this.model.accountClosing,
+      taxes: this.model.taxes,
+      costType: this.model.costType,
+      period: this.model.period,
+      isActive: this.model.isActive,
+      createdBy: 'admin'
+    };
 
-    if (this.isEdit && this.model.id) {
-      this.svc.updateAccount(this.model.id, {
-        accountNumber: this.model.accountNumber,
-        accountName: this.model.accountName,
-        isActive: this.model.isActive
-      } as any).subscribe({
+    // Close the modal immediately
+    this.closeModal();
+
+    if (isEditing && modelId) {
+      this.svc.updateAccount(modelId, updateData).subscribe({
         next: () => {
-          this.saving = false;
           this.refreshAfterChange();
-          this.closeModal();
         },
-        error: (err) => { this.saving = false; console.error('Update error:', err); alert('Failed to update account'); }
+        error: (err) => { console.error('Update error:', err); alert('Failed to update account'); }
       });
     } else {
-      const createData: OperationAccountCreate = {
-        accountNumber: this.model.accountNumber,
-        accountName: this.model.accountName,
-        parentId: this.model.parentId,
-        isActive: this.model.isActive,
-        createdBy: 'admin'
-      };
       this.svc.createAccount(createData).subscribe({
         next: () => {
-          this.saving = false;
           this.refreshAfterChange();
-          this.closeModal();
         },
-        error: (err) => { this.saving = false; console.error('Create error:', err); alert('Failed to create account'); }
+        error: (err) => { console.error('Create error:', err); alert('Failed to create account'); }
       });
     }
   }
