@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -28,5 +28,13 @@ export class ReportService {
       params: filters,
       responseType: 'blob'
     });
+  }
+
+  getAccountBalanceReceipts(accountId: number, transactionType?: number): Observable<string[]> {
+    let params = new HttpParams().set('accountId', accountId.toString());
+    if (transactionType != null) {
+      params = params.set('transactionType', transactionType.toString());
+    }
+    return this.http.get<string[]>(`${environment.apiUrl}/api/AccountBalanceReport/receipts`, { params });
   }
 }

@@ -1,1 +1,58 @@
-<p>counter works!</p>
+<div class="code-page">
+  <div class="code-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>Treasury Counter Report</h2>
+      </div>
+    </div>
+
+    <div class="code-table-wrap" style="padding: 20px;">
+      <div class="filter-form">
+
+        <!-- Row 1: fromDate & toDate -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>From Date</label>
+            <input type="date" class="filter-input" [(ngModel)]="filters.fromDate" />
+          </div>
+          <div class="filter-field">
+            <label>To Date</label>
+            <input type="date" class="filter-input" [(ngModel)]="filters.toDate" />
+          </div>
+        </div>
+
+        <!-- Row 2: currency & branch -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Currency</label>
+            <select class="filter-input" [(ngModel)]="filters.currency">
+              <option value="">Select...</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="EGP">EGP</option>
+              <option value="GBP">GBP</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Branch</label>
+            <input type="text" class="filter-input" [(ngModel)]="filters.branch" placeholder="Branch" />
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="filter-actions">
+          <button class="btn-view" (click)="triggerView()">
+            <i class="fas fa-eye"></i> View
+          </button>
+          <button class="btn-pdf" (click)="triggerPdf()">
+            <i class="fas fa-file-pdf"></i> PDF
+          </button>
+          <button class="btn-excel" (click)="triggerExcel()">
+            <i class="fas fa-file-excel"></i> Excel
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

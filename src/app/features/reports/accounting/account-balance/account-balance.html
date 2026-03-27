@@ -1,1 +1,100 @@
-<p>account-balance works!</p>
+<div class="code-page">
+  <div class="code-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>Account Balance Report</h2>
+      </div>
+    </div>
+
+    <div class="code-table-wrap" style="padding: 20px;">
+
+      <!-- Loading state -->
+      <div *ngIf="loadingAccounts" class="loading-overlay">
+        <div class="spinner"></div>
+        <span>Loading data, please wait...</span>
+      </div>
+
+      <!-- Filter form — shown only after data is ready -->
+      <div class="filter-form" *ngIf="!loadingAccounts">
+
+        <!-- Row 1: fromDate & toDate -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>From Date</label>
+            <input type="date" class="filter-input" [(ngModel)]="filters.fromDate" />
+          </div>
+          <div class="filter-field">
+            <label>To Date</label>
+            <input type="date" class="filter-input" [(ngModel)]="filters.toDate" />
+          </div>
+        </div>
+
+        <!-- Row 2: Account & Branch -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Account</label>
+            <select class="filter-input" [(ngModel)]="filters.accountId" (ngModelChange)="onAccountChange()">
+              <option value="">-- Select Account --</option>
+              <option *ngFor="let acc of accounts" [value]="acc.id">
+                {{ acc.accountNumber }} - {{ acc.accountName }}
+              </option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Branch</label>
+            <input type="text" class="filter-input" [(ngModel)]="filters.branchName" placeholder="Branch" />
+          </div>
+        </div>
+
+        <!-- Row 3: Transaction Type & Receipt No -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Transaction Type</label>
+            <select class="filter-input" [(ngModel)]="filters.transactionType" (ngModelChange)="onTransactionTypeChange()">
+              <option value="">-- Select Type --</option>
+              <option *ngFor="let opt of transactionTypeOptions" [value]="opt.value">
+                {{ opt.label }}
+              </option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Receipt No</label>
+            <select class="filter-input" [(ngModel)]="filters.receiptNo" [disabled]="!filters.accountId">
+              <option value="">{{ filters.accountId ? '-- Select Receipt --' : '-- Select Account First --' }}</option>
+              <option *ngFor="let r of receipts" [value]="r">{{ r }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 4: Currency -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Currency</label>
+            <select class="filter-input" [(ngModel)]="filters.currency">
+              <option value="">-- Select Currency --</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="EGP">EGP</option>
+              <option value="GBP">GBP</option>
+            </select>
+          </div>
+          <div class="filter-field"><!-- spacer --></div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="filter-actions">
+          <button class="btn-view" (click)="triggerView()">
+            <i class="fas fa-eye"></i> View
+          </button>
+          <button class="btn-pdf" (click)="triggerPdf()">
+            <i class="fas fa-file-pdf"></i> PDF
+          </button>
+          <button class="btn-excel" (click)="triggerExcel()">
+            <i class="fas fa-file-excel"></i> Excel
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
