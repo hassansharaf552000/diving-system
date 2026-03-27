@@ -97,6 +97,8 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.searchFromDate = new Date().toISOString().split('T')[0];
+    this.searchToDate = new Date().toISOString().split('T')[0];
     this.loadDropdowns();
     this.searchTransactions();
   }
