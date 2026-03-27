@@ -180,6 +180,8 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     this.model.transactionTypeName = this.selectedTypeDef.name;
     this.generatedReceiptNo = this.buildReceiptNo(this.selectedTypeDef.prefix);
     this.model.receiptNo = this.generatedReceiptNo;
+    // Default date to today
+    this.model.transactionDate = new Date().toISOString().split('T')[0];
     this.isModalOpen = true;
   }
 
