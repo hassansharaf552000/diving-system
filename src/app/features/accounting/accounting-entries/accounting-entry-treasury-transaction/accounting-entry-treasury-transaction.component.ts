@@ -32,11 +32,11 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
   // Five distinct transaction types matching the reference UI
   transactionTypes: TransactionTypeDef[] = [
-    { id: 1, name: 'Revenue',             prefix: 'REV', lineRule: 'credit', badgeClass: 'type-1' },
-    { id: 2, name: 'Expense',             prefix: 'EXP', lineRule: 'debit',  badgeClass: 'type-2' },
-    { id: 3, name: 'Advance',             prefix: 'ADV', lineRule: 'debit',  badgeClass: 'type-3' },
-    { id: 4, name: 'Advance Settlement',  prefix: 'ADS', lineRule: 'credit', badgeClass: 'type-4' },
-    { id: 5, name: 'Due',                 prefix: 'DUE', lineRule: 'both',   badgeClass: 'type-5' },
+    { id: 1, name: 'Revenue', prefix: 'REV', lineRule: 'credit', badgeClass: 'type-1' },
+    { id: 2, name: 'Expense', prefix: 'EXP', lineRule: 'debit', badgeClass: 'type-2' },
+    { id: 3, name: 'Advance', prefix: 'ADV', lineRule: 'debit', badgeClass: 'type-3' },
+    { id: 4, name: 'Advance Settlement', prefix: 'ADS', lineRule: 'credit', badgeClass: 'type-4' },
+    { id: 5, name: 'Due', prefix: 'DUE', lineRule: 'both', badgeClass: 'type-5' },
   ];
 
   paymentTypes: string[] = ['Cash', 'Check', 'Transfer', 'Credit Card'];
@@ -94,7 +94,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     private svc: AccountingService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadDropdowns();
@@ -104,14 +104,17 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   // ============ DROPDOWN LOADING ============
   loadDropdowns(): void {
     forkJoin({
-      accounts: this.svc.getRootAccounts(),
+      accounts: this.svc.getAllAccountsFlat(),
       periods: this.svc.getCodePeriods(),
       beneficiaryNames: this.svc.getCodeBeneficiaryNames(),
       costCenters: this.svc.getCodeCostCenters(),
       fileNumbers: this.svc.getCodeFileNumbers()
     }).subscribe({
       next: (data) => {
-        this.accounts = data.accounts;
+        this.accounts = data.accounts.map((a: any) => ({
+          ...a,
+          displayLabel: `${a.accountNumber} - ${a.accountName}`
+        }));
         this.periods = data.periods;
         this.beneficiaryNames = data.beneficiaryNames;
         this.costCenters = data.costCenters;
@@ -378,7 +381,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     }
 
     const rule = this.selectedTypeDef?.lineRule || 'both';
-    const debit  = this.lineModel.debit  || 0;
+    const debit = this.lineModel.debit || 0;
     const credit = this.lineModel.credit || 0;
 
     if (debit === 0 && credit === 0) {
@@ -412,7 +415,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     if (fn) this.lineModel.fileNumberValue = fn.fileNumber;
 
     const rate = this.model.rate || 1;
-    this.lineModel.eqDebit  = debit  * rate;
+    this.lineModel.eqDebit = debit * rate;
     this.lineModel.eqCredit = credit * rate;
 
     if (this.isLineEdit && this.editingLineIndex >= 0) {

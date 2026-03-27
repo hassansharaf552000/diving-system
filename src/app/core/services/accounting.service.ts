@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { OperationAccount, OperationAccountCreate, CodePeriod, CodeBeneficiaryName, CodeBeneficiaryType, CodeCostCenter, CodeFileNumber, CodeAgent, TreasuryTransaction, TreasuryTransactionCreate, TreasuryCounter, TreasuryCounterCreate } from '../interfaces/code.interfaces';
 
@@ -45,6 +46,33 @@ export class AccountingService {
 
   getChildAccounts(parentId: number): Observable<OperationAccount[]> {
     return this.http.get<OperationAccount[]>(`${this.baseUrl}/OperationAccounts/${parentId}/children`);
+  }
+
+  /**
+   * Recursively loads all accounts at every level using roots + children endpoints.
+   * Returns a flat array ordered depth-first (parent immediately followed by its children).
+   */
+  getAllAccountsFlat(): Observable<OperationAccount[]> {
+    return this.getRootAccounts().pipe(
+      switchMap(roots => this.expandAccounts(roots))
+    );
+  }
+
+  private expandAccounts(accounts: OperationAccount[]): Observable<OperationAccount[]> {
+    if (accounts.length === 0) return of([]);
+    return forkJoin(
+      accounts.map(acc =>
+        this.getChildAccounts(acc.id).pipe(
+          switchMap(children =>
+            children.length === 0
+              ? of([acc])
+              : this.expandAccounts(children).pipe(
+                  map(subTree => [acc, ...subTree])
+                )
+          )
+        )
+      )
+    ).pipe(map(groups => ([] as OperationAccount[]).concat(...groups)));
   }
 
   getAccount(id: number): Observable<OperationAccount> {
