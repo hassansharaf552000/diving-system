@@ -36,6 +36,8 @@ export class EntryTransactionComponent implements OnInit {
   // Base selling prices (before discount) — stored so discount can be re-applied correctly
   private baseSellingEGP = 0; private baseSellingUSD = 0;
   private baseSellingEUR = 0; private baseSellingGBP = 0;
+  // When true, findMatchingCostSelling will only set matchedRate without overwriting prices
+  private skipPriceRecalc = false;
   paymentTypes: string[] = ['Cash', 'Credit', 'FOC'];
 
   // Excel Columns
@@ -192,7 +194,10 @@ export class EntryTransactionComponent implements OnInit {
     }
 
     this.matchedRate = best;
-    this.recalculatePrices();
+    // In edit mode initial load, skip overwriting prices already loaded from the server
+    if (!this.skipPriceRecalc) {
+      this.recalculatePrices();
+    }
     this.cdr.detectChanges();
   }
 
@@ -283,7 +288,11 @@ export class EntryTransactionComponent implements OnInit {
           this.baseSellingUSD = (this.model.sellingUSD || 0) + (this.model.discountUSD || 0);
           this.baseSellingEUR = (this.model.sellingEUR || 0) + (this.model.discountEUR || 0);
           this.baseSellingGBP = (this.model.sellingGBP || 0) + (this.model.discountGBP || 0);
-          this.matchedRate = null;
+
+          // Find the matching rate (to show the ✅ badge) without overwriting saved prices
+          this.skipPriceRecalc = true;
+          this.findMatchingCostSelling();
+          this.skipPriceRecalc = false;
           
           this.isEdit = true;
           this.isModalOpen = true;
