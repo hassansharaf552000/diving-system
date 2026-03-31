@@ -37,4 +37,8 @@ export class ReportService {
     }
     return this.http.get<string[]>(`${environment.apiUrl}/api/AccountBalanceReport/receipts`, { params });
   }
+
+  getReportData<T>(endpoint: string, filters: any): Observable<T> {
+    return this.http.get<T>(`${environment.apiUrl}${endpoint}`, { params: filters });
+  }
 }

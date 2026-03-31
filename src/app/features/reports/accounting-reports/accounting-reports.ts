@@ -46,7 +46,7 @@ export class AccountingReports implements OnInit {
     private reportService: ReportService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.reportService.getAccountingReports().subscribe({
@@ -65,12 +65,18 @@ export class AccountingReports implements OnInit {
 
   private mapReports(definitions: ReportDefinition[]): ReportCard[] {
     return definitions.map(def => {
-      const meta = this.reportMetadata[def.key] || {
-        icon: '📋',
-        desc: def.displayName,
-        gradient: 'linear-gradient(135deg, #667eea, #764ba2)'
-      };
+      // Normalize key to lowercase and strip all spaces to handle anomalies like "searchm   ovements"
+      const normalizedKey = (def.key || '').toLowerCase().replace(/\s+/g, '');
       
+      const meta = this.reportMetadata[normalizedKey] || 
+                   // Fallback for inverted names if the API returns movementssearch
+                   this.reportMetadata[normalizedKey === 'movementssearch' ? 'searchmovements' : ''] || 
+                   {
+                     icon: '📋',
+                     desc: def.displayName,
+                     gradient: 'linear-gradient(135deg, #667eea, #764ba2)'
+                   };
+
       let folderName = def.key;
       const folderMap: Record<string, string> = {
         'taxtransaction': 'tax-transaction',
@@ -79,6 +85,7 @@ export class AccountingReports implements OnInit {
         'genralfollow': 'general-follow',
         'cashbalance': 'cash-balance',
         'searchmovements': 'search-movements',
+        'movementssearch': 'search-movements',
         'genralsubsidiaryledger': 'general-subsidiary-ledger',
         'accountsubsidiaryledger': 'account-subsidiary-ledger',
         'fileservicesubsidiaryledger': 'file-service-subsidiary-ledger',
@@ -89,8 +96,9 @@ export class AccountingReports implements OnInit {
         'trialbalance': 'trial-balance',
         'codesreports': 'codes-reports'
       };
-      if (folderMap[def.key]) {
-        folderName = folderMap[def.key];
+
+      if (folderMap[normalizedKey]) {
+        folderName = folderMap[normalizedKey];
       }
 
       return {

@@ -1,1 +1,211 @@
-<p>search-movements works!</p>
+<div class="code-page">
+  <div class="code-card search-report-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>Movements Search</h2>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="code-table-wrap" style="padding: 20px;">
+      <div class="filter-form">
+        
+        <!-- Row 1: From Date & To Date -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>From Date</label>
+            <input type="date" class="filter-input" [(ngModel)]="filters.fromDate" />
+          </div>
+          <div class="filter-field">
+            <label>To Date</label>
+            <input type="date" class="filter-input" [(ngModel)]="filters.toDate" />
+          </div>
+        </div>
+
+        <!-- Row 2: Account Name & Beneficiary Name -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Account Name</label>
+            <select class="filter-input" [(ngModel)]="filters.accountId">
+              <option value="">-- All --</option>
+              <option *ngFor="let acc of accounts" [value]="acc.id">{{ acc.accountNumber }} - {{ acc.accountName }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Beneficiary Name</label>
+            <select class="filter-input" [(ngModel)]="filters.beneficiaryNameId">
+              <option value="">-- All --</option>
+              <option *ngFor="let b of beneficiaryNames" [value]="b.beneficiaryId">{{ b.beneficiaryName }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 3: Transaction Type & Beneficiary Type -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Transaction Type</label>
+            <select class="filter-input" [(ngModel)]="filters.transactionType">
+              <option value="">-- All --</option>
+              <option *ngFor="let opt of transactionTypeOptions" [value]="opt.label">{{ opt.label }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Beneficiary Type</label>
+            <select class="filter-input" [(ngModel)]="filters.beneficiaryType">
+              <option value="">-- All --</option>
+              <option *ngFor="let t of beneficiaryTypes" [value]="t.beneficiaryTypeName">{{ t.beneficiaryTypeName }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 4: Currency & Branch -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Currency</label>
+            <select class="filter-input" [(ngModel)]="filters.currency">
+              <option value="">-- All --</option>
+              <option *ngFor="let cur of currencyOptions" [value]="cur">{{ cur }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Branch</label>
+            <input type="text" class="filter-input" [(ngModel)]="filters.branch" />
+          </div>
+        </div>
+
+        <!-- Row 5: Search & Receipt No -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Search Text</label>
+            <input type="text" class="filter-input search-input" [(ngModel)]="filters.searchTerm" placeholder="Search..." />
+          </div>
+          <div class="filter-field">
+            <label>Receipt No</label>
+            <select class="filter-input" [(ngModel)]="filters.receiptNo">
+              <option value="">-- All --</option>
+              <option *ngFor="let r of receipts" [value]="r">{{ r }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="filter-actions">
+          <button class="btn-view" (click)="triggerView()" [disabled]="loading">
+            <i class="fas fa-eye"></i> {{ loading ? 'Loading...' : 'View' }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-container" *ngIf="data && data.lines">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>Transaction Date</th>
+            <th>Transaction Type</th>
+            <th>Receipt No</th>
+            <th>Beneficiary</th>
+            <th>Account Name</th>
+            <th>Description</th>
+            <th>Currency</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Rate</th>
+            <th>Equevlant Debit</th>
+            <th>Equevlant Credit</th>
+            <th>Record By</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let line of data.lines">
+            <td>{{ line.branchName || '-' }}</td>
+            <td>{{ line.transactionDate | date:'dd/MM/yyyy' }}</td>
+            <td>{{ line.transactionType }}</td>
+            <td>{{ line.receiptNo }}</td>
+            <td>{{ line.beneficiary }}</td>
+            <!-- The screenshot shows the Arabic Account Name under "Account Number" -->
+            <td>{{ line.accountName }}</td>
+            <td>{{ line.description }}</td>
+            <td>{{ line.currency }}</td>
+            <td>{{ line.debit | number:'1.2-2' }}</td>
+            <td>{{ line.credit | number:'1.2-2' }}</td>
+            <td>{{ line.rate | number:'1.2-2' }}</td>
+            <td>{{ line.equevlantDebit | number:'1.2-2' }}</td>
+            <td>{{ line.equevlantCredit | number:'1.2-2' }}</td>
+            <td>{{ line.recordBy }}</td>
+          </tr>
+          <tr *ngIf="data.lines.length === 0">
+            <td colspan="14" class="no-data">No transactions found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary-container" *ngIf="data && data.summary">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>EGP</th>
+            <th>USD</th>
+            <th>EURO</th>
+            <th>GBP</th>
+            <th>Equevlant</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Previous Balance</td>
+            <td>{{ data.summary.previousBalanceEGP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.previousBalanceUSD | number:'1.2-2' }}</td>
+            <td>{{ data.summary.previousBalanceEUR | number:'1.2-2' }}</td>
+            <td>{{ data.summary.previousBalanceGBP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.previousBalanceEq | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td class="row-label">Period Revenue</td>
+            <td>{{ data.summary.periodRevenueEGP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodRevenueUSD | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodRevenueEUR | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodRevenueGBP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodRevenueEq | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td class="row-label">Period Expense</td>
+            <td>{{ data.summary.periodExpenseEGP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodExpenseUSD | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodExpenseEUR | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodExpenseGBP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodExpenseEq | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td class="row-label">Period Advance</td>
+            <td>{{ data.summary.periodAdvanceEGP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodAdvanceUSD | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodAdvanceEUR | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodAdvanceGBP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodAdvanceEq | number:'1.2-2' }}</td>
+          </tr>
+          <tr class="total-row">
+            <td class="row-label">Total</td>
+            <td>{{ data.summary.totalEGP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.totalUSD | number:'1.2-2' }}</td>
+            <td>{{ data.summary.totalEUR | number:'1.2-2' }}</td>
+            <td>{{ data.summary.totalGBP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.totalEq | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="summary-actions">
+        <!-- Excel Button matches the screenshot bottom right -->
+        <button class="btn-excel" (click)="triggerExcel()">
+          <i class="fas fa-file-excel"></i> XLS
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
