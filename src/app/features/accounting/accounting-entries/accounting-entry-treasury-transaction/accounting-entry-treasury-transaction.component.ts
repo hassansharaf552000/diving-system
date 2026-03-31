@@ -115,13 +115,19 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
           ...a,
           displayLabel: `${a.accountNumber} - ${a.accountName}`
         }));
-        this.periods = data.periods;
+        this.periods = [
+          { periodId: 0, periodName: '-', active: true },
+          ...data.periods
+        ];
         this.beneficiaryNames = data.beneficiaryNames;
         this.costCenters = data.costCenters;
-        this.fileNumbers = data.fileNumbers.map((f: any) => ({
-          ...f,
-          displayLabel: `${f.fileNumber} - ${f.fileName}`
-        }));
+        this.fileNumbers = [
+          { fileId: 0, fileNumber: '-', fileName: '-', displayLabel: '-', active: true },
+          ...data.fileNumbers.map((f: any) => ({
+            ...f,
+            displayLabel: `${f.fileNumber} - ${f.fileName}`
+          }))
+        ];
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error loading dropdowns:', err)
@@ -502,7 +508,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       transactionTypeName: undefined,
       receiptNo: '',
       transactionDate: '',
-      periodId: undefined,
+      periodId: 0,
       beneficiaryNameId: undefined,
       currency: 'EGP',
       rate: 1,
@@ -520,12 +526,12 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     return {
       accountId: undefined,
       accountName: '',
-      fileNumberId: undefined,
+      fileNumberId: 0,
       fileNumberValue: '',
       serviceId: undefined,
       costCenterId: undefined,
       costCenterName: '',
-      periodId: undefined,
+      periodId: 0,
       periodName: '',
       taxPercent: undefined,
       taxNo: '',
