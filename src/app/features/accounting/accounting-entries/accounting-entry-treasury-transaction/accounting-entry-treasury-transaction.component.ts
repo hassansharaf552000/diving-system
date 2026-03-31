@@ -73,8 +73,6 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   // Auto-generated receipt number displayed in the modal
   generatedReceiptNo = '';
 
-  // Counters per prefix for auto receipt generation (local only; server generates the real one)
-  private receiptCounters: Record<string, number> = { REV: 1, EXP: 1, ADV: 1, ADS: 1, DUE: 1 };
 
   // Line being added/edited via modal
   isLineModalOpen = false;
@@ -167,8 +165,17 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   }
 
   private buildReceiptNo(prefix: string): string {
-    const n = this.receiptCounters[prefix] || 1;
-    return `${prefix}-${String(n).padStart(3, '0')}`;
+    // Scan existing transactions for this prefix and find the highest sequence number
+    let maxNo = 0;
+    const pattern = new RegExp(`^${prefix}-(\\d+)$`, 'i');
+    for (const tx of this.transactions) {
+      const match = tx.receiptNo?.match(pattern);
+      if (match) {
+        const num = parseInt(match[1], 10);
+        if (num > maxNo) maxNo = num;
+      }
+    }
+    return `${prefix}-${String(maxNo + 1).padStart(3, '0')}`;
   }
 
   // ============ ADD NEW ============
@@ -182,8 +189,20 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     this.model.transactionTypeName = this.selectedTypeDef.name;
     this.generatedReceiptNo = this.buildReceiptNo(this.selectedTypeDef.prefix);
     this.model.receiptNo = this.generatedReceiptNo;
-    // Default date to today
-    this.model.transactionDate = new Date().toISOString().split('T')[0];
+    // Default date and due date to today
+    const today = new Date().toISOString().split('T')[0];
+    this.model.transactionDate = today;
+    this.model.dueDate = today;
+    // Default account: 102010001 (نقدية بالصندوق)
+    const defaultAccount = this.accounts.find(a => a.accountNumber === '102010001');
+    if (defaultAccount) {
+      this.model.paymentDefaultAccountId = defaultAccount.id;
+    }
+    // Beneficiary Name: default to the "-" record in the list
+    const dashBeneficiary = this.beneficiaryNames.find(b => b.beneficiaryName === '-');
+    if (dashBeneficiary) {
+      this.model.beneficiaryNameId = dashBeneficiary.beneficiaryId;
+    }
     this.isModalOpen = true;
   }
 
@@ -277,8 +296,6 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     } else {
       this.svc.createTreasuryTransaction(payload).subscribe({
         next: () => {
-          // increment local counter after successful creation
-          this.receiptCounters[this.selectedTypeDef.prefix] = (this.receiptCounters[this.selectedTypeDef.prefix] || 1) + 1;
           this.saving = false;
           this.closeModal();
           this.searchTransactions();
