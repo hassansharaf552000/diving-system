@@ -118,7 +118,10 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
         this.periods = data.periods;
         this.beneficiaryNames = data.beneficiaryNames;
         this.costCenters = data.costCenters;
-        this.fileNumbers = data.fileNumbers;
+        this.fileNumbers = data.fileNumbers.map((f: any) => ({
+          ...f,
+          displayLabel: `${f.fileNumber} - ${f.fileName}`
+        }));
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error loading dropdowns:', err)
