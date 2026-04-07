@@ -1,1 +1,100 @@
-<p>file-profit-and-loss works!</p>
+<div class="code-page">
+  <div class="code-card search-report-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>Touristic File Subsidiary Report</h2>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="code-table-wrap" style="padding: 20px;">
+      <div class="filter-form">
+
+        <!-- Row 1: Branch, Year, From Month, To Month -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Branch</label>
+            <input type="text" class="filter-input" [(ngModel)]="filters.branch" placeholder="Branch" />
+          </div>
+          <div class="filter-field">
+            <label>Year</label>
+            <select class="filter-input" [(ngModel)]="filters.year">
+              <option *ngFor="let y of yearOptions" [value]="y">{{ y }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>From Month</label>
+            <select class="filter-input" [(ngModel)]="filters.fromMonth">
+              <option *ngFor="let m of monthOptions" [value]="m.value">{{ m.label }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>To Month</label>
+            <select class="filter-input" [(ngModel)]="filters.toMonth">
+              <option *ngFor="let m of monthOptions" [value]="m.value">{{ m.label }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 2: Agent, File Number, Service Account -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Agent</label>
+            <select class="filter-input" [(ngModel)]="filters.agentId">
+              <option value="">-- All --</option>
+              <option *ngFor="let a of agents" [value]="a.agentId">{{ a.agentName }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>File Number</label>
+            <select class="filter-input" [(ngModel)]="filters.fileNumberId">
+              <option value="">-- All --</option>
+              <option *ngFor="let fn of fileNumbers" [value]="fn.fileId">{{ fn.fileNumber }} - {{ fn.fileName }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Service Account</label>
+            <select class="filter-input" [(ngModel)]="filters.serviceAccountId">
+              <option value="">-- All --</option>
+              <option *ngFor="let acc of accounts" [value]="acc.id">{{ acc.accountNumber }} - {{ acc.accountName }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 3: Report By, Report Group -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Report By</label>
+            <select class="filter-input" [(ngModel)]="filters.reportBy">
+              <option *ngFor="let opt of reportByOptions" [value]="opt">{{ opt }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Report Group</label>
+            <select class="filter-input" [(ngModel)]="filters.reportGroup">
+              <option *ngFor="let opt of reportGroupOptions" [value]="opt">{{ opt }}</option>
+            </select>
+          </div>
+          <!-- spacer fields to keep layout balanced -->
+          <div class="filter-field" style="visibility: hidden;"></div>
+          <div class="filter-field" style="visibility: hidden;"></div>
+        </div>
+
+        <!-- Actions -->
+        <div class="filter-actions">
+          <button class="btn-view" (click)="triggerPdf()">
+            <i class="fas fa-eye"></i> View
+          </button>
+          <button class="btn-pdf" (click)="downloadPdf()">
+            <i class="fas fa-file-pdf"></i> PDF
+          </button>
+          <button class="btn-excel" (click)="triggerExcel()">
+            <i class="fas fa-file-excel"></i> XLS
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

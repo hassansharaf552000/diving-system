@@ -1,1 +1,61 @@
-<p>trial-balance works!</p>
+<div class="code-page">
+  <div class="code-card search-report-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>Trial Balance Report</h2>
+      </div>
+    </div>
+
+    <div class="code-table-wrap" style="padding: 20px;">
+      <div class="filter-form">
+
+        <!-- Row 1: Branch, Year, From Month, To Month, Currency -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Branch</label>
+            <input type="text" class="filter-input" [(ngModel)]="filters.branch" placeholder="Branch" />
+          </div>
+          <div class="filter-field">
+            <label>Year</label>
+            <select class="filter-input" [(ngModel)]="filters.year">
+              <option *ngFor="let y of yearOptions" [value]="y">{{ y }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>From Month</label>
+            <select class="filter-input" [(ngModel)]="filters.fromMonth">
+              <option *ngFor="let m of monthOptions" [value]="m.value">{{ m.label }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>To Month</label>
+            <select class="filter-input" [(ngModel)]="filters.toMonth">
+              <option *ngFor="let m of monthOptions" [value]="m.value">{{ m.label }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Currency</label>
+            <select class="filter-input" [(ngModel)]="filters.currency">
+              <option value="">-- All --</option>
+              <option *ngFor="let cur of currencyOptions" [value]="cur">{{ cur }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="filter-actions">
+          <button class="btn-view" (click)="triggerPdf()">
+            <i class="fas fa-eye"></i> View
+          </button>
+          <button class="btn-pdf" (click)="downloadPdf()">
+            <i class="fas fa-file-pdf"></i> PDF
+          </button>
+          <button class="btn-excel" (click)="triggerExcel()">
+            <i class="fas fa-file-excel"></i> XLS
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
