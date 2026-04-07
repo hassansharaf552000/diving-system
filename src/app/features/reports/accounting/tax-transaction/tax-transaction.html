@@ -1,1 +1,67 @@
-<p>tax-transaction works!</p>
+<div class="code-page">
+    <div class="code-card search-report-card">
+        <div class="code-toolbar">
+            <div class="toolbar-left">
+                <h2>Transaction Tax Report</h2>
+            </div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="code-table-wrap" style="padding: 20px;">
+            <div class="filter-form">
+
+                <!-- Row 1: From Date & To Date -->
+                <div class="filter-row">
+                    <div class="filter-field">
+                        <label>From Date</label>
+                        <input type="date" class="filter-input" [(ngModel)]="filters.fromDate" />
+                    </div>
+                    <div class="filter-field">
+                        <label>To Date</label>
+                        <input type="date" class="filter-input" [(ngModel)]="filters.toDate" />
+                    </div>
+                    <div class="filter-field">
+                        <label>Branch</label>
+                        <input type="text" class="filter-input" [(ngModel)]="filters.branchName"
+                            placeholder="Branch Name" />
+                    </div>
+                </div>
+
+                <!-- Row 2: Receipt No, Tax Serial No, Currency -->
+                <div class="filter-row">
+                    <div class="filter-field">
+                        <label>Receipt No</label>
+                        <select class="filter-input" [(ngModel)]="filters.receiptNo">
+                            <option value="">-- All --</option>
+                            <option *ngFor="let r of receipts" [value]="r">{{ r }}</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Tax Serial No</label>
+                        <input type="text" class="filter-input" [(ngModel)]="filters.taxNo"
+                            placeholder="Tax Serial No" />
+                    </div>
+                    <div class="filter-field">
+                        <label>Currency</label>
+                        <select class="filter-input" [(ngModel)]="filters.currency">
+                            <option value="">-- All --</option>
+                            <option *ngFor="let cur of currencyOptions" [value]="cur">{{ cur }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="filter-actions">
+                    <!-- <button class="btn-view" (click)="triggerPdf()">
+            <i class="fas fa-eye"></i> View
+          </button> -->
+                    <button class="btn-excel" (click)="triggerExcel()">
+                        <i class="fas fa-file-excel"></i> XLS
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,1 +1,207 @@
-<p>cost-center-subsidiary-ledger works!</p>
+<div class="code-page">
+  <div class="code-card search-report-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>Cost Center Subsidiary Ledger Report</h2>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="code-table-wrap" style="padding: 20px;">
+      <div class="filter-form">
+
+        <!-- Row 1: From Date, To Date, Receipt No, Transaction Type -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>From Date</label>
+            <input type="date" class="filter-input" [(ngModel)]="filters.fromDate" />
+          </div>
+          <div class="filter-field">
+            <label>To Date</label>
+            <input type="date" class="filter-input" [(ngModel)]="filters.toDate" />
+          </div>
+          <div class="filter-field">
+            <label>Receipt No</label>
+            <select class="filter-input" [(ngModel)]="filters.receiptNo">
+              <option value="">-- All --</option>
+              <option *ngFor="let r of receipts" [value]="r">{{ r }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Transaction Type</label>
+            <select class="filter-input" [(ngModel)]="filters.transactionType">
+              <option value="">-- All --</option>
+              <option *ngFor="let opt of transactionTypeOptions" [value]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 2: From Account & To Account -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>From Account</label>
+            <select class="filter-input" [(ngModel)]="filters.fromAccount">
+              <option value="">-- All --</option>
+              <option *ngFor="let acc of accounts" [value]="acc.accountNumber">
+                {{ acc.accountNumber }} - {{ acc.accountName }}
+              </option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>To Account</label>
+            <select class="filter-input" [(ngModel)]="filters.toAccount">
+              <option value="">-- All --</option>
+              <option *ngFor="let acc of accounts" [value]="acc.accountNumber">
+                {{ acc.accountNumber }} - {{ acc.accountName }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 3: From Cost Center & To Cost Center -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>From Cost Center</label>
+            <select class="filter-input" [(ngModel)]="filters.fromCostCenter">
+              <option value="">-- All --</option>
+              <option *ngFor="let cc of costCenters" [value]="cc.costCenterName">{{ cc.costCenterName }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>To Cost Center</label>
+            <select class="filter-input" [(ngModel)]="filters.toCostCenter">
+              <option value="">-- All --</option>
+              <option *ngFor="let cc of costCenters" [value]="cc.costCenterName">{{ cc.costCenterName }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 4: Branch, Currency, Search -->
+        <div class="filter-row">
+          <div class="filter-field">
+            <label>Branch</label>
+            <input type="text" class="filter-input" [(ngModel)]="filters.branch" placeholder="Branch" />
+          </div>
+          <div class="filter-field">
+            <label>Currency</label>
+            <select class="filter-input" [(ngModel)]="filters.currency">
+              <option value="">-- All --</option>
+              <option *ngFor="let cur of currencyOptions" [value]="cur">{{ cur }}</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Search</label>
+            <input type="text" class="filter-input" [(ngModel)]="filters.search" placeholder="Search..." />
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="filter-actions">
+          <button class="btn-view" (click)="triggerView()" [disabled]="loading">
+            <i class="fas fa-eye"></i> {{ loading ? 'Loading...' : 'View' }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-container" *ngIf="data && data.lines">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>Transaction Date</th>
+            <th>Transaction Type</th>
+            <th>Receipt No</th>
+            <th>Record Type</th>
+            <th>Account Number</th>
+            <th>Beneficiary Name</th>
+            <th>File Number</th>
+            <th>Service</th>
+            <th>Cost Center</th>
+            <th>Tax Rate</th>
+            <th>Tax Serial</th>
+            <th>Period</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let line of data.lines">
+            <td>{{ line.branchName || line.branch || '-' }}</td>
+            <td>{{ line.transactionDate | date:'dd/MM/yyyy' }}</td>
+            <td>{{ line.transactionType || '-' }}</td>
+            <td>{{ line.receiptNo || '-' }}</td>
+            <td>{{ line.recordType || '-' }}</td>
+            <td>{{ line.accountNumber || '-' }}</td>
+            <td>{{ line.beneficiaryName || '-' }}</td>
+            <td>{{ line.fileNumber || '-' }}</td>
+            <td>{{ line.service || '-' }}</td>
+            <td>{{ line.costCenter || '-' }}</td>
+            <td>{{ line.taxRate | number:'1.0-2' }}</td>
+            <td>{{ line.taxSerial || '-' }}</td>
+            <td>{{ line.period || '-' }}</td>
+          </tr>
+          <tr *ngIf="data.lines.length === 0">
+            <td colspan="13" class="no-data">No records found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary-container" *ngIf="data && data.summary">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>EGP</th>
+            <th>USD</th>
+            <th>EURO</th>
+            <th>GBP</th>
+            <th>Equevlant</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Previous Balance</td>
+            <td>{{ data.summary.previousBalanceEGP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.previousBalanceUSD | number:'1.2-2' }}</td>
+            <td>{{ data.summary.previousBalanceEUR | number:'1.2-2' }}</td>
+            <td>{{ data.summary.previousBalanceGBP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.previousBalanceEq | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td class="row-label">Period Debit</td>
+            <td>{{ data.summary.periodDebitEGP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodDebitUSD | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodDebitEUR | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodDebitGBP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodDebitEq | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td class="row-label">Period Credit</td>
+            <td>{{ data.summary.periodCreditEGP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodCreditUSD | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodCreditEUR | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodCreditGBP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.periodCreditEq | number:'1.2-2' }}</td>
+          </tr>
+          <tr class="total-row">
+            <td class="row-label">Total</td>
+            <td>{{ data.summary.totalEGP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.totalUSD | number:'1.2-2' }}</td>
+            <td>{{ data.summary.totalEUR | number:'1.2-2' }}</td>
+            <td>{{ data.summary.totalGBP | number:'1.2-2' }}</td>
+            <td>{{ data.summary.totalEq | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="summary-actions">
+        <button class="btn-excel" (click)="triggerExcel()">
+          <i class="fas fa-file-excel"></i> XLS
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
