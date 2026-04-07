@@ -169,22 +169,15 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     this.selectedTypeDef = typeDef;
     this.model.transactionTypeId = typeDef.id;
     this.model.transactionTypeName = typeDef.name;
-    this.generatedReceiptNo = this.buildReceiptNo(typeDef.prefix);
-    this.model.receiptNo = this.generatedReceiptNo;
-  }
-
-  private buildReceiptNo(prefix: string): string {
-    // Scan existing transactions for this prefix and find the highest sequence number
-    let maxNo = 0;
-    const pattern = new RegExp(`^${prefix}-(\\d+)$`, 'i');
-    for (const tx of this.transactions) {
-      const match = tx.receiptNo?.match(pattern);
-      if (match) {
-        const num = parseInt(match[1], 10);
-        if (num > maxNo) maxNo = num;
-      }
-    }
-    return `${prefix}-${String(maxNo + 1).padStart(3, '0')}`;
+    // Fetch the next receipt number from the API
+    this.svc.getNextReceiptNo(typeDef.id).subscribe({
+      next: (no) => {
+        this.generatedReceiptNo = no;
+        this.model.receiptNo = no;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error fetching receipt no:', err)
+    });
   }
 
   // ============ ADD NEW ============
@@ -196,8 +189,6 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     this.selectedTypeDef = this.transactionTypes[0];
     this.model.transactionTypeId = this.selectedTypeDef.id;
     this.model.transactionTypeName = this.selectedTypeDef.name;
-    this.generatedReceiptNo = this.buildReceiptNo(this.selectedTypeDef.prefix);
-    this.model.receiptNo = this.generatedReceiptNo;
     // Default date and due date to today
     const today = new Date().toISOString().split('T')[0];
     this.model.transactionDate = today;
@@ -212,6 +203,15 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     if (dashBeneficiary) {
       this.model.beneficiaryNameId = dashBeneficiary.beneficiaryId;
     }
+    // Fetch next receipt number from API
+    this.svc.getNextReceiptNo(this.selectedTypeDef.id).subscribe({
+      next: (no) => {
+        this.generatedReceiptNo = no;
+        this.model.receiptNo = no;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error fetching receipt no:', err)
+    });
     this.isModalOpen = true;
   }
 
@@ -275,17 +275,18 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       paymentType: this.model.paymentType || 'Cash',
       paymentDefaultAccountId: this.model.paymentDefaultAccountId || 0,
       recordBy: this.model.recordBy || '',
-      // Pass all lines — use first line for manual line fields
-      manualLineAccountId: this.lines[0]?.accountId || 0,
-      manualLineFileNumberId: this.lines[0]?.fileNumberId || undefined,
-      manualLineCostCenterId: this.lines[0]?.costCenterId || undefined,
-      manualLinePeriodId: this.lines[0]?.periodId || undefined,
-      manualLineServiceId: this.lines[0]?.serviceId || undefined,
-      manualLineTaxPercent: this.lines[0]?.taxPercent || undefined,
-      manualLineTaxNo: this.lines[0]?.taxNo || undefined,
-      manualLineDescription: this.lines[0]?.lineDescription || '',
-      manualLineDebit: this.lines[0]?.debit || 0,
-      manualLineCredit: this.lines[0]?.credit || 0
+      lines: this.lines.map(l => ({
+        accountId: l.accountId || 0,
+        fileNumberId: l.fileNumberId || undefined,
+        costCenterId: l.costCenterId || undefined,
+        periodId: l.periodId || undefined,
+        serviceId: l.serviceId || undefined,
+        taxPercent: l.taxPercent || undefined,
+        taxNo: l.taxNo || undefined,
+        lineDescription: l.lineDescription || '',
+        debit: l.debit || 0,
+        credit: l.credit || 0
+      }))
     };
 
     if (this.isEdit && this.model.treasuryTransactionId) {

@@ -608,16 +608,18 @@ export interface TreasuryTransactionCreate {
   paymentType: string;
   paymentDefaultAccountId: number;
   recordBy: string;
-  manualLineAccountId?: number;
-  manualLineFileNumberId?: number;
-  manualLineCostCenterId?: number;
-  manualLinePeriodId?: number;
-  manualLineServiceId?: number;
-  manualLineTaxPercent?: number;
-  manualLineTaxNo?: string;
-  manualLineDescription?: string;
-  manualLineDebit?: number;
-  manualLineCredit?: number;
+  lines: {
+    accountId: number;
+    fileNumberId?: number;
+    costCenterId?: number;
+    periodId?: number;
+    serviceId?: number;
+    taxPercent?: number;
+    taxNo?: string;
+    lineDescription?: string;
+    debit: number;
+    credit: number;
+  }[];
 }
 
 // ========== TREASURY COUNTERS ==========

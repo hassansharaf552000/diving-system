@@ -251,6 +251,12 @@ export class AccountingService {
     return this.http.delete<void>(`${this.baseUrl}/TreasuryTransactions/${id}`);
   }
 
+  getNextReceiptNo(typeId: number): Observable<string> {
+    return this.http.get<{ receiptNo: string }>(`${this.baseUrl}/TreasuryTransactions/next-receipt-no`, {
+      params: new HttpParams().set('typeId', typeId.toString())
+    }).pipe(map(res => res.receiptNo));
+  }
+
   // ========== TREASURY COUNTERS ==========
   searchTreasuryCounters(currency?: string, branch?: string, fromDate?: string, toDate?: string): Observable<TreasuryCounter[]> {
     let params = new HttpParams();
