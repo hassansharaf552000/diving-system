@@ -61,6 +61,9 @@
               <td>{{ tx.recordBy }}</td>
               <td>
                 <div class="actions-cell">
+                  <button class="action-btn print-btn" title="View PDF"
+                    (click)="printTransaction(tx); $event.stopPropagation()">👁️</button>
+
                   <button class="action-btn edit-btn" (click)="openEdit(tx); $event.stopPropagation()">✏️</button>
                   <button class="action-btn delete-btn"
                     (click)="confirmDelete(tx); $event.stopPropagation()">🗑️</button>

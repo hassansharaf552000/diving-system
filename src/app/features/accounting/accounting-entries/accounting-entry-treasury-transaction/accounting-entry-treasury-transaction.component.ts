@@ -497,6 +497,25 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     return typeDef?.badgeClass || 'type-1';
   }
 
+  // ============ PRINT ============
+  printTransaction(tx: TreasuryTransaction): void {
+    if (!tx.treasuryTransactionId) return;
+    this.svc.printTreasuryTransaction(tx.treasuryTransactionId).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const win = window.open(url, '_blank');
+        if (win) {
+          win.focus();
+          setTimeout(() => URL.revokeObjectURL(url), 10000);
+        }
+      },
+      error: (err) => {
+        console.error('Print error:', err);
+        alert('Failed to load print preview.');
+      }
+    });
+  }
+
   // ============ NAVIGATION ============
   goBack(): void {
     this.router.navigate(['/accounting/entries']);

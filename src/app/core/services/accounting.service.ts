@@ -257,6 +257,12 @@ export class AccountingService {
     }).pipe(map(res => res.receiptNo));
   }
 
+  printTreasuryTransaction(id: number): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/TreasuryTransactions/${id}/print`, {
+      responseType: 'blob'
+    });
+  }
+
   // ========== TREASURY COUNTERS ==========
   searchTreasuryCounters(currency?: string, branch?: string, fromDate?: string, toDate?: string): Observable<TreasuryCounter[]> {
     let params = new HttpParams();
