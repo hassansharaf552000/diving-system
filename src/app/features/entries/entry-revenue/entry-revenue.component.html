@@ -57,13 +57,16 @@
         </div>
 
         <div class="filters-actions payment-actions-row">
-          <div class="payment-controls" *ngIf="selectedRow">
-            <div class="payment-info">
+          <div class="payment-controls" *ngIf="selectedRow || selectedIds.length > 0">
+            <div class="payment-info" *ngIf="selectedRow && selectedIds.length === 0">
               <strong>Voucher:</strong> {{ selectedRow.voucherNumber }} |
               <strong>Status:</strong>
               <span [class.status-paid]="selectedRow.isPaid" [class.status-unpaid]="!selectedRow.isPaid">
                 {{ selectedRow.isPaid ? 'PAID' : 'NOT PAID' }}
               </span>
+            </div>
+            <div class="payment-info" *ngIf="selectedIds.length > 0">
+              <strong>Selected:</strong> {{ selectedIds.length }} item(s)
             </div>
             <div class="payment-inputs">
               <label>Date:</label>
@@ -72,13 +75,16 @@
               <input type="text" [(ngModel)]="paymentRecNo" class="filter-input small-input"
                 [disabled]="paymentLoading">
 
-              <button class="btn-pay" *ngIf="!selectedRow.isPaid" (click)="pay()" [disabled]="paymentLoading">
+              <button class="btn-pay" *ngIf="selectedRow && !selectedRow.isPaid && selectedIds.length === 0" (click)="pay()" [disabled]="paymentLoading">
                 Add Payment
               </button>
-              <button class="btn-update" *ngIf="selectedRow.isPaid" (click)="updatePay()" [disabled]="paymentLoading">
+              <button class="btn-pay" *ngIf="selectedIds.length > 0" (click)="bulkPay()" [disabled]="paymentLoading">
+                Bulk Pay
+              </button>
+              <button class="btn-update" *ngIf="selectedRow && selectedRow.isPaid && selectedIds.length === 0" (click)="updatePay()" [disabled]="paymentLoading">
                 Update
               </button>
-              <button class="btn-delete" *ngIf="selectedRow.isPaid" (click)="deletePay()" [disabled]="paymentLoading">
+              <button class="btn-delete" *ngIf="selectedRow && selectedRow.isPaid && selectedIds.length === 0" (click)="deletePay()" [disabled]="paymentLoading">
                 Delete
               </button>
             </div>
@@ -100,6 +106,9 @@
         <table class="code-table traffic-table">
           <thead>
             <tr>
+              <th style="width: 40px; text-align: center;">
+                <input type="checkbox" (change)="toggleAll($event)" [checked]="isAllSelected()">
+              </th>
               <th>Voucher</th>
               <th>Voucher Date</th>
               <th>Excursion Name</th>
@@ -131,11 +140,14 @@
           </thead>
           <tbody>
             <tr *ngIf="loading">
-              <td colspan="27" class="empty-row">Loading data...</td>
+              <td colspan="28" class="empty-row">Loading data...</td>
             </tr>
             <tr *ngFor="let row of paginatedRevenueData" (click)="selectRow(row)"
               [class.selected]="selectedRow?.entryTransactionId === row.entryTransactionId"
               [class.row-paid]="row.isPaid">
+              <td class="centered" (click)="$event.stopPropagation()">
+                <input type="checkbox" (change)="toggleSelection(row, $event)" [checked]="isSelected(row)" (click)="$event.stopPropagation()">
+              </td>
               <td>{{ row.voucherNumber || '-' }}</td>
               <td>{{ row.transactionDate | date:'dd/MM/yyyy' }}</td>
               <td>{{ row.excursionName || '-' }}</td>
@@ -172,7 +184,7 @@
               <td class="num-cell">{{ row.revenueGBP | number:'1.2-2' }}</td>
             </tr>
             <tr *ngIf="!loading && revenueData.length === 0">
-              <td colspan="27" class="empty-row">No revenue data found for the selected filters</td>
+              <td colspan="28" class="empty-row">No revenue data found for the selected filters</td>
             </tr>
           </tbody>
         </table>

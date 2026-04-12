@@ -46,6 +46,9 @@ export class EntryRevenueComponent implements OnInit {
   paymentRecNo: string = '';
   paymentLoading = false;
 
+  // Bulk Panel
+  selectedIds: number[] = [];
+
   showUpdateConfirm = false;
   showDeleteConfirm = false;
 
@@ -105,6 +108,7 @@ export class EntryRevenueComponent implements OnInit {
     this.loading = true;
     this.currentPage = 1;
     this.selectedRow = null; // reset selection
+    this.selectedIds = [];
     this.codeService.getEntryRevenue(this.filters).subscribe({
       next: (res: any) => {
         this.revenueData = res?.rows || res || [];
@@ -147,6 +151,7 @@ export class EntryRevenueComponent implements OnInit {
     this.revenueData = [];
     this.totals = {};
     this.selectedRow = null;
+    this.selectedIds = [];
     this.cdr.detectChanges();
   }
 
@@ -159,6 +164,75 @@ export class EntryRevenueComponent implements OnInit {
       this.paymentDate = today.toISOString().split('T')[0];
     }
     this.paymentRecNo = row.paymentRecNo || '';
+  }
+
+  toggleSelection(row: EntryRevenueRow, event: any) {
+    if (event.target.checked) {
+      if (row.entryTransactionId && !this.selectedIds.includes(row.entryTransactionId)) {
+        this.selectedIds.push(row.entryTransactionId);
+      }
+    } else {
+      this.selectedIds = this.selectedIds.filter(id => id !== row.entryTransactionId);
+    }
+    this.updatePaymentDefault();
+  }
+
+  toggleAll(event: any) {
+    if (event.target.checked) {
+      this.selectedIds = this.paginatedRevenueData
+        .map(r => r.entryTransactionId)
+        .filter((id): id is number => id !== undefined);
+    } else {
+      this.selectedIds = [];
+    }
+    this.updatePaymentDefault();
+  }
+
+  isAllSelected() {
+    const ids = this.paginatedRevenueData
+      .map(r => r.entryTransactionId)
+      .filter((id): id is number => id !== undefined);
+    return ids.length > 0 && ids.every(id => this.selectedIds.includes(id));
+  }
+
+  isSelected(row: EntryRevenueRow) {
+    return row.entryTransactionId ? this.selectedIds.includes(row.entryTransactionId) : false;
+  }
+
+  updatePaymentDefault() {
+    if (this.selectedIds.length > 0) {
+      const today = new Date();
+      this.paymentDate = today.toISOString().split('T')[0];
+    }
+  }
+
+  bulkPay() {
+    if (this.selectedIds.length === 0) return;
+    if (!this.paymentDate) {
+      this.toastService.warning('Payment Date is required');
+      return;
+    }
+
+    const payload = {
+      entryTransactionIds: this.selectedIds,
+      paymentDate: this.paymentDate,
+      paymentRecNo: this.paymentRecNo
+    };
+
+    this.paymentLoading = true;
+    this.codeService.bulkPayEntryRevenue(payload).subscribe({
+      next: () => {
+        this.paymentLoading = false;
+        this.toastService.success('Bulk Payment successful');
+        this.selectedIds = [];
+        this.viewRevenue(); 
+      },
+      error: (err) => {
+        this.paymentLoading = false;
+        console.error('Bulk Pay error:', err);
+        this.toastService.error('Failed to bulk pay');
+      }
+    });
   }
 
   pay() {

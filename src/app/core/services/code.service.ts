@@ -182,6 +182,10 @@ export class CodeService {
     return this.http.patch(`${this.api}/api/EntryRevenue/${id}/deletepay`, payload);
   }
 
+  bulkPayEntryRevenue(payload: any): Observable<any> {
+    return this.http.patch(`${this.api}/api/EntryRevenue/bulk-pay`, payload);
+  }
+
   // ========== ENTRY TRANSACTION GUIDES ==========
   getEntryTransactionGuides(entryTransactionId: number): Observable<EntryTransactionGuide[]> {
     return this.http.get<EntryTransactionGuide[]>(`${this.api}/api/EntryTransactionGuides?entryTransactionId=${entryTransactionId}`);
