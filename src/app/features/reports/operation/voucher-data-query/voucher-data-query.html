@@ -1,1 +1,23 @@
-<p>voucher-data-query works!</p>
+<div class="code-page">
+  <div class="code-card">
+    <div class="code-toolbar">
+      <div class="toolbar-left">
+        <h2>Voucher Query Report</h2>
+      </div>
+    </div>
+
+    <div class="code-table-wrap" style="padding: 20px;">
+      <app-report-filter
+        [filters]="filters"
+        [showFields]="showFields"
+        [reportByOptions]="reportByOptions"
+        [groupByOptions]="groupByOptions"
+        [reportTypeOptions]="reportTypeOptions"
+        [paidTypeOptions]="paidTypeOptions"
+        (onView)="handleView($event)"
+        (onPdf)="handlePdf($event)"
+        (onExcel)="handleExcel($event)">
+      </app-report-filter>
+    </div>
+  </div>
+</div>

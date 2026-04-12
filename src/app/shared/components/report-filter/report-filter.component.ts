@@ -18,6 +18,9 @@ export class ReportFilterComponent implements OnInit {
   @Input() showFields: string[] = [];
   @Input() reportOptions: string[] = [];
   @Input() reportTypeOptions: string[] = [];
+  @Input() groupByOptions: string[] = [];
+  @Input() reportByOptions: string[] = [];
+  @Input() paidTypeOptions: string[] = [];
   
   @Output() onView = new EventEmitter<any>();
   @Output() onPdf = new EventEmitter<any>();

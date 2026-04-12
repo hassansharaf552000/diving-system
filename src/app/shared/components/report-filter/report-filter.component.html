@@ -112,6 +112,33 @@
       <app-searchable-select [(ngModel)]="filters.reportType" [items]="reportTypeOptions" [isStatic]="true">
       </app-searchable-select>
     </div>
+
+    <!-- Voucher Number -->
+    <div class="filter-item" *ngIf="hasField('voucherNumber')">
+      <label>Voucher No :</label>
+      <input type="number" [(ngModel)]="filters.voucherNumber" class="filter-input" placeholder="Voucher #">
+    </div>
+
+    <!-- Report By -->
+    <div class="filter-item" *ngIf="hasField('reportBy')">
+      <label>Report By :</label>
+      <app-searchable-select [(ngModel)]="filters.reportBy" [items]="reportByOptions" [isStatic]="true">
+      </app-searchable-select>
+    </div>
+
+    <!-- Group By -->
+    <div class="filter-item" *ngIf="hasField('groupBy')">
+      <label>Group By :</label>
+      <app-searchable-select [(ngModel)]="filters.groupBy" [items]="groupByOptions" [isStatic]="true">
+      </app-searchable-select>
+    </div>
+
+    <!-- Paid Type -->
+    <div class="filter-item" *ngIf="hasField('paidType')">
+      <label>Paid Type :</label>
+      <app-searchable-select [(ngModel)]="filters.paidType" [items]="paidTypeOptions" [isStatic]="true">
+      </app-searchable-select>
+    </div>
   </div>
 
   <div class="filter-buttons">
