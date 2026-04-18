@@ -1,3 +1,5 @@
+import { AuthService } from '../../../core/services/auth.service';
+import { inject } from '@angular/core';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
@@ -7,6 +9,7 @@ import { ExcursionSupplier } from '../../../core/interfaces/code.interfaces';
 export class CodeExcursionSupplierComponent implements OnInit {
   items: ExcursionSupplier[] = []; model: ExcursionSupplier = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   showDeleteConfirm = false; deleteTarget: ExcursionSupplier | null = null;
+  private authService = inject(AuthService);
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
   loadData(): void { this.svc.getExcursionSuppliers().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
@@ -22,7 +25,7 @@ export class CodeExcursionSupplierComponent implements OnInit {
   save(): void {
     if (!this.model.supplierName) { alert('⚠️ Required'); return; }
     this.saving = true;
-    this.model.recordBy = 'Ibram Wahib';
+    this.model.recordBy = this.authService.currentUser()?.userName || '';
     if (this.isEdit && this.model.id) {
       this.svc.updateExcursionSupplier(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {

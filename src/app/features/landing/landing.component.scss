@@ -4,10 +4,13 @@
 
 $op-color:   #0ea873;
 $ac-color:   #e0455e;
+$us-color:   #7c3aed;
 $op-light:   #edfaf4;
 $ac-light:   #fdeef1;
+$us-light:   #ede9fe;
 $op-mid:     rgba(14,168,115,0.15);
 $ac-mid:     rgba(224,69,94,0.15);
+$us-mid:     rgba(124,58,237,0.15);
 $text-dark:  #1a1f36;
 $text-mid:   #4a5568;
 $text-light: #8a94a6;
@@ -206,11 +209,16 @@ $text-light: #8a94a6;
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
-  max-width: 880px;
+  max-width: 1100px;
   width: 100%;
   animation: fadeUp 0.65s cubic-bezier(.22,.68,0,1.1) 0.18s both;
+
+  &.two-cards {
+    grid-template-columns: repeat(2, minmax(0, 350px));
+    justify-content: center;
+  }
 }
 
 // =====================================================================
@@ -479,11 +487,80 @@ $text-light: #8a94a6;
 }
 
 // =====================================================================
+// USERS CARD
+// =====================================================================
+
+.us.mcard:hover,
+.us.mcard:focus-visible {
+  box-shadow: 0 18px 48px rgba(124,58,237,0.16), 0 4px 16px rgba(30,40,80,0.07);
+  border-color: rgba(124,58,237,0.35);
+}
+
+.us .mcard-accent { background: linear-gradient(90deg, $us-color, #a78bfa); }
+
+.us-icon {
+  background: $us-light;
+  color: $us-color;
+  box-shadow: 0 0 0 6px rgba(124,58,237,0.08);
+}
+
+.us-badge {
+  background: $us-light;
+  color: darken($us-color, 5%);
+  border: 1px solid rgba(124,58,237,0.25);
+}
+
+.us-check {
+  background: $us-light;
+  color: $us-color;
+  border: 1px solid rgba(124,58,237,0.2);
+}
+
+.us-cta {
+  background: linear-gradient(135deg, $us-color, #a78bfa);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(124,58,237,0.28);
+}
+
+.us.mcard:hover .mcard-cta,
+.us.mcard:focus-visible .mcard-cta {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(124,58,237,0.38);
+  svg { transform: translateX(4px); }
+}
+
+// =====================================================================
+// LOGOUT BUTTON
+// =====================================================================
+
+.lp-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  color: $text-light;
+  font-size: 0.72rem;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+
+  &:hover { color: $ac-color; }
+}
+
+// =====================================================================
 // RESPONSIVE
 // =====================================================================
 
+@media (max-width: 992px) {
+  .cards-grid, .cards-grid.two-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 720px) {
-  .cards-grid {
+  .cards-grid, .cards-grid.two-cards {
     grid-template-columns: 1fr;
     gap: 0.9rem;
   }

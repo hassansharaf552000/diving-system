@@ -1,3 +1,5 @@
+import { AuthService } from '../../../core/services/auth.service';
+import { inject } from '@angular/core';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
@@ -16,6 +18,7 @@ export class CodeAgentComponent implements OnInit {
   showDeleteConfirm = false;
   deleteTarget: Agent | null = null;
 
+  private authService = inject(AuthService);
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void { this.loadData(); this.loadNationalities(); }
@@ -76,7 +79,7 @@ export class CodeAgentComponent implements OnInit {
   save(): void {
     if (!this.model.agentName) { alert('⚠️ Please fill in Agent Name'); return; }
     this.saving = true;
-    this.model.recordBy = 'Ibram Wahib';
+    this.model.recordBy = this.authService.currentUser()?.userName || '';
     if (this.isEdit && this.model.id) {
       this.svc.updateAgent(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {

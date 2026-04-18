@@ -79,14 +79,34 @@ import { FileProfitAndLoss } from './features/reports/accounting/file-profit-and
 import { ProfitAndLoss } from './features/reports/accounting/profit-and-loss/profit-and-loss';
 import { TrialBalance } from './features/reports/accounting/trial-balance/trial-balance';
 
+// Auth & Users
+import { LoginComponent } from './features/auth/login/login.component';
+import { UnauthorizedComponent } from './features/auth/unauthorized/unauthorized.component';
+import { UsersListComponent } from './features/users/users-list/users-list.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { RoleGuard } from './core/guards/role.guard';
+
 const routes: Routes = [
-  // Landing page
-  { path: '', component: LandingComponent },
-  
-  // Operation module (current system)
+  // ── Public routes (no guard) ──────────────────────────────────────────────
+  { path: 'login', component: LoginComponent },
+  { path: 'unauthorized', component: UnauthorizedComponent },
+
+  // ── Landing page (requires auth) ─────────────────────────────────────────
+  { path: '', component: LandingComponent, canActivate: [AuthGuard] },
+
+  // ── Admin: User management (SuperAdmin & Admin only) ─────────────────────
+  {
+    path: 'admin/users',
+    component: UsersListComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['SuperAdmin', 'Admin'] }
+  },
+
+  // ── Operation module ──────────────────────────────────────────────────────
   {
     path: 'operation',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
@@ -127,14 +147,15 @@ const routes: Routes = [
       { path: 'reports/search', component: Search }
     ]
   },
-  
-  // Accounting module
+
+  // ── Accounting module ─────────────────────────────────────────────────────
   {
     path: 'accounting',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent }, // Will be replaced with accounting dashboard
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'codes', component: AccountingCodesListComponent },
       { path: 'codes/operationaccounts', component: AccountingCodeAccountComponent },
       { path: 'codes/codeperiods', component: AccountingCodePeriodComponent },
@@ -151,7 +172,7 @@ const routes: Routes = [
       { path: 'entries/followpayment', component: AccountingFollowPaymentComponent },
       { path: 'entries/updatetransactionsrate', component: AccountingUpdateTransactionsRateComponent },
       { path: 'entries/posttransactions', component: AccountingPostTransactionsComponent },
-      { path: 'reports', component: AccountingReports }, // Will be replaced with accounting reports
+      { path: 'reports', component: AccountingReports },
       { path: 'reports/codes-reports', component: AccountingCodesReports },
       { path: 'reports/counter', component: Counter },
       { path: 'reports/transaction', component: Transaction },
@@ -171,9 +192,9 @@ const routes: Routes = [
       { path: 'reports/trial-balance', component: TrialBalance }
     ]
   },
-  
-  // Fallback
-  { path: '**', redirectTo: '' }
+
+  // ── Fallback ──────────────────────────────────────────────────────────────
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({

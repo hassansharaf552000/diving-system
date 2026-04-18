@@ -1,3 +1,5 @@
+import { AuthService } from '../../../core/services/auth.service';
+import { inject } from '@angular/core';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
@@ -7,6 +9,7 @@ import { TransportationSupplier } from '../../../core/interfaces/code.interfaces
 export class CodeTransportationSupplierComponent implements OnInit {
   items: TransportationSupplier[] = []; model: TransportationSupplier = { supplierName: '', vatNo: '', fileNo: '', email: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   showDeleteConfirm = false; deleteTarget: TransportationSupplier | null = null;
+  private authService = inject(AuthService);
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
   loadData(): void { this.svc.getTransportationSuppliers().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
@@ -22,7 +25,7 @@ export class CodeTransportationSupplierComponent implements OnInit {
   save(): void {
     if (!this.model.supplierName) { alert('⚠️ Required'); return; }
     this.saving = true;
-    this.model.recordBy = 'Ibram Wahib';
+    this.model.recordBy = this.authService.currentUser()?.userName || '';
     if (this.isEdit && this.model.id) {
       this.svc.updateTransportationSupplier(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {

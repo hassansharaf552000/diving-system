@@ -37,7 +37,7 @@
   </header>
 
   <!-- Module Cards -->
-  <main class="cards-grid">
+  <main class="cards-grid" [class.two-cards]="!canManageUsers">
 
     <!-- Operation -->
     <div class="mcard op" (click)="navigateToOperation()" tabindex="0"
@@ -159,6 +159,61 @@
       </div>
     </div>
 
+    <!-- Manage Users (SuperAdmin & Admin only) -->
+    <div class="mcard us" *ngIf="canManageUsers" (click)="navigateToUsers()" tabindex="0"
+         role="button" aria-label="Manage Users"
+         (keydown.enter)="navigateToUsers()">
+      <div class="mcard-accent" aria-hidden="true"></div>
+      <div class="mcard-inner">
+        <div class="mcard-header">
+          <div class="mcard-icon us-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+            </svg>
+          </div>
+          <div class="mcard-badge us-badge">{{ currentUser?.role }}</div>
+        </div>
+
+        <h2 class="mcard-title">Manage Users</h2>
+        <p class="mcard-desc">Create, update and remove system users — assign roles and control access permissions.</p>
+
+        <ul class="mcard-features">
+          <li>
+            <span class="fi-check us-check">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
+            </span>
+            Add &amp; Edit Users
+          </li>
+          <li>
+            <span class="fi-check us-check">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
+            </span>
+            Role Assignment
+          </li>
+          <li>
+            <span class="fi-check us-check">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
+            </span>
+            Access Control
+          </li>
+        </ul>
+
+        <div class="mcard-footer">
+          <span class="mcard-cta us-cta">
+            Manage Users
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </span>
+          <div class="mcard-number">03</div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -166,7 +221,12 @@
     <div class="lp-footer-inner">
       <span class="lp-footer-brand">🤿 Dive UP</span>
       <span class="lp-footer-sep"></span>
-      <span>&copy; {{ currentYear }} Diving System &mdash; All Rights Reserved</span>
+      <span>© {{ currentYear }} Diving System &mdash; All Rights Reserved</span>
+      <span class="lp-footer-sep"></span>
+      <button class="lp-logout-btn" id="landing-logout-btn" (click)="logout()" aria-label="Sign out">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
+        Sign Out ({{ currentUser?.userName }})
+      </button>
     </div>
   </footer>
 

@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+$op-color:   #0ea873;
+$text-dark:  #1a1f36;
+$text-mid:   #4a5568;
+$text-light: #8a94a6;
+$bg-color:   #f5f7ff;
+$card-bg:    #ffffff;
+$border:     rgba(200,210,230,0.7);
+
+:host {
+  display: block;
+  height: 100vh;
+}
+
+// ── Page Shell ────────────────────────────────────────────────────────────────
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg-color;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  padding: 1.5rem;
+}
+
+// ── Animated Bubbles (Light Theme) ───────────────────────────────────────────
+.bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -120px;
+  border-radius: 50%;
+  background: rgba(14,168,115,0.06);
+  border: 1px solid rgba(14,168,115,0.12);
+  animation: rise linear infinite;
+
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      $size: random(40) + 20px;
+      width: $size;
+      height: $size;
+      left: ($i * 9%) + 2%;
+      animation-duration: (random(8) + 8) + s;
+      animation-delay: ($i * 0.7) + s;
+      opacity: random(5) * 0.1 + 0.4;
+    }
+  }
+}
+
+@keyframes rise {
+  0%   { transform: translateY(0) scale(1); opacity: 0.6; }
+  50%  { opacity: 0.3; }
+  100% { transform: translateY(-110vh) scale(0.6); opacity: 0; }
+}
+
+// ── Diver Decoration ─────────────────────────────────────────────────────────
+.diver-decoration {
+  display: none; // Hiding the diver decoration for the cleaner light theme
+}
+
+// ── Card ─────────────────────────────────────────────────────────────────────
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: $card-bg;
+  border: 1.5px solid $border;
+  border-radius: 20px;
+  padding: 2.5rem 2.25rem;
+  box-shadow: 0 4px 24px rgba(30,40,80,0.06), 0 1px 4px rgba(30,40,80,0.04);
+  animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(32px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+// ── Brand ─────────────────────────────────────────────────────────────────────
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.brand-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(14,168,115,0.1);
+  border: 1px solid rgba(14,168,115,0.2);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+
+  svg { 
+    width: 36px; 
+    height: 36px; 
+    color: $op-color;
+    // Replace SVG gradient fills with plain color instead
+    path, circle {
+      stroke: $op-color !important;
+      fill: none;
+    }
+    circle:last-child {
+      fill: $op-color !important;
+    }
+  }
+}
+
+.brand-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $text-dark;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.brand-subtitle {
+  font-size: 0.8rem;
+  color: $text-light;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0.25rem 0 0;
+}
+
+// ── Alert ─────────────────────────────────────────────────────────────────────
+.alert-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+  animation: shake 0.4s ease;
+
+  svg { width: 18px; height: 18px; flex-shrink: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-6px); }
+  75%       { transform: translateX(6px); }
+}
+
+// ── Form ─────────────────────────────────────────────────────────────────────
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $text-mid;
+  letter-spacing: 0.3px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 0.875rem;
+  width: 17px;
+  height: 17px;
+  color: $text-light;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+.field-input {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid $border;
+  border-radius: 10px;
+  padding: 0.75rem 2.75rem 0.75rem 2.75rem;
+  color: $text-dark;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+
+  &::placeholder { color: $text-light; opacity: 0.6; }
+
+  &:focus {
+    border-color: $op-color;
+    box-shadow: 0 0 0 3px rgba(14,168,115,0.1);
+
+    ~ .input-icon { color: $op-color; }
+  }
+}
+
+.has-error .field-input {
+  border-color: #ef4444 !important;
+  &:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+}
+
+.toggle-pw {
+  position: absolute;
+  right: 0.875rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $text-light;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+
+  svg { width: 17px; height: 17px; }
+  &:hover { color: $text-mid; }
+}
+
+.field-error {
+  font-size: 0.75rem;
+  color: #ef4444;
+  padding-left: 0.25rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Submit Button ─────────────────────────────────────────────────────────────
+.btn-login {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.875rem;
+  background: linear-gradient(135deg, $op-color, #0b875c);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(14,168,115,0.25);
+  letter-spacing: 0.3px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(14,168,115,0.35);
+  }
+
+  &:active:not(:disabled) { transform: translateY(0); }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+.btn-spinner svg {
+  width: 20px;
+  height: 20px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ── Footer ───────────────────────────────────────────────────────────────────
+.login-footer {
+  text-align: center;
+  margin-top: 1.75rem;
+  font-size: 0.72rem;
+  color: $text-light;
+  letter-spacing: 0.3px;
+}

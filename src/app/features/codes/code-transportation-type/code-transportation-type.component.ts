@@ -1,3 +1,5 @@
+import { AuthService } from '../../../core/services/auth.service';
+import { inject } from '@angular/core';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
@@ -9,6 +11,7 @@ export class CodeTransportationTypeComponent implements OnInit {
   items: TransportationType[] = []; model: TransportationType = { typeName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   suppliers: TransportationSupplier[] = [];
   showDeleteConfirm = false; deleteTarget: TransportationType | null = null;
+  private authService = inject(AuthService);
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); this.svc.getTransportationSuppliers().subscribe(d => { this.suppliers = d; this.cdr.detectChanges(); }); }
   loadData(): void { this.svc.getTransportationTypes().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
@@ -33,7 +36,7 @@ export class CodeTransportationTypeComponent implements OnInit {
   save(): void {
     if (!this.model.typeName) { alert('⚠️ Required'); return; }
     this.saving = true;
-    this.model.recordBy = 'Ibram Wahib';
+    this.model.recordBy = this.authService.currentUser()?.userName || '';
     if (this.isEdit && this.model.id) {
       this.svc.updateTransportationType(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {

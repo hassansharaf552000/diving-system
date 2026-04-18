@@ -1,3 +1,5 @@
+import { AuthService } from '../../../core/services/auth.service';
+import { inject } from '@angular/core';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
@@ -11,6 +13,7 @@ export class CodeTransportationCostComponent implements OnInit {
   carTypes: TransportationType[] = [];
   destinations: HotelDestination[] = [];
   showDeleteConfirm = false; deleteTarget: TransportationCost | null = null;
+  private authService = inject(AuthService);
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
     this.loadData();
@@ -40,7 +43,7 @@ export class CodeTransportationCostComponent implements OnInit {
   closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
     this.saving = true;
-    this.model.recordBy = 'Ibram Wahib';
+    this.model.recordBy = this.authService.currentUser()?.userName || '';
     if (this.isEdit && this.model.id) {
       this.svc.updateTransportationCost(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {

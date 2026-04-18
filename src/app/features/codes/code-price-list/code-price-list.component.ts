@@ -1,3 +1,5 @@
+import { AuthService } from '../../../core/services/auth.service';
+import { inject } from '@angular/core';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
@@ -7,6 +9,7 @@ import { PriceList } from '../../../core/interfaces/code.interfaces';
 export class CodePriceListComponent implements OnInit {
   items: PriceList[] = []; model: PriceList = { priceListName: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   showDeleteConfirm = false; deleteTarget: PriceList | null = null;
+  private authService = inject(AuthService);
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); }
   loadData(): void { this.svc.getPriceLists().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
@@ -22,7 +25,7 @@ export class CodePriceListComponent implements OnInit {
   save(): void {
     if (!this.model.priceListName) { alert('⚠️ Required'); return; }
     this.saving = true;
-    this.model.recordBy = 'Ibram Wahib';
+    this.model.recordBy = this.authService.currentUser()?.userName || '';
     if (this.isEdit && this.model.id) {
       this.svc.updatePriceList(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {

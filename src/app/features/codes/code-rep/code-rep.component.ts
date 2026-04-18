@@ -1,3 +1,5 @@
+import { AuthService } from '../../../core/services/auth.service';
+import { inject } from '@angular/core';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CodeService } from '../../../core/services/code.service';
@@ -9,6 +11,7 @@ export class CodeRepComponent implements OnInit {
   items: Rep[] = []; model: Rep = { repName: '', address: '', phone: '', isActive: false }; isModalOpen = false; isEdit = false; searchTerm = ''; saving = false;
   agents: Agent[] = [];
   showDeleteConfirm = false; deleteTarget: Rep | null = null;
+  private authService = inject(AuthService);
   constructor(private svc: CodeService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void { this.loadData(); this.svc.getAgents().subscribe(d => { this.agents = d; this.cdr.detectChanges(); }); }
   loadData(): void { this.svc.getReps().subscribe(d => { this.items = d; this.cdr.detectChanges(); }); }
@@ -33,7 +36,7 @@ export class CodeRepComponent implements OnInit {
   save(): void {
     if (!this.model.repName) { alert('⚠️ Required'); return; }
     this.saving = true;
-    this.model.recordBy = 'Ibram Wahib';
+    this.model.recordBy = this.authService.currentUser()?.userName || '';
     if (this.isEdit && this.model.id) {
       this.svc.updateRep(this.model.id, this.model).subscribe(() => { this.saving = false; this.loadData(); this.closeModal(); });
     } else {
