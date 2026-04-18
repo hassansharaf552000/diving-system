@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { AuthService } from '../../../core/services/auth.service';
 import { inject } from '@angular/core';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -23,7 +24,7 @@ export class CodeNationalityComponent implements OnInit {
   openEdit(item: Nationality): void { this.model = { ...item }; this.isEdit = true; this.isModalOpen = true; }
   closeModal(): void { this.isModalOpen = false; this.saving = false; }
   save(): void {
-    if (!this.model.nationalityName) { alert('⚠️ Required'); return; }
+    if (!this.model.nationalityName) { Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Required'); return; }
     this.saving = true;
     this.model.recordBy = this.authService.currentUser()?.userName || '';
     if (this.isEdit && this.model.id) {

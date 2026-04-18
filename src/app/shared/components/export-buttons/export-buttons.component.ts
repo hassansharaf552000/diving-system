@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { ExportService, LookupMap } from '../../services/export.service';
 import { HttpClient } from '@angular/common/http';
@@ -82,7 +83,7 @@ export class ExportButtonsComponent {
       return;
     }
     if (!this.columns || this.columns.length === 0) {
-      alert('No columns defined for this template.');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('No columns defined for this template.');
       return;
     }
     this.downloading = true;
@@ -94,7 +95,7 @@ export class ExportButtonsComponent {
       this.downloading = false;
     }).catch(err => {
       this.downloading = false;
-      alert('Failed to generate template: ' + (err?.message || err));
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to generate template: ' + (err?.message || err));
     });
   }
 
@@ -111,7 +112,7 @@ export class ExportButtonsComponent {
     const file = input.files[0];
 
     if (!this.importEndpoint) {
-      alert('Import endpoint not configured.');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Import endpoint not configured.');
       return;
     }
 

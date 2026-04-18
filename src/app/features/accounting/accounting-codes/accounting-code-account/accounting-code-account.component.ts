@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
@@ -226,7 +227,7 @@ export class AccountingCodeAccountComponent implements OnInit {
 
   save(): void {
     if (!this.model.accountName || !this.model.accountNumber) {
-      alert('⚠️ Please fill in Account Number and Account Name');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please fill in Account Number and Account Name');
       return;
     }
 
@@ -269,14 +270,14 @@ export class AccountingCodeAccountComponent implements OnInit {
         next: () => {
           this.refreshAfterChange();
         },
-        error: (err) => { console.error('Update error:', err); alert('Failed to update account'); }
+        error: (err) => { console.error('Update error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to update account'); }
       });
     } else {
       this.svc.createAccount(createData).subscribe({
         next: () => {
           this.refreshAfterChange();
         },
-        error: (err) => { console.error('Create error:', err); alert('Failed to create account'); }
+        error: (err) => { console.error('Create error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to create account'); }
       });
     }
   }
@@ -312,7 +313,7 @@ export class AccountingCodeAccountComponent implements OnInit {
         next: () => {
           this.loadRoots();
         },
-        error: (err) => { console.error('Delete error:', err); alert('Failed to delete account'); }
+        error: (err) => { console.error('Delete error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to delete account'); }
       });
     }
     this.showDeleteConfirm = false;

@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 ﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
@@ -69,19 +70,19 @@ export class AccountingCodePeriodComponent implements OnInit {
 
   save(): void {
     if (!this.model.periodName) {
-      alert('⚠️ Please fill in Period Name');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please fill in Period Name');
       return;
     }
     this.saving = true;
     if (this.isEdit && this.model.periodId) {
       this.svc.updateCodePeriod(this.model.periodId, this.model).subscribe({
         next: () => { this.saving = false; this.loadData(); this.closeModal(); },
-        error: (err) => { this.saving = false; console.error('Update error:', err); alert('Failed to update period'); }
+        error: (err) => { this.saving = false; console.error('Update error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to update period'); }
       });
     } else {
       this.svc.createCodePeriod(this.model).subscribe({
         next: () => { this.saving = false; this.loadData(); this.closeModal(); },
-        error: (err) => { this.saving = false; console.error('Create error:', err); alert('Failed to create period'); }
+        error: (err) => { this.saving = false; console.error('Create error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to create period'); }
       });
     }
   }
@@ -95,7 +96,7 @@ export class AccountingCodePeriodComponent implements OnInit {
     if (this.deleteTarget?.periodId) {
       this.svc.deleteCodePeriod(this.deleteTarget.periodId).subscribe({
         next: () => this.loadData(),
-        error: (err) => { console.error('Delete error:', err); alert('Failed to delete period'); }
+        error: (err) => { console.error('Delete error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to delete period'); }
       });
     }
     this.showDeleteConfirm = false;

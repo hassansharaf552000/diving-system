@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import {
@@ -226,7 +227,7 @@ export class EntryTrafficComponent implements OnInit {
 
   openGuideModal(row: EntryTraffic): void {
     this.activeTransactionId = row['entryTransactionId'] ?? null;
-    if (!this.activeTransactionId) { alert('No transaction ID for this row.'); return; }
+    if (!this.activeTransactionId) { Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('No transaction ID for this row.'); return; }
     this.guideModalTitle = `Assign Guides — ${row['voucherNumber'] || ''} ${row.excursionName || ''}`.trim();
     this.isEditGuide = false;
     this.guideModel = this.emptyGuideModel();
@@ -285,7 +286,7 @@ export class EntryTrafficComponent implements OnInit {
   }
 
   saveGuide(): void {
-    if (!this.guideModel.guideId) { alert('Please select a guide.'); return; }
+    if (!this.guideModel.guideId) { Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Please select a guide.'); return; }
     if (!this.activeTransactionId) return;
     this.savingGuide = true;
 
@@ -324,7 +325,7 @@ export class EntryTrafficComponent implements OnInit {
       error: (err) => {
         this.savingGuide = false;
         console.error(err);
-        alert('Failed to save guide: ' + (err.error?.message || err.message));
+        Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to save guide: ' + (err.error?.message || err.message));
         this.cdr.detectChanges();
       }
     });
@@ -343,7 +344,7 @@ export class EntryTrafficComponent implements OnInit {
           this.assignedGuides = this.assignedGuides.filter(g => g.id !== deletedId);
           this.cdr.detectChanges();
         },
-        error: (err) => { console.error(err); alert('Failed to delete guide assignment.'); }
+        error: (err) => { console.error(err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to delete guide assignment.'); }
       });
     }
     this.showDeleteGuideConfirm = false;
@@ -363,7 +364,7 @@ export class EntryTrafficComponent implements OnInit {
 
   openUpdateModal(row: EntryTraffic): void {
     const txId = row['entryTransactionId'] as number | undefined;
-    if (!txId) { alert('No transaction ID for this row.'); return; }
+    if (!txId) { Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('No transaction ID for this row.'); return; }
     
     this.activeUpdateTransactionId = txId;
     this.updateModalTitle = `✏️ Update — ${row['voucherNumber'] || ''} ${row.excursionName || ''}`.trim();
@@ -515,7 +516,7 @@ export class EntryTrafficComponent implements OnInit {
       error: (err) => {
         this.savingInline = false;
         console.error(err);
-        alert('Failed to save: ' + (err.error?.message || err.message));
+        Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to save: ' + (err.error?.message || err.message));
         this.cdr.detectChanges();
       }
     });

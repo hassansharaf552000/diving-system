@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -249,15 +250,15 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   // ============ SAVE ============
   save(): void {
     if (!this.selectedTypeDef) {
-      alert('⚠️ Please select a Transaction Type');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please select a Transaction Type');
       return;
     }
     if (!this.model.transactionDate) {
-      alert('⚠️ Please select a Date');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please select a Date');
       return;
     }
     if (this.lines.length === 0) {
-      alert('⚠️ Please add at least one line');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please add at least one line');
       return;
     }
 
@@ -300,7 +301,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.error('Update error:', err);
-          alert('Failed to update: ' + (err.error?.message || err.message));
+          Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to update: ' + (err.error?.message || err.message));
         }
       });
     } else {
@@ -314,7 +315,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.error('Create error:', err);
-          alert('Failed to create: ' + (err.error?.message || err.message));
+          Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to create: ' + (err.error?.message || err.message));
         }
       });
     }
@@ -336,7 +337,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
           }
           this.searchTransactions();
         },
-        error: (err) => { console.error('Delete error:', err); alert('Failed to delete'); }
+        error: (err) => { console.error('Delete error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to delete'); }
       });
     }
     this.showDeleteConfirm = false;
@@ -407,7 +408,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
   saveLine(): void {
     if (!this.lineModel.accountId) {
-      alert('⚠️ Please select an Account');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please select an Account');
       return;
     }
 
@@ -416,19 +417,19 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     const credit = this.lineModel.credit || 0;
 
     if (debit === 0 && credit === 0) {
-      alert('⚠️ Debit or Credit must be > 0');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Debit or Credit must be > 0');
       return;
     }
     if (rule === 'credit' && debit > 0) {
-      alert('⚠️ Only Credit is allowed for ' + this.selectedTypeDef.name);
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Only Credit is allowed for ' + this.selectedTypeDef.name);
       return;
     }
     if (rule === 'debit' && credit > 0) {
-      alert('⚠️ Only Debit is allowed for ' + this.selectedTypeDef.name);
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Only Debit is allowed for ' + this.selectedTypeDef.name);
       return;
     }
     if (debit > 0 && credit > 0) {
-      alert('⚠️ Cannot have both Debit and Credit > 0 on the same line');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Cannot have both Debit and Credit > 0 on the same line');
       return;
     }
 
@@ -511,7 +512,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       },
       error: (err) => {
         console.error('Print error:', err);
-        alert('Failed to load print preview.');
+        Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to load print preview.');
       }
     });
   }

@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -21,7 +22,7 @@ export class ExportService {
 
   exportToExcel(data: any[], filename: string): void {
     if (!data || data.length === 0) {
-      alert('No data to export.');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('No data to export.');
       return;
     }
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);

@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
@@ -149,13 +150,13 @@ export class AccountingEntryCounterComponent implements OnInit {
   // ============ SAVE ============
   save(): void {
     if (!this.counterDate) {
-      alert('⚠️ Please select a Date');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please select a Date');
       return;
     }
 
     const linesWithCount = this.denominationRows.filter(r => r.count > 0);
     if (linesWithCount.length === 0) {
-      alert('⚠️ Please enter count for at least one denomination');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please enter count for at least one denomination');
       return;
     }
 
@@ -182,7 +183,7 @@ export class AccountingEntryCounterComponent implements OnInit {
       error: (err) => {
         this.saving = false;
         console.error('Create error:', err);
-        alert('Failed to create: ' + (err.error?.message || err.message));
+        Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to create: ' + (err.error?.message || err.message));
       }
     });
   }
@@ -202,7 +203,7 @@ export class AccountingEntryCounterComponent implements OnInit {
           }
           this.searchCounters();
         },
-        error: (err) => { console.error('Delete error:', err); alert('Failed to delete'); }
+        error: (err) => { console.error('Delete error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to delete'); }
       });
     }
     this.showDeleteConfirm = false;

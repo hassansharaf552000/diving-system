@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 ﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
@@ -69,19 +70,19 @@ export class AccountingCodeBeneficiaryTypeComponent implements OnInit {
 
   save(): void {
     if (!this.model.beneficiaryTypeName) {
-      alert('⚠️ Please fill in Beneficiary Type Name');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please fill in Beneficiary Type Name');
       return;
     }
     this.saving = true;
     if (this.isEdit && this.model.beneficiaryTypeId) {
       this.svc.updateCodeBeneficiaryType(this.model.beneficiaryTypeId, this.model).subscribe({
         next: () => { this.saving = false; this.loadData(); this.closeModal(); },
-        error: (err) => { this.saving = false; console.error('Update error:', err); alert('Failed to update'); }
+        error: (err) => { this.saving = false; console.error('Update error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to update'); }
       });
     } else {
       this.svc.createCodeBeneficiaryType(this.model).subscribe({
         next: () => { this.saving = false; this.loadData(); this.closeModal(); },
-        error: (err) => { this.saving = false; console.error('Create error:', err); alert('Failed to create'); }
+        error: (err) => { this.saving = false; console.error('Create error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to create'); }
       });
     }
   }
@@ -95,7 +96,7 @@ export class AccountingCodeBeneficiaryTypeComponent implements OnInit {
     if (this.deleteTarget?.beneficiaryTypeId) {
       this.svc.deleteCodeBeneficiaryType(this.deleteTarget.beneficiaryTypeId).subscribe({
         next: () => this.loadData(),
-        error: (err) => { console.error('Delete error:', err); alert('Failed to delete'); }
+        error: (err) => { console.error('Delete error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to delete'); }
       });
     }
     this.showDeleteConfirm = false;

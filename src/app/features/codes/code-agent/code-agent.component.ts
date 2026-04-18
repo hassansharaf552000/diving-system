@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { AuthService } from '../../../core/services/auth.service';
 import { inject } from '@angular/core';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -77,7 +78,7 @@ export class CodeAgentComponent implements OnInit {
   closeModal(): void { this.isModalOpen = false; this.saving = false; }
 
   save(): void {
-    if (!this.model.agentName) { alert('⚠️ Please fill in Agent Name'); return; }
+    if (!this.model.agentName) { Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please fill in Agent Name'); return; }
     this.saving = true;
     this.model.recordBy = this.authService.currentUser()?.userName || '';
     if (this.isEdit && this.model.id) {

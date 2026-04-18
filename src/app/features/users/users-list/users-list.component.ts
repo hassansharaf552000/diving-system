@@ -50,7 +50,7 @@ export class UsersListComponent implements OnInit {
     this.isSuperAdmin = this.currentUser?.role === 'SuperAdmin';
     this.availableRoles = this.isSuperAdmin
       ? ['SuperAdmin', 'Admin', 'Manager', 'User']
-      : ['Manager', 'User'];
+      : ['Admin', 'Manager', 'User'];
     this.loadUsers();
   }
 
@@ -75,9 +75,9 @@ export class UsersListComponent implements OnInit {
   applyFilters(): void {
     let list = [...this.users];
 
-    // Admin can only see Managers and Users
+    // Admin can see Admins, Managers and Users
     if (!this.isSuperAdmin) {
-      list = list.filter((u) => u.role === 'Manager' || u.role === 'User');
+      list = list.filter((u) => u.role === 'Admin' || u.role === 'Manager' || u.role === 'User');
     }
 
     // Search filter
@@ -232,8 +232,8 @@ export class UsersListComponent implements OnInit {
 
   canEdit(user: UserProfile): boolean {
     if (this.isSuperAdmin) return true;
-    // Admin can edit only Manager and User
-    return user.role === 'Manager' || user.role === 'User';
+    // Admin can edit Admins, Managers and Users
+    return user.role === 'Admin' || user.role === 'Manager' || user.role === 'User';
   }
 
   canDelete(user: UserProfile): boolean {

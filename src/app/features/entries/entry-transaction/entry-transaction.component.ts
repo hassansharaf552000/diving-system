@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -315,7 +316,7 @@ export class EntryTransactionComponent implements OnInit {
   // ============ SAVE ============
   save(): void {
     if (!this.model.voucherNumber) {
-      alert('⚠️ Please enter a Voucher Number');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please enter a Voucher Number');
       return;
     }
     
@@ -335,7 +336,7 @@ export class EntryTransactionComponent implements OnInit {
       else payload.refundDate = null;
     } catch (e) {
       this.saving = false;
-      alert('Invalid date format.');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Invalid date format.');
       return;
     }
 
@@ -349,7 +350,7 @@ export class EntryTransactionComponent implements OnInit {
         error: (err: any) => { 
           this.saving = false; 
           console.error('Update error:', err); 
-          alert('Failed to update: ' + (err.error?.message || err.message)); 
+          Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to update: ' + (err.error?.message || err.message)); 
         }
       });
     } else {
@@ -363,7 +364,7 @@ export class EntryTransactionComponent implements OnInit {
         error: (err: any) => { 
           this.saving = false; 
           console.error('Create error:', err); 
-          alert('Failed to create: ' + (err.error?.message || err.message)); 
+          Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to create: ' + (err.error?.message || err.message)); 
         }
       });
     }
@@ -381,7 +382,7 @@ export class EntryTransactionComponent implements OnInit {
         next: () => {
           this.searchTransactions();
         },
-        error: (err: any) => { console.error('Delete error:', err); alert('Failed to delete'); }
+        error: (err: any) => { console.error('Delete error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to delete'); }
       });
     }
     this.showDeleteConfirm = false;

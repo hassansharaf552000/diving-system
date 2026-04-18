@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
@@ -70,7 +71,7 @@ export class AccountingCodeCostCenterComponent implements OnInit {
 
   save(): void {
     if (!this.model.costCenterName) {
-      alert('⚠️ Please fill in Cost Center Name');
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please fill in Cost Center Name');
       return;
     }
     
@@ -85,12 +86,12 @@ export class AccountingCodeCostCenterComponent implements OnInit {
     if (isEditing && modelId) {
       this.svc.updateCodeCostCenter(modelId, modelData).subscribe({
         next: () => { this.loadData(); this.cdr.detectChanges(); },
-        error: (err) => { console.error('Update error:', err); alert('Failed to update'); }
+        error: (err) => { console.error('Update error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to update'); }
       });
     } else {
       this.svc.createCodeCostCenter(modelData).subscribe({
         next: () => { this.loadData(); this.cdr.detectChanges(); },
-        error: (err) => { console.error('Create error:', err); alert('Failed to create'); }
+        error: (err) => { console.error('Create error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to create'); }
       });
     }
   }
@@ -104,7 +105,7 @@ export class AccountingCodeCostCenterComponent implements OnInit {
     if (this.deleteTarget?.costCenterId) {
       this.svc.deleteCodeCostCenter(this.deleteTarget.costCenterId).subscribe({
         next: () => this.loadData(),
-        error: (err) => { console.error('Delete error:', err); alert('Failed to delete'); }
+        error: (err) => { console.error('Delete error:', err); Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('Failed to delete'); }
       });
     }
     this.showDeleteConfirm = false;
