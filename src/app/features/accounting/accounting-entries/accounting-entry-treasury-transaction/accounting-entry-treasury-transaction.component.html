@@ -188,7 +188,7 @@
         </div>
         <div class="form-group">
           <label>Date *</label>
-          <input type="date" [(ngModel)]="model.transactionDate">
+          <input type="date" [(ngModel)]="model.transactionDate" (change)="onCurrencyOrDateChange()">
         </div>
       </div>
       <div class="form-row">
@@ -207,13 +207,13 @@
       <div class="form-row">
         <div class="form-group">
           <label>Currency *</label>
-          <select [(ngModel)]="model.currency">
+          <select [(ngModel)]="model.currency" (change)="onCurrencyOrDateChange()">
             <option *ngFor="let c of currencies" [ngValue]="c">{{ c }}</option>
           </select>
         </div>
         <div class="form-group">
           <label>Rate</label>
-          <input type="number" [(ngModel)]="model.rate" step="0.01">
+          <input type="number" [(ngModel)]="model.rate" step="0.01" readonly class="field-disabled">
         </div>
       </div>
       <div class="form-row">
@@ -242,7 +242,7 @@
       <div class="form-row">
         <div class="form-group">
           <label>Recorded By</label>
-          <input type="text" [(ngModel)]="model.recordBy" placeholder="e.g. Mohamed Hamza">
+          <input type="text" [(ngModel)]="model.recordBy" readonly class="field-disabled" placeholder="User name">
         </div>
 
       </div>

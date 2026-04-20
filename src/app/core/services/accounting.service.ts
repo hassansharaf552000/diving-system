@@ -39,6 +39,12 @@ export class AccountingService {
     return this.http.get<OperationEntry[]>(`${this.baseUrl}/OperationEntries`);
   }
 
+  // ========== RATES ==========
+  getRateByCurrency(currency: string, date: string): Observable<any> {
+    let params = new HttpParams().set('currency', currency).set('date', date);
+    return this.http.get<any>(`${this.baseUrl}/Rates/by-currency`, { params });
+  }
+
   // ========== OPERATION ACCOUNTS ==========
   getRootAccounts(): Observable<OperationAccount[]> {
     return this.http.get<OperationAccount[]>(`${this.baseUrl}/OperationAccounts/roots`);

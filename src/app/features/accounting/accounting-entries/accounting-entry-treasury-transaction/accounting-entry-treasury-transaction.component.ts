@@ -1,7 +1,8 @@
 import Swal from 'sweetalert2';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { AuthService } from '../../../../core/services/auth.service';
 import { AccountingService } from '../../../../core/services/accounting.service';
 import {
   TreasuryTransaction,
@@ -65,6 +66,8 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   isEdit = false;
   saving = false;
 
+  private auth = inject(AuthService);
+  
   // Header model
   model: TreasuryTransaction = this.emptyModel();
 
@@ -178,6 +181,35 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error fetching receipt no:', err)
+    });
+  }
+
+  // ============ CURRENCY / RATE ============
+  onCurrencyOrDateChange(): void {
+    if (!this.model.currency || !this.model.transactionDate) return;
+
+    if (this.model.currency === 'EGP') {
+      this.model.rate = 1;
+      return;
+    }
+
+    this.svc.getRateByCurrency(this.model.currency, this.model.transactionDate).subscribe({
+      next: (res) => {
+        if (typeof res === 'number') {
+          this.model.rate = res;
+        } else if (res && typeof res.rateValue === 'number') {
+          this.model.rate = res.rateValue;
+        } else if (res && typeof res.rate === 'number') {
+          this.model.rate = res.rate;
+        } else if (res && typeof res.buyRate === 'number') {
+          this.model.rate = res.buyRate;
+        }
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching rate:', err);
+        Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, icon: 'warning' }).fire('Rate not found for selected date');
+      }
     });
   }
 
@@ -524,6 +556,9 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
   // ============ HELPERS ============
   private emptyModel(): TreasuryTransaction {
+    const user = this.auth?.currentUser();
+    const userName = user?.fullName || user?.userName || '';
+    
     return {
       transactionTypeId: undefined,
       transactionTypeName: undefined,
@@ -538,7 +573,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       paymentType: 'Cash',
       paymentDefaultAccountId: undefined,
       active: true,
-      recordBy: '',
+      recordBy: userName,
       lines: []
     };
   }
