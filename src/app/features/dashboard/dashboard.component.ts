@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CodeService } from '../../core/services/code.service';
 import { AccountingService } from '../../core/services/accounting.service';
 
@@ -31,7 +31,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private codeService: CodeService,
-    private accountingService: AccountingService
+    private accountingService: AccountingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -39,56 +40,86 @@ export class DashboardComponent implements OnInit {
     this.loadAccountingStats();
   }
 
+  private extractArray(res: any): any[] {
+    if (!res) return [];
+    if (Array.isArray(res)) return res;
+    if (Array.isArray(res.data)) return res.data;
+    if (Array.isArray(res.$values)) return res.$values;
+    if (Array.isArray(res.items)) return res.items;
+    return [];
+  }
+
   loadOperationStats() {
     this.codeService.getEntryTransactions().subscribe({
       next: (res) => {
-        this.operationStats[0].value = res?.length || 0;
+        const arr = this.extractArray(res);
+        this.operationStats[0].value = arr.length;
+        this.operationStats = [...this.operationStats];
+        this.cdr.detectChanges();
       },
-      error: () => {}
+      error: (e) => console.error('Dashboard EntryTransactions error', e)
     });
 
     this.codeService.getBoats().subscribe({
       next: (res) => {
-        this.operationStats[1].value = res?.filter(b => b.isActive).length || 0;
+        const arr = this.extractArray(res);
+        this.operationStats[1].value = arr.filter(b => b.isActive !== false).length;
+        this.operationStats = [...this.operationStats];
+        this.cdr.detectChanges();
       },
-      error: () => {}
+      error: (e) => console.error('Dashboard Boats error', e)
     });
 
     this.codeService.getGuides().subscribe({
       next: (res) => {
-        this.operationStats[2].value = res?.filter(g => g.isActive).length || 0;
+        const arr = this.extractArray(res);
+        this.operationStats[2].value = arr.filter(g => g.isActive !== false).length;
+        this.operationStats = [...this.operationStats];
+        this.cdr.detectChanges();
       },
-      error: () => {}
+      error: (e) => console.error('Dashboard Guides error', e)
     });
 
     this.codeService.getHotels().subscribe({
       next: (res) => {
-        this.operationStats[3].value = res?.filter(h => h.isActive).length || 0;
+        const arr = this.extractArray(res);
+        this.operationStats[3].value = arr.filter(h => h.isActive !== false).length;
+        this.operationStats = [...this.operationStats];
+        this.cdr.detectChanges();
       },
-      error: () => {}
+      error: (e) => console.error('Dashboard Hotels error', e)
     });
   }
 
   loadAccountingStats() {
     this.accountingService.getAllAccountsFlat().subscribe({
       next: (res) => {
-        this.accountingStats[0].value = res?.length || 0;
+        const arr = this.extractArray(res);
+        this.accountingStats[0].value = arr.length;
+        this.accountingStats = [...this.accountingStats];
+        this.cdr.detectChanges();
       },
-      error: () => {}
+      error: (e) => console.error('Dashboard Accounts error', e)
     });
 
     this.accountingService.searchTreasuryTransactions().subscribe({
       next: (res) => {
-        this.accountingStats[1].value = res?.length || 0;
+        const arr = this.extractArray(res);
+        this.accountingStats[1].value = arr.length;
+        this.accountingStats = [...this.accountingStats];
+        this.cdr.detectChanges();
       },
-      error: () => {}
+      error: (e) => console.error('Dashboard TreasuryTransactions error', e)
     });
 
     this.accountingService.searchTreasuryCounters().subscribe({
       next: (res) => {
-        this.accountingStats[2].value = res?.length || 0;
+        const arr = this.extractArray(res);
+        this.accountingStats[2].value = arr.length;
+        this.accountingStats = [...this.accountingStats];
+        this.cdr.detectChanges();
       },
-      error: () => {}
+      error: (e) => console.error('Dashboard TreasuryCounters error', e)
     });
   }
 }
