@@ -318,34 +318,16 @@
   <div class="inline-form">
 
     <div class="inline-section-label">🚌 Guide & Transport</div>
-    <div class="inline-grid">
-      <div class="inline-form-group">
-        <label>Guide</label>
-        <app-searchable-select [(ngModel)]="inlineModel.guideId" [items]="guides"
-          labelKey="guideName" valueKey="id" placeholder="Search guide..."></app-searchable-select>
-      </div>
-      <div class="inline-form-group">
-        <label>Guide Duty</label>
-        <select [(ngModel)]="inlineModel.guideDuty">
-          <option [ngValue]="null">-- Select --</option>
-          <option value="diving">diving</option>
-          <option value="snorkeling">snorkeling</option>
-        </select>
-      </div>
-      <div class="inline-form-group">
-        <label>Cost Guide EGP</label>
-        <input type="number" [(ngModel)]="inlineModel.costGuideEGP" min="0" step="0.01">
-      </div>
-      
+    <div class="inline-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; align-items: end;">
       <div class="inline-form-group">
         <label>Boat</label>
-        <app-searchable-select [(ngModel)]="inlineModel.boatId" [items]="boats"
-          labelKey="boatName" valueKey="id" placeholder="Search boat..."></app-searchable-select>
+        <app-searchable-select [(ngModel)]="inlineModel.boatId" [items]="boats" labelKey="boatName" valueKey="id"
+          placeholder="Search boat..."></app-searchable-select>
       </div>
       <div class="inline-form-group">
         <label>Car Type</label>
-        <app-searchable-select [(ngModel)]="inlineModel.carTypeId" [items]="transportationTypes"
-          labelKey="typeName" valueKey="id" placeholder="Search car type..."></app-searchable-select>
+        <app-searchable-select [(ngModel)]="inlineModel.carTypeId" [items]="transportationTypes" labelKey="typeName"
+          valueKey="id" placeholder="Search car type..."></app-searchable-select>
       </div>
       <div class="inline-form-group">
         <label>Trans. Supplier</label>
@@ -356,8 +338,8 @@
         <label>Round</label>
         <select [(ngModel)]="inlineModel.round">
           <option [ngValue]="null">-- Select --</option>
-          <option value="One-Way">One-Way</option>
-          <option value="Round">Round</option>
+          <option value="1">One way</option>
+          <option value="2">Two way</option>
         </select>
       </div>
       <div class="inline-form-group">
@@ -366,18 +348,17 @@
       </div>
       <div class="inline-form-group">
         <label>Hotel</label>
-        <input type="text" [(ngModel)]="inlineModel.hotelName">
+        <app-searchable-select [(ngModel)]="inlineModel.hotelId" [items]="hotels"
+          labelKey="hotelName" valueKey="id" placeholder="Search hotel..."></app-searchable-select>
       </div>
-    </div>
-
-    <!-- Actions -->
-    <div class="inline-form-actions">
-      <button class="btn-save" (click)="saveInline()" [disabled]="savingInline">
-        {{ savingInline ? '⏳ Saving...' : '💾 Save Changes' }}
-      </button>
-      <button class="btn-cancel-modal" (click)="closeUpdateModal()">Cancel</button>
     </div>
   </div>
 
+  <!-- Actions -->
+  <div class="inline-form-actions">
+    <button class="btn-save" (click)="saveInline()" [disabled]="savingInline">
+      {{ savingInline ? '⏳ Saving...' : '💾 Save Changes' }}
+    </button>
+    <button class="btn-cancel-modal" (click)="closeUpdateModal()">Cancel</button>
+  </div>
 </app-modal>
-

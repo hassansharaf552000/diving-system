@@ -377,6 +377,7 @@ export class EntryTrafficComponent implements OnInit {
       repName: row['repName'] ?? null,
       agentName: row['agentName'] ?? null,
       nationalityName: row['nationalityName'] ?? null,
+      hotelId: row['hotelId'] ?? null,
       hotelName: row['hotelName'] ?? null,
       hotelDestinationName: row['hotelDestinationName'] ?? null,
       roomNumber: row['roomNumber'] ?? null,
@@ -426,9 +427,7 @@ export class EntryTrafficComponent implements OnInit {
 
     // Store original values for diffing the editable fields
     this.originalInlineValues = {
-      guideId: this.inlineModel.guideId,
-      guideDuty: this.inlineModel.guideDuty,
-      costGuideEGP: this.inlineModel.costGuideEGP,
+      hotelId: this.inlineModel.hotelId,
       boatId: this.inlineModel.boatId,
       carTypeId: this.inlineModel.carTypeId,
       transportationSupplierId: this.inlineModel.transportationSupplierId,
@@ -454,8 +453,8 @@ export class EntryTrafficComponent implements OnInit {
     // Only send fields that actually changed
     const payload: Partial<EntryTransactionInline> = { entryTransactionId: txId };
     const editableFields = [
-      'guideId', 'guideDuty', 'costGuideEGP', 'boatId', 'carTypeId',
-      'transportationSupplierId', 'round', 'orderNumber', 'hotelName'
+      'hotelId', 'boatId', 'carTypeId',
+      'transportationSupplierId', 'round', 'orderNumber'
     ];
 
     let hasChanges = false;
@@ -489,6 +488,10 @@ export class EntryTrafficComponent implements OnInit {
        this.inlineModel.guideName = this.guides.find(s => s.id === this.inlineModel.guideId)?.guideName ?? null;
     }
 
+    if (this.inlineModel.hotelId) {
+       this.inlineModel.hotelName = this.hotels.find(s => s.id === this.inlineModel.hotelId)?.hotelName ?? null;
+    }
+
     this.codeService.patchEntryTransactionInline(txId, payload).subscribe({
       next: (res) => {
         this.savingInline = false;
@@ -504,6 +507,7 @@ export class EntryTrafficComponent implements OnInit {
             }
           });
           // Also update the resolved names in the row
+          if (payload.hotelId !== undefined) row['hotelName'] = this.inlineModel.hotelName ?? undefined;
           if (payload.boatId !== undefined) row['boatName'] = this.inlineModel.boatName ?? undefined;
           if (payload.transportationSupplierId !== undefined) row['transportationSupplierName'] = this.inlineModel.transportationSupplierName ?? undefined;
           if (payload.carTypeId !== undefined) row['carTypeName'] = this.inlineModel.carTypeName ?? undefined;
@@ -511,6 +515,7 @@ export class EntryTrafficComponent implements OnInit {
         }
 
         this.closeUpdateModal();
+        Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, icon: 'success' }).fire('Update saved successfully!');
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -528,7 +533,7 @@ export class EntryTrafficComponent implements OnInit {
       voucherNumber: null,
       transactionDate: null,
       repName: null, agentName: null, nationalityName: null,
-      hotelName: null, hotelDestinationName: null, roomNumber: null, pickUpTime: null,
+      hotelId: null, hotelName: null, hotelDestinationName: null, roomNumber: null, pickUpTime: null,
       excursionName: null, excursionSupplierName: null, priceListName: null,
       adl: null, chd: null, inf: null,
       costSupplierEGP: null, costSupplierUSD: null, costSupplierEUR: null, costSupplierGBP: null, freeSupplierCost: false,

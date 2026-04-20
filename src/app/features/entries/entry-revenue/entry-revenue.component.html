@@ -81,6 +81,9 @@
               <button class="btn-pay" *ngIf="selectedIds.length > 0" (click)="bulkPay()" [disabled]="paymentLoading">
                 Bulk Pay
               </button>
+              <button class="btn-delete" *ngIf="selectedIds.length > 0" (click)="bulkDeletePay()" [disabled]="paymentLoading">
+                Bulk Delete
+              </button>
               <button class="btn-update" *ngIf="selectedRow && selectedRow.isPaid && selectedIds.length === 0" (click)="updatePay()" [disabled]="paymentLoading">
                 Update
               </button>
@@ -262,4 +265,11 @@
   message="Are you sure you want to delete the payment information?"
   [itemName]="'Voucher ' + (selectedRow?.voucherNumber || '')" confirmText="Delete" (confirmed)="onDeleteConfirmed()"
   (cancelled)="showDeleteConfirm = false">
+</app-confirm-dialog>
+
+<!-- Bulk Delete Confirmation -->
+<app-confirm-dialog [isOpen]="showBulkDeleteConfirm" title="Confirm Bulk Delete Payment"
+  message="Are you sure you want to delete payment information for all selected vouchers?"
+  itemName="Selected Vouchers" confirmText="Delete Bulk" (confirmed)="onBulkDeleteConfirmed()"
+  (cancelled)="showBulkDeleteConfirm = false">
 </app-confirm-dialog>

@@ -51,6 +51,7 @@ export class EntryRevenueComponent implements OnInit {
 
   showUpdateConfirm = false;
   showDeleteConfirm = false;
+  showBulkDeleteConfirm = false;
 
   constructor(
     private codeService: CodeService,
@@ -231,6 +232,35 @@ export class EntryRevenueComponent implements OnInit {
         this.paymentLoading = false;
         console.error('Bulk Pay error:', err);
         this.toastService.error('Failed to bulk pay');
+      }
+    });
+  }
+
+  bulkDeletePay() {
+    if (this.selectedIds.length === 0) return;
+    this.showBulkDeleteConfirm = true;
+  }
+
+  onBulkDeleteConfirmed() {
+    if (this.selectedIds.length === 0) return;
+
+    const payload = {
+      entryTransactionIds: this.selectedIds
+    };
+
+    this.paymentLoading = true;
+    this.showBulkDeleteConfirm = false;
+    this.codeService.bulkDeletePayEntryRevenue(payload).subscribe({
+      next: () => {
+        this.paymentLoading = false;
+        this.toastService.success('Bulk Delete Payment successful');
+        this.selectedIds = [];
+        this.viewRevenue(); 
+      },
+      error: (err) => {
+        this.paymentLoading = false;
+        console.error('Bulk Delete Pay error:', err);
+        this.toastService.error('Failed to bulk delete payment');
       }
     });
   }

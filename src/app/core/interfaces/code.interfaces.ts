@@ -435,6 +435,7 @@ export interface EntryTransactionInline {
   repName?: string | null;
   agentName?: string | null;
   nationalityName?: string | null;
+  hotelId?: number | null;
   hotelName?: string | null;
   hotelDestinationName?: string | null;
   roomNumber?: string | null;

@@ -265,6 +265,17 @@ export class EntryTransactionComponent implements OnInit {
     this.model.transactionDate = this.currentDate;
     this.model.revenueDate = this.currentDate;
     this.model.refundDate = this.currentDate;
+
+    // Default values
+    const defaultNationality = this.nationalities.find(n => n.nationalityName?.toLowerCase().includes('ukrain'));
+    if (defaultNationality) this.model.nationalityId = defaultNationality.id;
+
+    const defaultDestination = this.destinations.find(d => d.destinationName?.toLowerCase().includes('sharm'));
+    if (defaultDestination) this.model.hotelDestinationId = defaultDestination.id;
+
+    const defaultPriceList = this.priceLists.find(p => p.priceListName?.toLowerCase() === 'normal');
+    if (defaultPriceList) this.model.priceListId = defaultPriceList.id;
+
     // Reset base selling
     this.baseSellingEGP = 0; this.baseSellingUSD = 0;
     this.baseSellingEUR = 0; this.baseSellingGBP = 0;
