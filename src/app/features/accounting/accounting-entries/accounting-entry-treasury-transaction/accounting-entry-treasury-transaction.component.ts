@@ -511,6 +511,10 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     return this.lines.reduce((sum, l) => sum + (l.credit || 0), 0);
   }
 
+  get balanceDifference(): number {
+    return this.totalDebit - this.totalCredit;
+  }
+
   get totalEqDebit(): number {
     return this.lines.reduce((sum, l) => sum + (l.eqDebit || 0), 0);
   }

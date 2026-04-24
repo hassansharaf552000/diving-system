@@ -10,8 +10,16 @@
         <span class="ss-arrow" (mousedown)="isOpen = !isOpen">▾</span>
     </div>
 
-    <div class="ss-dropdown" *ngIf="isOpen">
-        <div class="ss-item" *ngFor="let item of filteredItems" (mousedown)="selectItem(item)">
+    <div class="ss-portal-backdrop" *ngIf="isOpen && portal" (mousedown)="isOpen = false"></div>
+    <div [class.ss-dropdown]="!portal" [class.ss-portal-menu]="portal" *ngIf="isOpen">
+        <!-- Search bar inside portal for better UX -->
+        <div class="ss-portal-search-wrap" *ngIf="portal">
+            <input type="text" class="ss-portal-search" [placeholder]="placeholder" [(ngModel)]="searchTerm"
+                   (input)="onInputChange()" autocomplete="off" #portalSearch>
+            <button class="ss-portal-close" (click)="isOpen = false">✕</button>
+        </div>
+
+        <div class="ss-item" [class.ss-portal-item]="portal" *ngFor="let item of filteredItems" (mousedown)="selectItem(item)">
             {{ isStatic ? item : item[labelKey] }}
         </div>
         <div class="ss-empty" *ngIf="filteredItems.length === 0">No results</div>

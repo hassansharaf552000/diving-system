@@ -30,6 +30,7 @@ export class SearchableSelectComponent implements ControlValueAccessor, OnChange
   @Input() placeholder: string = 'Search...';
   @Input() nullLabel: string = '-';
   @Input() isStatic: boolean = false;
+  @Input() portal: boolean = false;
 
   searchTerm: string = '';
   isOpen: boolean = false;
