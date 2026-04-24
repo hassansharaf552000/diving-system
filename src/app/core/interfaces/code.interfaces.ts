@@ -594,6 +594,7 @@ export interface TreasuryTransaction {
   luRecordBy?: string;
   luRecordTime?: string;
   autoBalance?: boolean;
+  description?: string;
   lines?: TreasuryTransactionLine[];
 }
 
@@ -610,6 +611,7 @@ export interface TreasuryTransactionCreate {
   paymentType: string;
   paymentDefaultAccountId: number;
   autoBalance?: boolean;
+  description?: string;
   recordBy: string;
   lines: {
     accountId: number;

@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { CodeService } from '../../core/services/code.service';
 import { AccountingService } from '../../core/services/accounting.service';
 
@@ -16,28 +17,34 @@ interface StatCard {
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
+  currentModule: 'operation' | 'accounting' = 'operation';
   operationStats: StatCard[] = [
-    { label: 'Total Transactions', value: 0, gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', icon: 'fas fa-file-invoice' },
-    { label: 'Active Boats', value: 0, gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', icon: 'fas fa-ship' },
-    { label: 'Total Guides', value: 0, gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', icon: 'fas fa-user-tie' },
-    { label: 'Total Hotels', value: 0, gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', icon: 'fas fa-hotel' }
+    { label: 'Total Transactions', value: 0, gradient: 'linear-gradient(135deg, #15803d 0%, #4ade80 100%)', icon: 'fas fa-file-invoice' },
+    { label: 'Active Boats', value: 0, gradient: 'linear-gradient(135deg, #16a34a 0%, #86efac 100%)', icon: 'fas fa-ship' },
+    { label: 'Total Guides', value: 0, gradient: 'linear-gradient(135deg, #059669 0%, #6ee7b7 100%)', icon: 'fas fa-user-tie' },
+    { label: 'Total Hotels', value: 0, gradient: 'linear-gradient(135deg, #0d9488 0%, #5eead4 100%)', icon: 'fas fa-hotel' }
   ];
 
   accountingStats: StatCard[] = [
-    { label: 'Operation Accounts', value: 0, gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', icon: 'fas fa-landmark' },
-    { label: 'Treasury Transactions', value: 0, gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', icon: 'fas fa-money-check-alt' },
-    { label: 'Treasury Counters', value: 0, gradient: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)', icon: 'fas fa-cash-register' }
+    { label: 'Operation Accounts', value: 0, gradient: 'linear-gradient(135deg, #1565c0 0%, #42a5f5 100%)', icon: 'fas fa-landmark' },
+    { label: 'Treasury Transactions', value: 0, gradient: 'linear-gradient(135deg, #1976d2 0%, #64b5f6 100%)', icon: 'fas fa-money-check-alt' },
+    { label: 'Treasury Counters', value: 0, gradient: 'linear-gradient(135deg, #0d47a1 0%, #2196f3 100%)', icon: 'fas fa-cash-register' }
   ];
 
   constructor(
     private codeService: CodeService,
     private accountingService: AccountingService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    this.loadOperationStats();
-    this.loadAccountingStats();
+    this.currentModule = this.router.url.includes('/accounting') ? 'accounting' : 'operation';
+    if (this.currentModule === 'operation') {
+      this.loadOperationStats();
+    } else {
+      this.loadAccountingStats();
+    }
   }
 
   private extractArray(res: any): any[] {

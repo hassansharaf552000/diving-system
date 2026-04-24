@@ -2,7 +2,7 @@
   <h2>🌊 Welcome to Dive UP</h2>
   <p>Professional diving center management system for all your operations</p>
 
-  <div class="section-container">
+  <div class="section-container" *ngIf="currentModule === 'operation'">
     <h3>Operation Module</h3>
     <div class="stats-container">
       <div class="stat-card"
@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <div class="section-container">
+  <div class="section-container" *ngIf="currentModule === 'accounting'">
     <h3>Accounting Module</h3>
     <div class="stats-container">
       <div class="stat-card"

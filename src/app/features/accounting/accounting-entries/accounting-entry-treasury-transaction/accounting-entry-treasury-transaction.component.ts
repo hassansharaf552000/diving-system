@@ -43,7 +43,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
   currencies: string[] = ['EGP', 'USD', 'EUR', 'GBP'];
   paymentTypes: string[] = ['Cash', 'Check', 'Transfer', 'Credit Card'];
-  
+
   currencyOptions = this.currencies.map(c => ({ id: c, label: c }));
   paymentTypeOptions = this.paymentTypes.map(p => ({ id: p, label: p }));
 
@@ -70,7 +70,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   saving = false;
 
   private auth = inject(AuthService);
-  
+
   // Header model
   model: TreasuryTransaction = this.emptyModel();
 
@@ -223,7 +223,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   // ============ ADD NEW ============
   openAdd(): void {
     this.cancelInline();
-    
+
     this.model = this.emptyModel();
     this.lines = [];
     // Default to first type (Revenue)
@@ -234,11 +234,8 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     const today = new Date().toISOString().split('T')[0];
     this.model.transactionDate = today;
     this.model.dueDate = today;
-    // Default account: 102010001 (نقدية بالصندوق)
-    const defaultAccount = this.accounts.find(a => a.accountNumber === '102010001');
-    if (defaultAccount) {
-      this.model.paymentDefaultAccountId = defaultAccount.id;
-    }
+    // Default account to 12
+    this.model.paymentDefaultAccountId = 12;
     // Beneficiary Name: default to the "-" record in the list
     const dashBeneficiary = this.beneficiaryNames.find(b => b.beneficiaryName === '-');
     if (dashBeneficiary) {
@@ -253,18 +250,18 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       },
       error: (err) => console.error('Error fetching receipt no:', err)
     });
-    
+
     // Initialize empty line form
     this.lineModel = this.emptyLine();
     this.applyTypeDefaults();
-    
+
     this.isAdding = true;
   }
 
   // ============ EDIT ============
   openEdit(tx: TreasuryTransaction): void {
     this.cancelInline();
-    
+
     if (tx.treasuryTransactionId) {
       this.svc.getTreasuryTransaction(tx.treasuryTransactionId).subscribe({
         next: (full) => {
@@ -281,12 +278,12 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
           this.generatedReceiptNo = full.receiptNo || '';
           this.lines = full.lines ? full.lines.map(l => ({ ...l })) : [];
           this.editingTransactionId = tx.treasuryTransactionId;
-          
+
           // Clear line form
           this.lineModel = this.emptyLine();
           this.applyTypeDefaults();
           this.editingLineIndex = -1;
-          
+
           this.cdr.detectChanges();
         },
         error: (err) => console.error('Error loading transaction:', err)
@@ -330,8 +327,9 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       dueDate: this.model.dueDate || undefined,
       withdrawBank: this.model.withdrawBank || undefined,
       paymentType: this.model.paymentType || 'Cash',
-      paymentDefaultAccountId: this.model.paymentDefaultAccountId || 0,
+      paymentDefaultAccountId: this.selectedTypeDef.id === 5 ? (this.model.paymentDefaultAccountId || 12) : 12,
       autoBalance: this.model.autoBalance ?? true,
+      description: this.model.description || '',
       recordBy: this.model.recordBy || '',
       lines: this.lines.map(l => ({
         accountId: l.accountId || 0,
@@ -479,7 +477,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     } else {
       this.lines.push({ ...this.lineModel });
     }
-    
+
     // Reset form
     this.lineModel = this.emptyLine();
     this.applyTypeDefaults();
@@ -558,7 +556,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   private emptyModel(): TreasuryTransaction {
     const user = this.auth?.currentUser();
     const userName = user?.fullName || user?.userName || '';
-    
+
     return {
       transactionTypeId: undefined,
       transactionTypeName: undefined,
@@ -571,8 +569,9 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       dueDate: '',
       withdrawBank: '',
       paymentType: 'Cash',
-      paymentDefaultAccountId: undefined,
+      paymentDefaultAccountId: 12,
       autoBalance: true,
+      description: '',
       active: true,
       recordBy: userName,
       lines: []

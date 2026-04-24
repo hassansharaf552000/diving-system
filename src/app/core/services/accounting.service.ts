@@ -55,30 +55,25 @@ export class AccountingService {
   }
 
   /**
-   * Recursively loads all accounts at every level using roots + children endpoints.
-   * Returns a flat array ordered depth-first (parent immediately followed by its children).
+   * Fetches the entire account tree in a single request and flattens it,
+   * returning only Accounts of group 'Main Account' or 'Subsidiary Account'.
    */
   getAllAccountsFlat(): Observable<OperationAccount[]> {
-    return this.getRootAccounts().pipe(
-      switchMap(roots => this.expandAccounts(roots))
+    return this.http.get<any[]>(`${this.baseUrl}/OperationAccounts/tree`).pipe(
+      map(tree => {
+        const flatList: OperationAccount[] = [];
+        const processNode = (node: any) => {
+          if (node.accountGroup === 'Main Account' || node.accountGroup === 'Subsidiary Account') {
+            flatList.push(node as OperationAccount);
+          }
+          if (node.children && Array.isArray(node.children)) {
+            node.children.forEach(processNode);
+          }
+        };
+        tree.forEach(processNode);
+        return flatList;
+      })
     );
-  }
-
-  private expandAccounts(accounts: OperationAccount[]): Observable<OperationAccount[]> {
-    if (accounts.length === 0) return of([]);
-    return forkJoin(
-      accounts.map(acc =>
-        this.getChildAccounts(acc.id).pipe(
-          switchMap(children =>
-            children.length === 0
-              ? of([acc])
-              : this.expandAccounts(children).pipe(
-                  map(subTree => [acc, ...subTree])
-                )
-          )
-        )
-      )
-    ).pipe(map(groups => ([] as OperationAccount[]).concat(...groups)));
   }
 
   getAccount(id: number): Observable<OperationAccount> {

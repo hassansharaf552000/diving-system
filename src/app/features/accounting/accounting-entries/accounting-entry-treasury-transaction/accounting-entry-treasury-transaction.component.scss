@@ -403,7 +403,7 @@
   display: flex;
   flex-direction: column;
   min-width: 140px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
   .summary-label {
     font-size: 10px;
@@ -421,15 +421,24 @@
     font-family: 'Consolas', 'Courier New', monospace;
   }
 
-  &.debit-card { border-left: 4px solid #3b82f6; }
-  &.credit-card { border-left: 4px solid #10b981; }
-  &.balance-card { 
-    border-left: 4px solid #6366f1; 
-    
+  &.debit-card {
+    border-left: 4px solid #3b82f6;
+  }
+
+  &.credit-card {
+    border-left: 4px solid #10b981;
+  }
+
+  &.balance-card {
+    border-left: 4px solid #6366f1;
+
     &.unbalanced {
       border-left-color: #ef4444;
       background: rgba(239, 68, 68, 0.03);
-      .summary-value { color: #ef4444; }
+
+      .summary-value {
+        color: #ef4444;
+      }
     }
   }
 }
@@ -453,13 +462,19 @@
 
 .modal-lines-table {
   font-size: 12px;
+  table-layout: fixed;
+  width: 100%;
 
   th {
     font-size: 11px;
+    padding: 10px; /* Enhanced space */
+    word-wrap: break-word; /* Prevent text overflow in fixed layout */
   }
 
   td {
-    padding: 7px 10px;
+    padding: 10px; /* Enhanced space */
+    word-wrap: break-word;
+    vertical-align: middle;
   }
 }
 
@@ -477,7 +492,7 @@
   border-top: 2px solid var(--dm-border);
 
   td {
-    padding: 6px 4px !important;
+    padding: 10px 8px !important;
     vertical-align: middle;
   }
 
@@ -490,9 +505,9 @@
     }
 
     .modal-lines-table .ss-input-row {
-      min-height: 28px;
-      background: var(--dm-surface);
-      border: 1px solid var(--dm-border);
+      min-height: 36px !important;
+      background: var(--dm-surface) !important;
+      border: 1px solid var(--dm-border) !important;
     }
 
     .modal-lines-table .ss-input {
@@ -533,8 +548,10 @@
 
   // Compact override for sm-input inside lines table
   .sm-input {
-    font-size: 11px;
-    padding: 5px 7px;
+    font-size: 12px;
+    padding: 6px 10px;
+    height: 36px;
+    border: 1px solid var(--dm-border);
   }
 
   .inline-actions {
@@ -568,27 +585,23 @@
       background: #dc2626;
     }
   }
+}
 
-  .edit-badge,
-  .add-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    font-size: 12px;
-    color: white;
-    font-weight: bold;
-    margin: 0 auto;
+// Ensure the main form header looks like a distinct bounding box
+.inline-edit-row {
+  background: var(--dm-hover); /* Tie it with the expanded area */
+
+  td {
+    border-top: 4px solid var(--dm-accent) !important;
+    border-bottom: none !important; /* Hide standard bottom border to blend with expanded */
   }
 
-  .edit-badge {
-    background: #d97706;
+  td:first-child {
+    border-left: 4px solid var(--dm-accent) !important;
   }
 
-  .add-badge {
-    background: #059669;
+  td:last-child {
+    border-right: 4px solid var(--dm-accent) !important;
   }
 }
 
@@ -602,10 +615,10 @@
 
 // ---- Date Input Wrapper (global, all date fields) ----
 .custom-date-wrap {
-  min-height: 38px;
+  min-height: 42px;
   background: var(--dm-surface, #fff);
   border: 1px solid var(--dm-border, #ced4da);
-  border-radius: var(--dm-radius-sm, 4px);
+  border-radius: var(--dm-radius-sm, 6px);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -632,7 +645,9 @@
 
 // Compact override for lines table inline row
 .inline-form-row .custom-date-wrap {
-  min-height: 28px;
+  min-height: 36px;
+  height: 36px;
+  border: 1px solid var(--dm-border);
 }
 
 .inline-form-row .custom-date-input {
@@ -651,15 +666,33 @@
 .expanded-detail {
   td {
     padding: 0 !important;
-    border-bottom: 2px solid var(--dm-accent) !important;
+    border-bottom: 4px solid var(--dm-accent) !important;
+    border-left: 4px solid var(--dm-accent) !important;
+    border-right: 4px solid var(--dm-accent) !important;
   }
 }
 
-.expanded-content {
-  background: var(--dm-surface);
-  box-shadow: inset 0px 4px 10px rgba(0, 0, 0, 0.03);
+.expanded-basic-box {
+  background: var(--dm-hover); 
   padding: 16px;
-  border-top: 1px solid var(--dm-border);
+}
+
+// Ensure the lines row doesn't have broken borders
+.expanded-lines-row td {
+  padding: 0 !important;
+  border: none !important;
+}
+
+.expanded-lines-wrap {
+  padding: 0 16px 16px 16px;
+}
+
+.modal-lines-section {
+  background: var(--dm-surface); /* Make lines table contrast against hover background */
+  padding: 16px;
+  border-radius: var(--dm-radius-md);
+  border: 1px solid var(--dm-border);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .header-extras {
@@ -673,6 +706,11 @@
   .form-group {
     flex: 1;
     min-width: 140px;
+
+    &.description-group {
+      flex: 2;
+      min-width: 200px;
+    }
   }
 
   label {
@@ -693,12 +731,12 @@
 // ---- Generic small input (description, debit, credit, etc.) ----
 .sm-input {
   width: 100%;
-  padding: 9px 12px;
+  padding: 10px 14px;
   border: 1px solid var(--dm-border);
   border-radius: var(--dm-radius-sm);
   font-size: 14px;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.2s ease;
   background: var(--dm-surface);
   font-family: inherit;
   color: var(--dm-text);
@@ -706,7 +744,22 @@
 
   &:focus {
     border-color: var(--dm-accent);
+    background: #ffffff;
     box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.08);
+  }
+}
+
+::ng-deep .ss-input-row {
+  min-height: 42px !important;
+  background: var(--dm-surface) !important;
+  border: 1px solid var(--dm-border) !important;
+  border-radius: var(--dm-radius-sm) !important;
+  transition: all 0.2s ease;
+
+  &:focus-within {
+    border-color: var(--dm-accent) !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.08) !important;
   }
 }
 
