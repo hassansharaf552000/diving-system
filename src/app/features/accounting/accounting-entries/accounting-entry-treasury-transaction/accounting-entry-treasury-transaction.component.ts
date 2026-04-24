@@ -41,8 +41,11 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     { id: 5, name: 'Due', prefix: 'DUE', lineRule: 'both', badgeClass: 'type-5' },
   ];
 
-  paymentTypes: string[] = ['Cash', 'Check', 'Transfer', 'Credit Card'];
   currencies: string[] = ['EGP', 'USD', 'EUR', 'GBP'];
+  paymentTypes: string[] = ['Cash', 'Check', 'Transfer', 'Credit Card'];
+  
+  currencyOptions = this.currencies.map(c => ({ id: c, label: c }));
+  paymentTypeOptions = this.paymentTypes.map(p => ({ id: p, label: p }));
 
   // Search filters
   searchTerm = '';
@@ -61,9 +64,9 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   costCenters: CodeCostCenter[] = [];
   fileNumbers: CodeFileNumber[] = [];
 
-  // Modal state
-  isModalOpen = false;
-  isEdit = false;
+  // Inline state
+  isAdding = false;
+  editingTransactionId: number | null | undefined = null;
   saving = false;
 
   private auth = inject(AuthService);
@@ -78,11 +81,8 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   generatedReceiptNo = '';
 
 
-  // Line being added/edited via modal
-  isLineModalOpen = false;
-  isLineEdit = false;
+  // Line being added/edited (inline now)
   editingLineIndex = -1;
-  lineSaving = false;
   lineModel: TreasuryTransactionLine = this.emptyLine();
 
   // Lines for the current transaction (add/edit)
@@ -184,6 +184,13 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     });
   }
 
+  onTypeChange(): void {
+    const def = this.transactionTypes.find(t => t.id === this.model.transactionTypeId);
+    if (def) {
+      this.selectTypeDef(def);
+    }
+  }
+
   // ============ CURRENCY / RATE ============
   onCurrencyOrDateChange(): void {
     if (!this.model.currency || !this.model.transactionDate) return;
@@ -215,9 +222,10 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
 
   // ============ ADD NEW ============
   openAdd(): void {
+    this.cancelInline();
+    
     this.model = this.emptyModel();
     this.lines = [];
-    this.isEdit = false;
     // Default to first type (Revenue)
     this.selectedTypeDef = this.transactionTypes[0];
     this.model.transactionTypeId = this.selectedTypeDef.id;
@@ -245,11 +253,18 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       },
       error: (err) => console.error('Error fetching receipt no:', err)
     });
-    this.isModalOpen = true;
+    
+    // Initialize empty line form
+    this.lineModel = this.emptyLine();
+    this.applyTypeDefaults();
+    
+    this.isAdding = true;
   }
 
   // ============ EDIT ============
   openEdit(tx: TreasuryTransaction): void {
+    this.cancelInline();
+    
     if (tx.treasuryTransactionId) {
       this.svc.getTreasuryTransaction(tx.treasuryTransactionId).subscribe({
         next: (full) => {
@@ -265,8 +280,13 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
           }
           this.generatedReceiptNo = full.receiptNo || '';
           this.lines = full.lines ? full.lines.map(l => ({ ...l })) : [];
-          this.isEdit = true;
-          this.isModalOpen = true;
+          this.editingTransactionId = tx.treasuryTransactionId;
+          
+          // Clear line form
+          this.lineModel = this.emptyLine();
+          this.applyTypeDefaults();
+          this.editingLineIndex = -1;
+          
           this.cdr.detectChanges();
         },
         error: (err) => console.error('Error loading transaction:', err)
@@ -274,9 +294,13 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     }
   }
 
-  closeModal(): void {
-    this.isModalOpen = false;
+  cancelInline(): void {
+    this.isAdding = false;
+    this.editingTransactionId = null;
     this.saving = false;
+    // Clear out form states when cancelling
+    this.lines = [];
+    this.cancelLineEdit();
   }
 
   // ============ SAVE ============
@@ -307,6 +331,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       withdrawBank: this.model.withdrawBank || undefined,
       paymentType: this.model.paymentType || 'Cash',
       paymentDefaultAccountId: this.model.paymentDefaultAccountId || 0,
+      autoBalance: this.model.autoBalance ?? true,
       recordBy: this.model.recordBy || '',
       lines: this.lines.map(l => ({
         accountId: l.accountId || 0,
@@ -322,11 +347,11 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       }))
     };
 
-    if (this.isEdit && this.model.treasuryTransactionId) {
+    if (this.editingTransactionId && this.model.treasuryTransactionId) {
       this.svc.updateTreasuryTransaction(this.model.treasuryTransactionId, payload).subscribe({
         next: () => {
           this.saving = false;
-          this.closeModal();
+          this.cancelInline();
           this.searchTransactions();
           this.cdr.detectChanges();
         },
@@ -340,7 +365,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       this.svc.createTreasuryTransaction(payload).subscribe({
         next: () => {
           this.saving = false;
-          this.closeModal();
+          this.cancelInline();
           this.searchTransactions();
           this.cdr.detectChanges();
         },
@@ -381,60 +406,40 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     this.deleteTarget = null;
   }
 
-  // ============ LINE MODAL ============
-  openAddLine(): void {
+  // ============ INLINE LINE FORM ============
+  editLine(line: TreasuryTransactionLine, index: number): void {
+    this.lineModel = { ...line };
+    this.editingLineIndex = index;
+  }
+
+  cancelLineEdit(): void {
     this.lineModel = this.emptyLine();
     this.applyTypeDefaults();
-    this.isLineEdit = false;
     this.editingLineIndex = -1;
-    this.isLineModalOpen = true;
-  }
-
-  openEditLine(line: TreasuryTransactionLine, index: number): void {
-    this.lineModel = { ...line };
-    this.isLineEdit = true;
-    this.editingLineIndex = index;
-    this.isLineModalOpen = true;
-  }
-
-  closeLineModal(): void {
-    this.isLineModalOpen = false;
-    this.isLineEdit = false;
-    this.editingLineIndex = -1;
-    this.lineSaving = false;
   }
 
   /** Apply debit/credit constraints based on the selected transaction type */
   applyTypeDefaults(): void {
-    const rule = this.selectedTypeDef?.lineRule || 'both';
-    if (rule === 'credit') {
-      this.lineModel.debit = 0;
-    } else if (rule === 'debit') {
-      this.lineModel.credit = 0;
-    }
+    // Both allowed under all circumstances now
   }
 
   /** Whether debit input should be disabled for this transaction type */
   get debitDisabled(): boolean {
-    return this.selectedTypeDef?.lineRule === 'credit';
+    return false;
   }
 
   /** Whether credit input should be disabled for this transaction type */
   get creditDisabled(): boolean {
-    return this.selectedTypeDef?.lineRule === 'debit';
+    return false;
   }
 
   /** Hint text shown below debit field */
   get debitHint(): string {
-    const rule = this.selectedTypeDef?.lineRule;
-    if (rule === 'credit') return '🚫 Not allowed for this type';
     return '✅ Debit allowed';
   }
 
   /** Hint text shown below credit field */
   get creditHint(): string {
-    const rule = this.selectedTypeDef?.lineRule;
-    if (rule === 'debit') return '🚫 Not allowed for this type';
     return '✅ Credit allowed';
   }
 
@@ -444,24 +449,11 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       return;
     }
 
-    const rule = this.selectedTypeDef?.lineRule || 'both';
     const debit = this.lineModel.debit || 0;
     const credit = this.lineModel.credit || 0;
 
     if (debit === 0 && credit === 0) {
       Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Debit or Credit must be > 0');
-      return;
-    }
-    if (rule === 'credit' && debit > 0) {
-      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Only Credit is allowed for ' + this.selectedTypeDef.name);
-      return;
-    }
-    if (rule === 'debit' && credit > 0) {
-      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Only Debit is allowed for ' + this.selectedTypeDef.name);
-      return;
-    }
-    if (debit > 0 && credit > 0) {
-      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Cannot have both Debit and Credit > 0 on the same line');
       return;
     }
 
@@ -482,12 +474,16 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     this.lineModel.eqDebit = debit * rate;
     this.lineModel.eqCredit = credit * rate;
 
-    if (this.isLineEdit && this.editingLineIndex >= 0) {
+    if (this.editingLineIndex >= 0) {
       this.lines[this.editingLineIndex] = { ...this.lineModel };
     } else {
       this.lines.push({ ...this.lineModel });
     }
-    this.closeLineModal();
+    
+    // Reset form
+    this.lineModel = this.emptyLine();
+    this.applyTypeDefaults();
+    this.editingLineIndex = -1;
     this.cdr.detectChanges();
   }
 
@@ -572,6 +568,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       withdrawBank: '',
       paymentType: 'Cash',
       paymentDefaultAccountId: undefined,
+      autoBalance: true,
       active: true,
       recordBy: userName,
       lines: []

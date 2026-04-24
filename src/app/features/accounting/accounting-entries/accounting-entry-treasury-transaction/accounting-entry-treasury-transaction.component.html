@@ -47,30 +47,47 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let tx of paginatedItems"
-              [class.selected]="tx.treasuryTransactionId === selectedTransaction?.treasuryTransactionId"
-              (click)="selectTransaction(tx)">
-              <td><span class="receipt-no">{{ tx.receiptNo }}</span></td>
-              <td>
-                <span class="type-badge" [ngClass]="getBadgeClass(tx)">{{ tx.transactionTypeName }}</span>
-              </td>
-              <td>{{ tx.transactionDate | date:'dd/MM/yyyy' }}</td>
-              <td>{{ tx.beneficiaryNameValue || '-' }}</td>
-              <td>{{ tx.currency }}</td>
-              <td>{{ tx.paymentType }}</td>
-              <td>{{ tx.recordBy }}</td>
-              <td>
-                <div class="actions-cell">
-                  <button class="action-btn print-btn" title="View PDF"
-                    (click)="printTransaction(tx); $event.stopPropagation()">👁️</button>
+            <!-- Inline Add Mode -->
+            <ng-container *ngIf="isAdding">
+              <ng-container *ngTemplateOutlet="inlineForm"></ng-container>
+            </ng-container>
 
-                  <button class="action-btn edit-btn" (click)="openEdit(tx); $event.stopPropagation()">✏️</button>
-                  <button class="action-btn delete-btn"
-                    (click)="confirmDelete(tx); $event.stopPropagation()">🗑️</button>
-                </div>
-              </td>
-            </tr>
-            <tr *ngIf="filtered.length === 0">
+            <!-- Table Loop -->
+            <ng-container *ngFor="let tx of paginatedItems">
+              <!-- Read Mode -->
+              <tr *ngIf="editingTransactionId !== tx.treasuryTransactionId"
+                [class.selected]="tx.treasuryTransactionId === selectedTransaction?.treasuryTransactionId"
+                (click)="selectTransaction(tx)">
+                <td><span class="receipt-no">{{ tx.receiptNo }}</span></td>
+                <td>
+                  <span class="type-badge" [ngClass]="getBadgeClass(tx)">{{ tx.transactionTypeName }}</span>
+                </td>
+                <td>
+                  <div class="custom-date-wrap">
+                    <input type="date" class="custom-date-input" [ngModel]="tx.transactionDate | date:'yyyy-MM-dd'" disabled>
+                  </div>
+                </td>
+                <td>{{ tx.beneficiaryNameValue || '-' }}</td>
+                <td>{{ tx.currency }}</td>
+                <td>{{ tx.paymentType }}</td>
+                <td>{{ tx.recordBy }}</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="action-btn print-btn" title="View PDF"
+                      (click)="printTransaction(tx); $event.stopPropagation()">👁️</button>
+                    <button class="action-btn edit-btn" (click)="openEdit(tx); $event.stopPropagation()">✏️</button>
+                    <button class="action-btn delete-btn"
+                      (click)="confirmDelete(tx); $event.stopPropagation()">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+              <!-- Edit Mode -->
+              <ng-container *ngIf="editingTransactionId === tx.treasuryTransactionId">
+                <ng-container *ngTemplateOutlet="inlineForm"></ng-container>
+              </ng-container>
+            </ng-container>
+
+            <tr *ngIf="filtered.length === 0 && !isAdding">
               <td colspan="8" class="empty-row">No transactions found</td>
             </tr>
           </tbody>
@@ -159,208 +176,173 @@
     </div>
   </div>
 
-  <!-- Add/Edit Modal -->
-  <app-modal [title]="isEdit ? 'Edit Treasury Transaction' : 'Add New Treasury Transaction'" [isOpen]="isModalOpen"
-    (closed)="closeModal()" size="large">
-    <div class="modal-form">
+  <!-- Inline Form Template -->
+  <ng-template #inlineForm>
+    <tr class="inline-edit-row">
+      <td>
+        <div class="receipt-display inline-receipt">
+          <span class="receipt-value">{{ model.receiptNo || generatedReceiptNo }}</span>
+        </div>
+      </td>
+      <td>
+        <app-searchable-select [(ngModel)]="model.transactionTypeId" [items]="transactionTypes" labelKey="name"
+          valueKey="id" placeholder="Type..." (ngModelChange)="onTypeChange()"></app-searchable-select>
+      </td>
+      <td>
+        <div class="custom-date-wrap">
+          <input type="date" class="custom-date-input" [(ngModel)]="model.transactionDate"
+            (ngModelChange)="onCurrencyOrDateChange()">
+        </div>
+      </td>
+      <td>
+        <app-searchable-select [(ngModel)]="model.beneficiaryNameId" [items]="beneficiaryNames"
+          labelKey="beneficiaryName" valueKey="beneficiaryId" placeholder="Beneficiary..."></app-searchable-select>
+      </td>
+      <td>
+        <app-searchable-select [(ngModel)]="model.currency" [items]="currencyOptions" labelKey="label" valueKey="id"
+          placeholder="Currency..." (ngModelChange)="onCurrencyOrDateChange()"></app-searchable-select>
+      </td>
+      <td>
+        <app-searchable-select [(ngModel)]="model.paymentType" [items]="paymentTypeOptions" labelKey="label"
+          valueKey="id" placeholder="Payment..."></app-searchable-select>
+      </td>
+      <td>
+        <span class="readonly-text">{{ model.recordBy }}</span>
+      </td>
+      <td>
+        <div class="actions-cell">
+          <button class="action-btn edit-btn" (click)="save()" [disabled]="saving" title="Save Transaction">💾</button>
+          <button class="action-btn delete-btn" (click)="cancelInline()" title="Cancel">✖</button>
+        </div>
+      </td>
+    </tr>
+    <!-- Expanded Detail Row -->
+    <tr class="expanded-detail">
+      <td colspan="8">
+        <div class="expanded-content">
+          <!-- Header Extras -->
+          <div class="header-extras">
+            <div class="form-group">
+              <label>Period</label>
+              <app-searchable-select [(ngModel)]="model.periodId" [items]="periods" labelKey="periodName"
+                valueKey="periodId" placeholder="Search..."></app-searchable-select>
+            </div>
+            <div class="form-group">
+              <label>Default Account *</label>
+              <app-searchable-select [(ngModel)]="model.paymentDefaultAccountId" [items]="accounts"
+                labelKey="displayLabel" valueKey="id" placeholder="Search..."></app-searchable-select>
+            </div>
+            <div class="form-group">
+              <label>Rate</label>
+              <input type="number" [(ngModel)]="model.rate" step="0.01" readonly class="field-disabled sm-input">
+            </div>
+            <div class="form-group">
+              <label>Withdraw Bank</label>
+              <input type="text" class="sm-input" [(ngModel)]="model.withdrawBank" placeholder="Enter bank...">
+            </div>
+            <div class="form-group">
+              <label>Due Date</label>
+              <div class="custom-date-wrap">
+                <input type="date" class="custom-date-input" [(ngModel)]="model.dueDate">
+              </div>
+            </div>
+            <div class="form-group checkbox-group">
+              <label>
+                <input type="checkbox" [(ngModel)]="model.autoBalance"> Auto Balance
+              </label>
+            </div>
+          </div>
 
-      <!-- Info note -->
-      <div class="info-note">
-        💡 Select a <strong>Transaction Type</strong> first — the Receipt No will be auto-generated.
-      </div>
+          <div class="info-note" [ngClass]="model.autoBalance ? 'note-auto' : 'note-manual'">
+            <span *ngIf="model.autoBalance">🤖 <strong>AutoBalance:</strong> Enter business lines only. Payment line
+              generated automatically.</span>
+            <span *ngIf="!model.autoBalance">✋ <strong>Manual Mode:</strong> Enter all lines including cash/payment
+              line.</span>
+          </div>
 
-      <!-- Type Tab Buttons -->
-      <div class="type-tabs">
-        <button *ngFor="let t of transactionTypes" class="type-tab" [class.active]="selectedTypeDef.id === t.id"
-          [ngClass]="selectedTypeDef.id === t.id ? t.badgeClass : ''" (click)="selectTypeDef(t)">
-          {{ t.name }}
-        </button>
-      </div>
-
-      <div class="form-row">
-        <!-- Auto Receipt No display -->
-        <div class="form-group">
-          <label>Receipt No *</label>
-          <div class="receipt-display">
-            <span class="receipt-value">{{ generatedReceiptNo }}</span>
-            <span class="auto-tag">AUTO</span>
+          <!-- Lines Section -->
+          <div class="modal-lines-section">
+            <div class="modal-lines-header">
+              <h4>Transaction Lines</h4>
+            </div>
+            <table class="code-table modal-lines-table">
+              <thead>
+                <tr>
+                  <th style="width: 30px">#</th>
+                  <th>Account</th>
+                  <th>File</th>
+                  <th>Cost Center</th>
+                  <th>Period</th>
+                  <th>Description</th>
+                  <th style="width: 80px">Debit</th>
+                  <th style="width: 80px">Credit</th>
+                  <th style="width: 70px">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let line of lines; let i = index" [class.editing-row]="editingLineIndex === i">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ line.accountName }}</td>
+                  <td>{{ line.fileNumberValue || '-' }}</td>
+                  <td>{{ line.costCenterName || '-' }}</td>
+                  <td>{{ line.periodName }}</td>
+                  <td>{{ line.lineDescription }}</td>
+                  <td class="num-cell debit-val">{{ line.debit | number:'1.2-2' }}</td>
+                  <td class="num-cell credit-val">{{ line.credit | number:'1.2-2' }}</td>
+                  <td>
+                    <button class="action-btn edit-btn" (click)="editLine(line, i)">✏️</button>
+                    <button class="action-btn delete-btn" (click)="removeLine(i)">✕</button>
+                  </td>
+                </tr>
+                <!-- Inline Add/Edit Row -->
+                <tr class="inline-form-row">
+                  <td>
+                    <span *ngIf="editingLineIndex >= 0" class="edit-badge">✏️</span>
+                    <span *ngIf="editingLineIndex < 0" class="add-badge">＋</span>
+                  </td>
+                  <td>
+                    <app-searchable-select [(ngModel)]="lineModel.accountId" [items]="accounts" labelKey="displayLabel"
+                      valueKey="id" placeholder="Select account..."></app-searchable-select>
+                  </td>
+                  <td>
+                    <app-searchable-select [(ngModel)]="lineModel.fileNumberId" [items]="fileNumbers"
+                      labelKey="displayLabel" valueKey="fileId" placeholder="Select file..."></app-searchable-select>
+                  </td>
+                  <td>
+                    <app-searchable-select [(ngModel)]="lineModel.costCenterId" [items]="costCenters"
+                      labelKey="costCenterName" valueKey="costCenterId"
+                      placeholder="Select CC..."></app-searchable-select>
+                  </td>
+                  <td>
+                    <app-searchable-select [(ngModel)]="lineModel.periodId" [items]="periods" labelKey="periodName"
+                      valueKey="periodId" placeholder="Select Period..."></app-searchable-select>
+                  </td>
+                  <td>
+                    <input type="text" class="sm-input" [(ngModel)]="lineModel.lineDescription"
+                      placeholder="Description">
+                  </td>
+                  <td>
+                    <input type="number" class="sm-input num-input" [(ngModel)]="lineModel.debit" step="0.01">
+                  </td>
+                  <td>
+                    <input type="number" class="sm-input num-input" [(ngModel)]="lineModel.credit" step="0.01">
+                  </td>
+                  <td>
+                    <div class="inline-actions">
+                      <button class="action-btn save-btn" (click)="saveLine()" title="Save Line">✔️</button>
+                      <button *ngIf="editingLineIndex >= 0" class="action-btn cancel-btn" (click)="cancelLineEdit()"
+                        title="Cancel">✖</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="no-lines-msg" *ngIf="lines.length === 0">No lines added yet.</p>
           </div>
         </div>
-        <div class="form-group">
-          <label>Date *</label>
-          <input type="date" [(ngModel)]="model.transactionDate" (change)="onCurrencyOrDateChange()">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Period</label>
-          <app-searchable-select [(ngModel)]="model.periodId" [items]="periods" labelKey="periodName"
-            valueKey="periodId" placeholder="Search period..."></app-searchable-select>
-        </div>
-        <div class="form-group">
-          <label>Beneficiary Name</label>
-          <app-searchable-select [(ngModel)]="model.beneficiaryNameId" [items]="beneficiaryNames"
-            labelKey="beneficiaryName" valueKey="beneficiaryId"
-            placeholder="Search beneficiary..."></app-searchable-select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Currency *</label>
-          <select [(ngModel)]="model.currency" (change)="onCurrencyOrDateChange()">
-            <option *ngFor="let c of currencies" [ngValue]="c">{{ c }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Rate</label>
-          <input type="number" [(ngModel)]="model.rate" step="0.01" readonly class="field-disabled">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Payment Type *</label>
-          <select [(ngModel)]="model.paymentType">
-            <option *ngFor="let p of paymentTypes" [ngValue]="p">{{ p }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Default Account *</label>
-          <app-searchable-select [(ngModel)]="model.paymentDefaultAccountId" [items]="accounts" labelKey="displayLabel"
-            valueKey="id" placeholder="Search account..."></app-searchable-select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Withdraw Bank</label>
-          <input type="text" [(ngModel)]="model.withdrawBank" placeholder="Enter bank name">
-        </div>
-        <div class="form-group">
-          <label>Due Date</label>
-          <input type="date" [(ngModel)]="model.dueDate">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Recorded By</label>
-          <input type="text" [(ngModel)]="model.recordBy" readonly class="field-disabled" placeholder="User name">
-        </div>
-
-      </div>
-
-
-      <!-- Lines in modal -->
-      <div class="modal-lines-section">
-        <div class="modal-lines-header">
-          <h4>Transaction Lines</h4>
-          <button class="btn-add-line" (click)="openAddLine()">＋ Add Line</button>
-        </div>
-        <table class="code-table modal-lines-table" *ngIf="lines.length > 0">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Account</th>
-              <th>File</th>
-              <th>Cost Center</th>
-              <th>Period</th>
-              <th>Description</th>
-              <th>Debit</th>
-              <th>Credit</th>
-              <th style="width:40px"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let line of lines; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ line.accountName }}</td>
-              <td>{{ line.fileNumberValue || '-' }}</td>
-              <td>{{ line.costCenterName || '-' }}</td>
-              <td>{{ line.periodName }}</td>
-              <td>{{ line.lineDescription }}</td>
-              <td class="num-cell debit-val">{{ line.debit | number:'1.2-2' }}</td>
-              <td class="num-cell credit-val">{{ line.credit | number:'1.2-2' }}</td>
-              <td>
-                <button class="action-btn delete-btn" (click)="removeLine(i)">✕</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="no-lines-msg" *ngIf="lines.length === 0">No lines added yet.</p>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update Transaction' : '＋ Add
-        Transaction' }}</button>
-      <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
-    </div>
-  </app-modal>
-
-  <!-- Add/Edit Line Modal -->
-  <app-modal [title]="isLineEdit ? 'Edit Transaction Line' : 'Add Transaction Line'" [isOpen]="isLineModalOpen"
-    (closed)="closeLineModal()" size="medium">
-    <div class="modal-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Account *</label>
-          <app-searchable-select [(ngModel)]="lineModel.accountId" [items]="accounts" labelKey="displayLabel"
-            valueKey="id" placeholder="Search account..."></app-searchable-select>
-        </div>
-        <div class="form-group">
-          <label>File Number</label>
-          <app-searchable-select [(ngModel)]="lineModel.fileNumberId" [items]="fileNumbers" labelKey="displayLabel"
-            valueKey="fileId" placeholder="Search file number..."></app-searchable-select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Cost Center</label>
-          <app-searchable-select [(ngModel)]="lineModel.costCenterId" [items]="costCenters" labelKey="costCenterName"
-            valueKey="costCenterId" placeholder="Search cost center..."></app-searchable-select>
-        </div>
-        <div class="form-group">
-          <label>Period</label>
-          <app-searchable-select [(ngModel)]="lineModel.periodId" [items]="periods" labelKey="periodName"
-            valueKey="periodId" placeholder="Search period..."></app-searchable-select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Tax %</label>
-          <input type="number" [(ngModel)]="lineModel.taxPercent" step="0.01">
-        </div>
-        <div class="form-group">
-          <label>Tax #</label>
-          <input type="text" [(ngModel)]="lineModel.taxNo">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Description</label>
-        <input type="text" [(ngModel)]="lineModel.lineDescription" placeholder="Line description">
-      </div>
-      <!-- Debit / Credit with type-rule hints -->
-      <div class="form-row amount-row">
-        <div class="form-group">
-          <label>Debit</label>
-          <input type="number" [(ngModel)]="lineModel.debit" step="0.01" [disabled]="debitDisabled"
-            [class.field-disabled]="debitDisabled">
-          <div class="field-hint" [class.hint-error]="debitDisabled" [class.hint-ok]="!debitDisabled">
-            {{ debitHint }}
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Credit</label>
-          <input type="number" [(ngModel)]="lineModel.credit" step="0.01" [disabled]="creditDisabled"
-            [class.field-disabled]="creditDisabled">
-          <div class="field-hint" [class.hint-error]="creditDisabled" [class.hint-ok]="!creditDisabled">
-            {{ creditHint }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-save" (click)="saveLine()" [disabled]="lineSaving">＋ Add Line</button>
-      <button class="btn-cancel-modal" (click)="closeLineModal()">Cancel</button>
-    </div>
-  </app-modal>
+      </td>
+    </tr>
+  </ng-template>
 
   <!-- Delete Confirmation -->
   <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="'Transaction ' + (deleteTarget?.receiptNo || '')"
