@@ -173,6 +173,12 @@
 
 .lines-table {
   font-size: 13px;
+  table-layout: fixed;
+  width: 100%;
+
+  th, td {
+    word-wrap: break-word;
+  }
 }
 
 .totals-row {

@@ -117,7 +117,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       next: (data) => {
         this.accounts = data.accounts.map((a: any) => ({
           ...a,
-          displayLabel: `${a.accountNumber} - ${a.accountName}`
+          displayLabel: a.accountName
         }));
         this.periods = [
           { periodId: 0, periodName: '-', active: true },
@@ -312,6 +312,11 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     }
     if (this.lines.length === 0) {
       Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please add at least one line');
+      return;
+    }
+
+    if (this.balanceDifference !== 0) {
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Difference must be exactly 0 to save');
       return;
     }
 
