@@ -17,21 +17,15 @@
           </div>
           <div class="filter-field">
             <label>Year</label>
-            <select class="filter-input" [(ngModel)]="filters.year">
-              <option *ngFor="let y of yearOptions" [value]="y">{{ y }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.year" [items]="yearOptions" [isStatic]="true"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>From Month</label>
-            <select class="filter-input" [(ngModel)]="filters.fromMonth">
-              <option *ngFor="let m of monthOptions" [value]="m.value">{{ m.label }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.fromMonth" [items]="monthOptions" valueKey="value" labelKey="label"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>To Month</label>
-            <select class="filter-input" [(ngModel)]="filters.toMonth">
-              <option *ngFor="let m of monthOptions" [value]="m.value">{{ m.label }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.toMonth" [items]="monthOptions" valueKey="value" labelKey="label"></app-searchable-select>
           </div>
         </div>
 

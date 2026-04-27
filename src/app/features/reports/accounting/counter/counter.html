@@ -25,13 +25,7 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Currency</label>
-            <select class="filter-input" [(ngModel)]="filters.currency">
-              <option value="">Select...</option>
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-              <option value="EGP">EGP</option>
-              <option value="GBP">GBP</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.currency" [items]="['USD', 'EUR', 'EGP', 'GBP']" [isStatic]="true" nullLabel="Select..."></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Branch</label>

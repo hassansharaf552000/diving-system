@@ -26,17 +26,11 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Account Name</label>
-            <select class="filter-input" [(ngModel)]="filters.accountId">
-              <option value="">-- All --</option>
-              <option *ngFor="let acc of accounts" [value]="acc.id">{{ acc.accountNumber }} - {{ acc.accountName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.accountId" [items]="accounts" valueKey="id" labelKey="accountNumber }} - {{ acc" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Beneficiary Name</label>
-            <select class="filter-input" [(ngModel)]="filters.beneficiaryNameId">
-              <option value="">-- All --</option>
-              <option *ngFor="let b of beneficiaryNames" [value]="b.beneficiaryId">{{ b.beneficiaryName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.beneficiaryNameId" [items]="beneficiaryNames" valueKey="beneficiaryId" labelKey="beneficiaryName" nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 
@@ -44,17 +38,11 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Transaction Type</label>
-            <select class="filter-input" [(ngModel)]="filters.transactionType">
-              <option value="">-- All --</option>
-              <option *ngFor="let opt of transactionTypeOptions" [value]="opt.label">{{ opt.label }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.transactionType" [items]="transactionTypeOptions" valueKey="label" labelKey="label" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Beneficiary Type</label>
-            <select class="filter-input" [(ngModel)]="filters.beneficiaryType">
-              <option value="">-- All --</option>
-              <option *ngFor="let t of beneficiaryTypes" [value]="t.beneficiaryTypeName">{{ t.beneficiaryTypeName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.beneficiaryType" [items]="beneficiaryTypes" valueKey="beneficiaryTypeName" labelKey="beneficiaryTypeName" nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 
@@ -62,10 +50,7 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Currency</label>
-            <select class="filter-input" [(ngModel)]="filters.currency">
-              <option value="">-- All --</option>
-              <option *ngFor="let cur of currencyOptions" [value]="cur">{{ cur }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.currency" [items]="currencyOptions" [isStatic]="true" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Branch</label>
@@ -81,10 +66,7 @@
           </div>
           <div class="filter-field">
             <label>Receipt No</label>
-            <select class="filter-input" [(ngModel)]="filters.receiptNo">
-              <option value="">-- All --</option>
-              <option *ngFor="let r of receipts" [value]="r">{{ r }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.receiptNo" [items]="receipts" [isStatic]="true" nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 

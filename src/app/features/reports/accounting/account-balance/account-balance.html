@@ -33,12 +33,7 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Account</label>
-            <select class="filter-input" [(ngModel)]="filters.accountId" (ngModelChange)="onAccountChange()">
-              <option value="">-- Select Account --</option>
-              <option *ngFor="let acc of accounts" [value]="acc.id">
-                {{ acc.accountNumber }} - {{ acc.accountName }}
-              </option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.accountId" (ngModelChange)="onAccountChange()" [items]="accounts" valueKey="id" labelKey="accountName" nullLabel="-- Select Account --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Branch</label>
@@ -50,19 +45,11 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Transaction Type</label>
-            <select class="filter-input" [(ngModel)]="filters.transactionType" (ngModelChange)="onTransactionTypeChange()">
-              <option value="">-- Select Type --</option>
-              <option *ngFor="let opt of transactionTypeOptions" [value]="opt.value">
-                {{ opt.label }}
-              </option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.transactionType" (ngModelChange)="onTransactionTypeChange()" [items]="transactionTypeOptions" valueKey="value" labelKey="label" nullLabel="-- Select Type --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Receipt No</label>
-            <select class="filter-input" [(ngModel)]="filters.receiptNo" [disabled]="!filters.accountId">
-              <option value="">{{ filters.accountId ? '-- Select Receipt --' : '-- Select Account First --' }}</option>
-              <option *ngFor="let r of receipts" [value]="r">{{ r }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.receiptNo" [items]="receipts" [isStatic]="true" nullLabel="{{ filters.accountId ? '-- Select Receipt --' : '-- Select Account First --' }}"></app-searchable-select>
           </div>
         </div>
 
@@ -70,13 +57,7 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Currency</label>
-            <select class="filter-input" [(ngModel)]="filters.currency">
-              <option value="">-- Select Currency --</option>
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-              <option value="EGP">EGP</option>
-              <option value="GBP">GBP</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.currency" [items]="['USD', 'EUR', 'EGP', 'GBP']" [isStatic]="true" nullLabel="-- Select Currency --"></app-searchable-select>
           </div>
           <div class="filter-field"><!-- spacer --></div>
         </div>

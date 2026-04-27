@@ -31,10 +31,7 @@
                 <div class="filter-row">
                     <div class="filter-field">
                         <label>Receipt No</label>
-                        <select class="filter-input" [(ngModel)]="filters.receiptNo">
-                            <option value="">-- All --</option>
-                            <option *ngFor="let r of receipts" [value]="r">{{ r }}</option>
-                        </select>
+                        <app-searchable-select [(ngModel)]="filters.receiptNo" [items]="receipts" [isStatic]="true" nullLabel="-- All --"></app-searchable-select>
                     </div>
                     <div class="filter-field">
                         <label>Tax Serial No</label>
@@ -43,10 +40,7 @@
                     </div>
                     <div class="filter-field">
                         <label>Currency</label>
-                        <select class="filter-input" [(ngModel)]="filters.currency">
-                            <option value="">-- All --</option>
-                            <option *ngFor="let cur of currencyOptions" [value]="cur">{{ cur }}</option>
-                        </select>
+                        <app-searchable-select [(ngModel)]="filters.currency" [items]="currencyOptions" [isStatic]="true" nullLabel="-- All --"></app-searchable-select>
                     </div>
                 </div>
 

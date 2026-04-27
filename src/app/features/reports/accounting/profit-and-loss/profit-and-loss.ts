@@ -1,5 +1,6 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import { ReportService } from '../../../../core/services/report.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-profit-and-loss',
@@ -9,12 +10,14 @@ import { ReportService } from '../../../../core/services/report.service';
 })
 export class ProfitAndLoss {
 
+  private auth = inject(AuthService);
+
   filters: any = {
     year: new Date().getFullYear(),
     fromMonth: 1,
     toMonth: 12,
     branch: '',
-    recordBy: ''
+    recordBy: this.auth?.currentUser()?.userName || ''
   };
 
   monthOptions = [

@@ -1,11 +1,12 @@
 import Swal from 'sweetalert2';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import {
   EntryTransaction, Rep, Agent, Nationality, Hotel, HotelDestination,
   Excursion, ExcursionSupplier, PriceList, Voucher, ExcursionCostSelling
 } from '../../../core/interfaces/code.interfaces';
+import { AuthService } from '../../../core/services/auth.service';
 import { CodeService } from '../../../core/services/code.service';
 
 @Component({
@@ -66,6 +67,8 @@ export class EntryTransactionComponent implements OnInit {
   // Delete dialog
   showDeleteConfirm = false;
   deleteTarget: EntryTransaction | null = null;
+
+  private auth = inject(AuthService);
 
   constructor(
     private svc: CodeService,
@@ -469,7 +472,7 @@ export class EntryTransactionComponent implements OnInit {
       orderNumber: null,
 
       active: true,
-      recordBy: ''
+      recordBy: this.auth?.currentUser()?.userName || ''
     };
   }
 }

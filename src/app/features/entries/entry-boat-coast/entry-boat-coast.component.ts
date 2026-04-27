@@ -7,6 +7,8 @@ import {
 } from '../../../core/interfaces/code.interfaces';
 import { CodeService } from '../../../core/services/code.service';
 import { ToastService } from '../../../shared/services/toast.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-entry-boat-coast',
@@ -74,6 +76,8 @@ export class EntryBoatCoastComponent implements OnInit {
 
   // Confirm dialog
   showSaveConfirm = false;
+
+  private auth = inject(AuthService);
 
   constructor(
     private codeService: CodeService,
@@ -260,7 +264,7 @@ export class EntryBoatCoastComponent implements OnInit {
   onSaveConfirmed(): void {
     this.showSaveConfirm = false;
     this.saving = true;
-    const payload = { ...this.buildPayload(), recordBy: '' };
+    const payload = { ...this.buildPayload(), recordBy: this.auth?.currentUser()?.userName || '' };
     this.codeService.saveEntryBoatCosts(payload).subscribe({
       next: () => {
         this.toast.success('Boat cost data saved successfully');

@@ -25,19 +25,11 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Report By</label>
-            <select class="filter-input" [(ngModel)]="filters.reportBy">
-              <option *ngFor="let opt of reportByOptions" [value]="opt.value">
-                {{ opt.label }}
-              </option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.reportBy" [items]="reportByOptions" valueKey="value" labelKey="label"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Report Name</label>
-            <select class="filter-input" [(ngModel)]="filters.reportName">
-              <option *ngFor="let opt of reportNameOptions" [value]="opt.value">
-                {{ opt.label }}
-              </option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.reportName" [items]="reportNameOptions" valueKey="value" labelKey="label"></app-searchable-select>
           </div>
         </div>
 
@@ -45,19 +37,11 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Type</label>
-            <select class="filter-input" [(ngModel)]="filters.type">
-              <option value="">-- All Types --</option>
-              <option *ngFor="let opt of transactionTypeOptions" [value]="opt.value">
-                {{ opt.label }}
-              </option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.type" [items]="transactionTypeOptions" valueKey="value" labelKey="label" nullLabel="-- All Types --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Currency</label>
-            <select class="filter-input" [(ngModel)]="filters.currency">
-              <option value="">-- All Currencies --</option>
-              <option *ngFor="let cur of currencyOptions" [value]="cur">{{ cur }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.currency" [items]="currencyOptions" [isStatic]="true" nullLabel="-- All Currencies --"></app-searchable-select>
           </div>
         </div>
 
@@ -69,7 +53,7 @@
           </div>
           <div class="filter-field">
             <label>Record By</label>
-            <input type="text" class="filter-input" [(ngModel)]="filters.recordBy" placeholder="Record By" />
+            <input type="text" class="filter-input field-disabled" readonly [(ngModel)]="filters.recordBy" placeholder="Record By" />
           </div>
         </div>
 

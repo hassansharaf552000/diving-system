@@ -18,21 +18,15 @@
           </div>
           <div class="filter-field">
             <label>Year</label>
-            <select class="filter-input" [(ngModel)]="filters.year">
-              <option *ngFor="let y of yearOptions" [value]="y">{{ y }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.year" [items]="yearOptions" [isStatic]="true"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>From Month</label>
-            <select class="filter-input" [(ngModel)]="filters.fromMonth">
-              <option *ngFor="let m of monthOptions" [value]="m.value">{{ m.label }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.fromMonth" [items]="monthOptions" valueKey="value" labelKey="label"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>To Month</label>
-            <select class="filter-input" [(ngModel)]="filters.toMonth">
-              <option *ngFor="let m of monthOptions" [value]="m.value">{{ m.label }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.toMonth" [items]="monthOptions" valueKey="value" labelKey="label"></app-searchable-select>
           </div>
         </div>
 
@@ -40,24 +34,15 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Agent</label>
-            <select class="filter-input" [(ngModel)]="filters.agentId">
-              <option value="">-- All --</option>
-              <option *ngFor="let a of agents" [value]="a.agentId">{{ a.agentName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.agentId" [items]="agents" valueKey="agentId" labelKey="agentName" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>File Number</label>
-            <select class="filter-input" [(ngModel)]="filters.fileNumberId">
-              <option value="">-- All --</option>
-              <option *ngFor="let fn of fileNumbers" [value]="fn.fileId">{{ fn.fileNumber }} - {{ fn.fileName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.fileNumberId" [items]="fileNumbers" valueKey="fileId" labelKey="fileNumber }} - {{ fn" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Service Account</label>
-            <select class="filter-input" [(ngModel)]="filters.serviceAccountId">
-              <option value="">-- All --</option>
-              <option *ngFor="let acc of accounts" [value]="acc.id">{{ acc.accountNumber }} - {{ acc.accountName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.serviceAccountId" [items]="accounts" valueKey="id" labelKey="accountNumber }} - {{ acc" nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 
@@ -65,15 +50,11 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Report By</label>
-            <select class="filter-input" [(ngModel)]="filters.reportBy">
-              <option *ngFor="let opt of reportByOptions" [value]="opt">{{ opt }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.reportBy" [items]="reportByOptions" [isStatic]="true"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Report Group</label>
-            <select class="filter-input" [(ngModel)]="filters.reportGroup">
-              <option *ngFor="let opt of reportGroupOptions" [value]="opt">{{ opt }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.reportGroup" [items]="reportGroupOptions" [isStatic]="true"></app-searchable-select>
           </div>
           <!-- spacer fields to keep layout balanced -->
           <div class="filter-field" style="visibility: hidden;"></div>

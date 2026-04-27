@@ -22,17 +22,11 @@
           </div>
           <div class="filter-field">
             <label>Receipt No</label>
-            <select class="filter-input" [(ngModel)]="filters.receiptNo">
-              <option value="">-- All --</option>
-              <option *ngFor="let r of receipts" [value]="r">{{ r }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.receiptNo" [items]="receipts" [isStatic]="true" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Transaction Type</label>
-            <select class="filter-input" [(ngModel)]="filters.transactionType">
-              <option value="">-- All --</option>
-              <option *ngFor="let opt of transactionTypeOptions" [value]="opt.value">{{ opt.label }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.transactionType" [items]="transactionTypeOptions" valueKey="value" labelKey="label" nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 
@@ -40,21 +34,11 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>From Account</label>
-            <select class="filter-input" [(ngModel)]="filters.fromAccount">
-              <option value="">-- All --</option>
-              <option *ngFor="let acc of accounts" [value]="acc.accountNumber">
-                {{ acc.accountNumber }} - {{ acc.accountName }}
-              </option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.fromAccount" [items]="accounts" valueKey="accountNumber" labelKey="accountName" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>To Account</label>
-            <select class="filter-input" [(ngModel)]="filters.toAccount">
-              <option value="">-- All --</option>
-              <option *ngFor="let acc of accounts" [value]="acc.accountNumber">
-                {{ acc.accountNumber }} - {{ acc.accountName }}
-              </option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.toAccount" [items]="accounts" valueKey="accountNumber" labelKey="accountName" nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 
@@ -62,17 +46,11 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>From File Number</label>
-            <select class="filter-input" [(ngModel)]="filters.fromFileNumber">
-              <option value="">-- All --</option>
-              <option *ngFor="let fn of fileNumbers" [value]="fn.fileNumber">{{ fn.fileNumber }} - {{ fn.fileName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.fromFileNumber" [items]="fileNumbers" valueKey="fileNumber" labelKey="fileNumber }} - {{ fn" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>To File Number</label>
-            <select class="filter-input" [(ngModel)]="filters.toFileNumber">
-              <option value="">-- All --</option>
-              <option *ngFor="let fn of fileNumbers" [value]="fn.fileNumber">{{ fn.fileNumber }} - {{ fn.fileName }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.toFileNumber" [items]="fileNumbers" valueKey="fileNumber" labelKey="fileNumber }} - {{ fn" nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 
@@ -96,10 +74,7 @@
           </div>
           <div class="filter-field">
             <label>Currency</label>
-            <select class="filter-input" [(ngModel)]="filters.currency">
-              <option value="">-- All --</option>
-              <option *ngFor="let cur of currencyOptions" [value]="cur">{{ cur }}</option>
-            </select>
+            <app-searchable-select [(ngModel)]="filters.currency" [items]="currencyOptions" [isStatic]="true" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Search</label>

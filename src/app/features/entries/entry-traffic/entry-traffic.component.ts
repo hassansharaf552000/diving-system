@@ -7,6 +7,8 @@ import {
   HotelDestination, Rep, TransportationType
 } from '../../../core/interfaces/code.interfaces';
 import { CodeService } from '../../../core/services/code.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-entry-traffic',
@@ -75,6 +77,8 @@ export class EntryTrafficComponent implements OnInit {
   savingInline = false;
   inlineModel: EntryTransactionInline = this.emptyInlineModel();
   originalInlineValues: any = {};
+
+  private auth = inject(AuthService);
 
   constructor(
     private codeService: CodeService,
@@ -295,7 +299,7 @@ export class EntryTrafficComponent implements OnInit {
       guideId: this.guideModel.guideId,
       guideDuty: this.guideModel.guideDuty,
       costGuideEGP: this.guideModel.costGuideEGP,
-      recordBy: ''
+      recordBy: this.auth?.currentUser()?.userName || ''
     };
 
     const obs = this.isEditGuide && this.guideModel.id
