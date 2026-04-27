@@ -264,6 +264,18 @@ export class AccountingService {
     });
   }
 
+  getStampStatuses(): Observable<{ value: string; text: string }[]> {
+    return this.http.get<{ value: string; text: string }[]>(`${this.baseUrl}/TreasuryTransactions/stamp-statuses`);
+  }
+
+  stampTransaction(id: number, status: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/TreasuryTransactions/${id}/stamp`, { stampStatus: status });
+  }
+
+  removeStamp(id: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/TreasuryTransactions/${id}/remove-stamp`, {});
+  }
+
   // ========== TREASURY COUNTERS ==========
   searchTreasuryCounters(currency?: string, branch?: string, fromDate?: string, toDate?: string): Observable<TreasuryCounter[]> {
     let params = new HttpParams();

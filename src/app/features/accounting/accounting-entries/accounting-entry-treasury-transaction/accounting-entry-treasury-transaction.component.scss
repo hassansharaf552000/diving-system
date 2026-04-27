@@ -816,3 +816,202 @@
     padding: 12px;
   }
 }
+
+// ---- Stamp Button ----
+.action-btn.stamp-btn {
+  background: #7c3aed;
+
+  &:hover {
+    background: #6d28d9;
+  }
+}
+
+// ---- Stamp Modal ----
+.stamp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stamp-modal {
+  background: var(--dm-surface);
+  border-radius: 14px;
+  width: 400px;
+  max-width: 95vw;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+  animation: stampSlideIn 0.2s ease-out;
+}
+
+@keyframes stampSlideIn {
+  from { opacity: 0; transform: translateY(-20px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.stamp-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  color: white;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+.stamp-modal-close {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255,255,255,0.35);
+  }
+}
+
+.stamp-modal-body {
+  padding: 20px;
+}
+
+.stamp-tx-info {
+  font-size: 13px;
+  color: var(--dm-text-muted);
+  margin: 0 0 16px;
+
+  strong {
+    color: var(--dm-text);
+  }
+}
+
+.stamp-statuses {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stamp-status-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--dm-border);
+  border-radius: 10px;
+  background: var(--dm-hover);
+  color: var(--dm-text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: right;
+  direction: rtl;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #7c3aed;
+    background: rgba(124,58,237,0.06);
+  }
+
+  &.selected {
+    border-color: #7c3aed;
+    background: rgba(124,58,237,0.12);
+    color: #7c3aed;
+  }
+
+  // Per-status colors when selected
+  &[data-status="Reviewed"].selected { border-color: #2563eb; background: rgba(37,99,235,0.1); color: #2563eb; }
+  &[data-status="Rejected"].selected { border-color: #dc2626; background: rgba(220,38,38,0.1); color: #dc2626; }
+  &[data-status="Cancelled"].selected { border-color: #6b7280; background: rgba(107,114,128,0.1); color: #6b7280; }
+}
+
+.stamp-remove-btn {
+  width: 100%;
+  padding: 9px 16px;
+  border: 1.5px dashed #dc2626;
+  border-radius: 8px;
+  background: transparent;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(220,38,38,0.06);
+  }
+}
+
+.stamp-modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--dm-border);
+
+  .btn-save {
+    flex: 1;
+    padding: 10px 16px;
+    background: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover {
+      opacity: 0.88;
+    }
+  }
+
+  .btn-cancel {
+    padding: 10px 20px;
+    background: var(--dm-hover);
+    color: var(--dm-text);
+    border: 1px solid var(--dm-border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--dm-border);
+    }
+  }
+}
+
+// ---- Stamp Table Badge ----
+.stamp-table-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--dm-hover);
+  color: var(--dm-text);
+  border: 1px solid var(--dm-border);
+
+  &[data-status="Reviewed"] { border-color: #2563eb; background: rgba(37,99,235,0.1); color: #2563eb; }
+  &[data-status="Rejected"] { border-color: #dc2626; background: rgba(220,38,38,0.1); color: #dc2626; }
+  &[data-status="Cancelled"] { border-color: #6b7280; background: rgba(107,114,128,0.1); color: #6b7280; }
+}

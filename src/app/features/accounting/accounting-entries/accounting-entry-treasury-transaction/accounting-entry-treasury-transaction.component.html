@@ -42,6 +42,7 @@
               <th>Beneficiary</th>
               <th>Currency</th>
               <th>Payment</th>
+              <th style="width:100px">Stamp</th>
               <th style="width:90px">Actions</th>
             </tr>
           </thead>
@@ -72,9 +73,15 @@
                   <td>{{ tx.currency }}</td>
                   <td>{{ tx.paymentType }}</td>
                   <td>
+                    <span *ngIf="tx.stampStatus" class="stamp-table-badge" [attr.data-status]="tx.stampStatus">{{ tx.stampText }}</span>
+                    <span *ngIf="!tx.stampStatus">-</span>
+                  </td>
+                  <td>
                     <div class="actions-cell">
                       <button class="action-btn print-btn" title="View PDF"
                         (click)="printTransaction(tx); $event.stopPropagation()">👁️</button>
+                      <button *ngIf="isAdminOrSuperAdmin" class="action-btn stamp-btn" title="Set Stamp Status"
+                        (click)="openStamp(tx, $event)">🔖</button>
                       <button class="action-btn edit-btn" (click)="openEdit(tx); $event.stopPropagation()">✏️</button>
                       <button class="action-btn delete-btn"
                         (click)="confirmDelete(tx); $event.stopPropagation()">🗑️</button>
@@ -380,5 +387,38 @@
   <app-confirm-dialog [isOpen]="showDeleteConfirm" [itemName]="'Transaction ' + (deleteTarget?.receiptNo || '')"
     (confirmed)="onDeleteConfirmed()" (cancelled)="onDeleteCancelled()">
   </app-confirm-dialog>
+
+
+  <!-- Stamp Modal -->
+  <div class="stamp-modal-overlay" *ngIf="showStampModal" (click)="closeStampModal()">
+    <div class="stamp-modal" (click)="$event.stopPropagation()">
+      <div class="stamp-modal-header">
+        <h3>🔖 Set Stamp Status</h3>
+        <button class="stamp-modal-close" (click)="closeStampModal()">✕</button>
+      </div>
+      <div class="stamp-modal-body">
+        <p class="stamp-tx-info"><strong>Receipt:</strong> {{ stampTarget?.receiptNo }}</p>
+        <div class="stamp-statuses">
+          <button
+            *ngFor="let s of stampStatuses"
+            class="stamp-status-btn"
+            [class.selected]="selectedStampStatus === s.value"
+            [attr.data-status]="s.value"
+            (click)="selectedStampStatus = s.value">
+            {{ s.text }}
+          </button>
+        </div>
+        <button *ngIf="stampTarget?.stampStatus" class="stamp-remove-btn" (click)="removeStamp(stampTarget!, $event); closeStampModal()">
+          🗑️ إزالة الختم
+        </button>
+      </div>
+      <div class="stamp-modal-footer">
+        <button class="btn-save" (click)="saveStamp()" [disabled]="stampingSaving || !selectedStampStatus">
+          {{ stampingSaving ? 'Saving...' : '💾 Apply Stamp' }}
+        </button>
+        <button class="btn-cancel" (click)="closeStampModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
 
 </div>

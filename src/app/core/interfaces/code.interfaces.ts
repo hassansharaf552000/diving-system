@@ -595,6 +595,11 @@ export interface TreasuryTransaction {
   luRecordTime?: string;
   autoBalance?: boolean;
   description?: string;
+  stampStatus?: string | null;
+  stampText?: string | null;
+  stampedBy?: string | null;
+  stampedAt?: string | null;
+  stampNote?: string | null;
   lines?: TreasuryTransactionLine[];
 }
 

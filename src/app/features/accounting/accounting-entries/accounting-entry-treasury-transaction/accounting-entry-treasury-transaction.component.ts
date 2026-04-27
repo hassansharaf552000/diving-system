@@ -92,6 +92,16 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   showDeleteConfirm = false;
   deleteTarget: TreasuryTransaction | null = null;
 
+  // Stamp dialog
+  showStampModal = false;
+  stampTarget: TreasuryTransaction | null = null;
+  stampStatuses: { value: string; text: string }[] = [];
+  selectedStampStatus = '';
+  stampingSaving = false;
+
+  // Allowed stamp statuses to display
+  private readonly allowedStampStatuses = ['Reviewed', 'Rejected', 'Cancelled'];
+
   constructor(
     private svc: AccountingService,
     private router: Router,
@@ -102,6 +112,7 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     this.searchFromDate = new Date().toISOString().split('T')[0];
     this.searchToDate = new Date().toISOString().split('T')[0];
     this.loadDropdowns();
+    this.loadStampStatuses();
     this.searchTransactions();
   }
 
@@ -407,6 +418,84 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
   onDeleteCancelled(): void {
     this.showDeleteConfirm = false;
     this.deleteTarget = null;
+  }
+
+  // ============ HELPERS (role check) ============
+  get isAdminOrSuperAdmin(): boolean {
+    return this.auth.hasRole('Admin', 'SuperAdmin');
+  }
+
+  // ============ STAMP ============
+  loadStampStatuses(): void {
+    this.svc.getStampStatuses().subscribe({
+      next: (data) => {
+        this.stampStatuses = data.filter(s => this.allowedStampStatuses.includes(s.value));
+      },
+      error: (err) => console.error('Error loading stamp statuses:', err)
+    });
+  }
+
+  openStamp(tx: TreasuryTransaction, event: Event): void {
+    event.stopPropagation();
+    this.stampTarget = tx;
+    this.selectedStampStatus = tx.stampStatus || '';
+    this.showStampModal = true;
+    this.cdr.detectChanges();
+  }
+
+  closeStampModal(): void {
+    this.showStampModal = false;
+    this.stampTarget = null;
+    this.selectedStampStatus = '';
+    this.stampingSaving = false;
+    this.cdr.detectChanges();
+  }
+
+  saveStamp(): void {
+    if (!this.selectedStampStatus) {
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, icon: 'warning' }).fire('⚠️ Please select a status');
+      return;
+    }
+    if (!this.stampTarget?.treasuryTransactionId) return;
+
+    this.stampingSaving = true;
+    this.svc.stampTransaction(this.stampTarget.treasuryTransactionId, this.selectedStampStatus).subscribe({
+      next: () => {
+        this.stampingSaving = false;
+        this.closeStampModal();
+        this.searchTransactions();
+        Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, icon: 'success' }).fire('✅ Stamp applied successfully');
+      },
+      error: (err) => {
+        this.stampingSaving = false;
+        Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'error' }).fire('Failed to stamp: ' + (err.error?.message || err.message));
+      }
+    });
+  }
+
+  removeStamp(tx: TreasuryTransaction, event: Event): void {
+    event.stopPropagation();
+    if (!tx.treasuryTransactionId) return;
+    Swal.fire({
+      title: 'Remove Stamp?',
+      text: 'Are you sure you want to remove the stamp from this transaction?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc2626',
+      confirmButtonText: 'Yes, Remove'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.svc.removeStamp(tx.treasuryTransactionId!).subscribe({
+          next: () => {
+            this.searchTransactions();
+            Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, icon: 'success' }).fire('✅ Stamp removed');
+          },
+          error: (err) => {
+            Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'error' }).fire('Failed to remove stamp: ' + (err.error?.message || err.message));
+          }
+        });
+      }
+    });
   }
 
   // ============ INLINE LINE FORM ============
