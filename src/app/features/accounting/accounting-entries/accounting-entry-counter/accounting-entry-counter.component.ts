@@ -1,7 +1,8 @@
 import Swal from 'sweetalert2';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountingService } from '../../../../core/services/accounting.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import {
   TreasuryCounter,
   TreasuryCounterLine,
@@ -57,6 +58,8 @@ export class AccountingEntryCounterComponent implements OnInit {
   showDeleteConfirm = false;
   deleteTarget: TreasuryCounter | null = null;
 
+  private auth = inject(AuthService);
+
   constructor(
     private svc: AccountingService,
     private router: Router,
@@ -109,7 +112,8 @@ export class AccountingEntryCounterComponent implements OnInit {
     this.counterDate = new Date().toISOString().split('T')[0];
     this.branchName = '';
     this.currency = 'EGP';
-    this.recordBy = '';
+    const user = this.auth?.currentUser();
+    this.recordBy = user?.fullName || user?.userName || '';
     this.treasuryBalance = 0;
     this.initDenominations('EGP');
     this.isModalOpen = true;
