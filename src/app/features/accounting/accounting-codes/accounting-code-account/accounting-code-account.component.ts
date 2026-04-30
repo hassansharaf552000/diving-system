@@ -35,18 +35,18 @@ export class AccountingCodeAccountComponent implements OnInit {
     costType: boolean;
     period: boolean;
     isActive: boolean;
-  } = { 
-    accountNumber: '', 
-    accountName: '', 
-    parentId: null, 
-    accountType: '',
-    accountGroup: '',
-    accountClosing: '',
-    taxes: false,
-    costType: false,
-    period: false,
-    isActive: true 
-  };
+  } = {
+      accountNumber: '',
+      accountName: '',
+      parentId: null,
+      accountType: '',
+      accountGroup: '',
+      accountClosing: '',
+      taxes: false,
+      costType: false,
+      period: false,
+      isActive: true
+    };
 
   // Track which parent to add child under
   addingChildOf: OperationAccount | null = null;
@@ -55,7 +55,7 @@ export class AccountingCodeAccountComponent implements OnInit {
     private svc: AccountingService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadRoots();
@@ -234,7 +234,7 @@ export class AccountingCodeAccountComponent implements OnInit {
     this.saving = true;
     const isEditing = this.isEdit && this.model.id;
     const modelId = this.model.id;
-    
+
     // Capture data before closing
     const updateData = {
       accountNumber: this.model.accountNumber,
@@ -247,7 +247,7 @@ export class AccountingCodeAccountComponent implements OnInit {
       period: this.model.period,
       isActive: this.model.isActive
     } as any;
-    
+
     const createData: OperationAccountCreate = {
       accountNumber: this.model.accountNumber,
       accountName: this.model.accountName,

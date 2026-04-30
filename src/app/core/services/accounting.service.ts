@@ -63,7 +63,7 @@ export class AccountingService {
       map(tree => {
         const flatList: OperationAccount[] = [];
         const processNode = (node: any) => {
-          if (node.accountGroup === 'Main Account' || node.accountGroup === 'Subsidiary Account') {
+          if (node.accountGroup === 'Subsidiary Account') {
             flatList.push(node as OperationAccount);
           }
           if (node.children && Array.isArray(node.children)) {
