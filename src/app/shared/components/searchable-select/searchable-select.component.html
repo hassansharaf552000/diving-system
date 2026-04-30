@@ -1,17 +1,17 @@
-<div class="ss-wrap">
+<div class="ss-wrap" [class.ss-disabled]="disabled">
     <div class="ss-input-row">
         <input type="text" class="ss-input" [placeholder]="selectedLabel || placeholder"
-            [value]="isOpen ? searchTerm : ''" (focus)="onInputFocus()"
-            (input)="searchTerm = $any($event.target).value; onInputChange()" (blur)="onInputBlur()" autocomplete="off"
-            role="combobox">
+            [value]="isOpen ? searchTerm : ''" (focus)="!disabled && onInputFocus()"
+            (input)="!disabled && (searchTerm = $any($event.target).value); !disabled && onInputChange()"
+            (blur)="onInputBlur()" autocomplete="off" role="combobox" [attr.disabled]="disabled ? '' : null">
         <span class="ss-selected-label" *ngIf="!isOpen && selectedLabel">{{ selectedLabel }}</span>
-        <button class="ss-clear" *ngIf="selectedValue !== undefined && selectedValue !== null"
+        <button class="ss-clear" *ngIf="!disabled && selectedValue !== undefined && selectedValue !== null"
             (mousedown)="clearSelection($event)" type="button" tabindex="-1">✕</button>
-        <span class="ss-arrow" (mousedown)="isOpen = !isOpen">▾</span>
+        <span class="ss-arrow" *ngIf="!disabled" (mousedown)="isOpen = !isOpen">▾</span>
     </div>
 
-    <div class="ss-portal-backdrop" *ngIf="isOpen && portal" (mousedown)="isOpen = false"></div>
-    <div [class.ss-dropdown]="!portal" [class.ss-portal-menu]="portal" *ngIf="isOpen">
+    <div class="ss-portal-backdrop" *ngIf="!disabled && isOpen && portal" (mousedown)="isOpen = false"></div>
+    <div [class.ss-dropdown]="!portal" [class.ss-portal-menu]="portal" *ngIf="!disabled && isOpen">
         <!-- Search bar inside portal for better UX -->
         <div class="ss-portal-search-wrap" *ngIf="portal">
             <input type="text" class="ss-portal-search" [placeholder]="placeholder" [(ngModel)]="searchTerm"
@@ -24,4 +24,5 @@
         </div>
         <div class="ss-empty" *ngIf="filteredItems.length === 0">No results</div>
     </div>
+
 </div>

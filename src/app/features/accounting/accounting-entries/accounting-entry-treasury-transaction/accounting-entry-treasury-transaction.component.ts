@@ -535,6 +535,47 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
     return '✅ Credit allowed';
   }
 
+  // ============ ACCOUNT-DRIVEN FIELD RULES ============
+  /** Returns the full account object for the currently selected line account */
+  get selectedLineAccount(): OperationAccount | undefined {
+    if (!this.lineModel.accountId) return undefined;
+    return this.accounts.find(a => a.id === this.lineModel.accountId);
+  }
+
+  /** Period field is allowed only if the account has period=true */
+  get periodEnabled(): boolean {
+    return this.selectedLineAccount?.period ?? false;
+  }
+
+  /** Cost Center field is allowed only if the account has costType=true */
+  get costTypeEnabled(): boolean {
+    return this.selectedLineAccount?.costType ?? false;
+  }
+
+  /** Tax fields are allowed only if the account has taxes=true */
+  get taxesEnabled(): boolean {
+    return this.selectedLineAccount?.taxes ?? false;
+  }
+
+  /** Called when the account dropdown changes — resets fields that are now disabled */
+  onLineAccountChange(): void {
+    const acc = this.selectedLineAccount;
+    if (!acc) return;
+
+    if (!acc.period) {
+      this.lineModel.periodId = 0;
+      this.lineModel.periodName = '';
+    }
+    if (!acc.costType) {
+      this.lineModel.costCenterId = undefined;
+      this.lineModel.costCenterName = '';
+    }
+    if (!acc.taxes) {
+      this.lineModel.taxPercent = undefined;
+      this.lineModel.taxNo = '';
+    }
+  }
+
   saveLine(): void {
     if (!this.lineModel.accountId) {
       Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Please select an Account');

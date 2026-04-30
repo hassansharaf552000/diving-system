@@ -31,6 +31,7 @@ export class SearchableSelectComponent implements ControlValueAccessor, OnChange
   @Input() nullLabel: string = '-';
   @Input() isStatic: boolean = false;
   @Input() portal: boolean = false;
+  @Input() disabled: boolean = false;
 
   searchTerm: string = '';
   isOpen: boolean = false;
@@ -118,7 +119,9 @@ export class SearchableSelectComponent implements ControlValueAccessor, OnChange
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {}
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
 
   private syncLabel(value: any): void {
     if (value === undefined || value === null) {

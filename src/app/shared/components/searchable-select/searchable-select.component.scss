@@ -7,6 +7,21 @@
 .ss-wrap {
   position: relative;
   width: 100%;
+
+  &.ss-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+    cursor: not-allowed;
+
+    .ss-input-row {
+      background: var(--dm-hover, #f0f0f0);
+      border-color: transparent;
+    }
+
+    .ss-input {
+      cursor: not-allowed;
+    }
+  }
 }
 
 .ss-input-row {

@@ -372,6 +372,32 @@
   cursor: not-allowed;
 }
 
+// Disabled table cell when account doesn't allow this field
+.field-locked {
+  background: rgba(0, 0, 0, 0.03);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 4px,
+      rgba(0, 0, 0, 0.03) 4px,
+      rgba(0, 0, 0, 0.03) 8px
+    );
+    pointer-events: none;
+  }
+
+  input[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: transparent;
+  }
+}
+
 // ---- Modal Lines Section ----
 .modal-lines-section {
   margin-top: 18px;

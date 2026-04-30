@@ -333,28 +333,31 @@
                   </td>
                   <td>
                     <app-searchable-select [(ngModel)]="lineModel.accountId" [items]="accounts" labelKey="displayLabel"
-                      valueKey="id" placeholder="Select account..." [portal]="true"></app-searchable-select>
+                      valueKey="id" placeholder="Select account..." [portal]="true"
+                      (ngModelChange)="onLineAccountChange()"></app-searchable-select>
                   </td>
                   <td>
                     <app-searchable-select [(ngModel)]="lineModel.fileNumberId" [items]="fileNumbers"
                       labelKey="displayLabel" valueKey="fileId" placeholder="Select file..."
                       [portal]="true"></app-searchable-select>
                   </td>
-                  <td>
+                  <td [class.field-locked]="!costTypeEnabled">
                     <app-searchable-select [(ngModel)]="lineModel.costCenterId" [items]="costCenters"
                       labelKey="costCenterName" valueKey="costCenterId" placeholder="Select CC..."
-                      [portal]="true"></app-searchable-select>
+                      [portal]="true" [disabled]="!costTypeEnabled"></app-searchable-select>
                   </td>
-                  <td>
+                  <td [class.field-locked]="!periodEnabled">
                     <app-searchable-select [(ngModel)]="lineModel.periodId" [items]="periods" labelKey="periodName"
-                      valueKey="periodId" placeholder="Select Period..." [portal]="true"></app-searchable-select>
+                      valueKey="periodId" placeholder="Select Period..." [portal]="true"
+                      [disabled]="!periodEnabled"></app-searchable-select>
                   </td>
-                  <td>
+                  <td [class.field-locked]="!taxesEnabled">
                     <input type="number" class="sm-input num-input" [(ngModel)]="lineModel.taxPercent" placeholder="%"
-                      step="0.1">
+                      step="0.1" [disabled]="!taxesEnabled">
                   </td>
-                  <td>
-                    <input type="text" class="sm-input" [(ngModel)]="lineModel.taxNo" placeholder="Tax No">
+                  <td [class.field-locked]="!taxesEnabled">
+                    <input type="text" class="sm-input" [(ngModel)]="lineModel.taxNo" placeholder="Tax No"
+                      [disabled]="!taxesEnabled">
                   </td>
                   <td>
                     <input type="text" class="sm-input" [(ngModel)]="lineModel.lineDescription"
