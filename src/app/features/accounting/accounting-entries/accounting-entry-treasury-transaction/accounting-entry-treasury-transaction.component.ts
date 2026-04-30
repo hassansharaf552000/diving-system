@@ -326,8 +326,8 @@ export class AccountingEntryTreasuryTransactionComponent implements OnInit {
       return;
     }
 
-    if (this.balanceDifference !== 0) {
-      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Difference must be exactly 0 to save');
+    if (this.selectedTypeDef.id === 5 && this.balanceDifference !== 0) {
+      Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, icon: 'warning' }).fire('⚠️ Difference must be exactly 0 to save a Due transaction');
       return;
     }
 
