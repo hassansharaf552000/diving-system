@@ -297,4 +297,12 @@ export class AccountingService {
   deleteTreasuryCounter(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/TreasuryCounters/${id}`);
   }
-}
+
+  getTreasuryBalance(currency: string, branch?: string): Observable<number> {
+    let params = new HttpParams().set('currency', currency);
+    if (branch) params = params.set('branch', branch);
+    return this.http.get<{ currency: string; branchName: string | null; treasuryBalance: number }>(
+      `${this.baseUrl}/TreasuryCounters/treasury-balance`, { params }
+    ).pipe(map(res => res?.treasuryBalance ?? 0));
+  }
+}

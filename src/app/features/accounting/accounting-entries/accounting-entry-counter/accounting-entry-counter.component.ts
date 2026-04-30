@@ -117,6 +117,7 @@ export class AccountingEntryCounterComponent implements OnInit {
     this.treasuryBalance = 0;
     this.initDenominations('EGP');
     this.isModalOpen = true;
+    this.loadTreasuryBalance();
   }
 
   closeModal(): void {
@@ -126,6 +127,11 @@ export class AccountingEntryCounterComponent implements OnInit {
 
   onCurrencyChange(): void {
     this.initDenominations(this.currency);
+    this.loadTreasuryBalance();
+  }
+
+  onBranchChange(): void {
+    this.loadTreasuryBalance();
   }
 
   initDenominations(curr: string): void {
@@ -146,6 +152,23 @@ export class AccountingEntryCounterComponent implements OnInit {
   }
 
   treasuryBalance: number = 0;
+  loadingBalance: boolean = false;
+
+  /** Fetches the current treasury balance for selected currency + branch */
+  loadTreasuryBalance(): void {
+    this.loadingBalance = true;
+    this.svc.getTreasuryBalance(this.currency, this.branchName || undefined).subscribe({
+      next: (bal) => {
+        this.treasuryBalance = bal ?? 0;
+        this.loadingBalance = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.treasuryBalance = 0;
+        this.loadingBalance = false;
+      }
+    });
+  }
 
   get difference(): number {
     return this.totalCounter - (this.treasuryBalance || 0);

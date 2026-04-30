@@ -89,7 +89,8 @@
   border-collapse: collapse;
   font-size: 12px;
 
-  th, td {
+  th,
+  td {
     border: 1px solid #d1d5db;
     padding: 6px 8px;
     text-align: center;
@@ -125,20 +126,24 @@
   font-size: 12px;
   /* Matches reference blue styling roughly */
 
-  th, td {
-    border: 1px solid #fff; /* or light border depending on theme */
+  th,
+  td {
+    border: 1px solid #fff;
+    /* or light border depending on theme */
     padding: 6px 12px;
     text-align: center;
   }
 
   th {
-    background: #174261; /* Dark blue header for summary */
+    background: #174261;
+    /* Dark blue header for summary */
     color: #fff;
     font-weight: bold;
   }
 
   .row-label {
-    background: #256a9e; /* Lighter blue for row labels */
+    background: #256a9e;
+    /* Lighter blue for row labels */
     color: #fff;
     font-weight: bold;
     text-align: left;

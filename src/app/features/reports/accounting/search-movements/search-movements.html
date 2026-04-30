@@ -9,7 +9,7 @@
     <!-- FILTERS -->
     <div class="code-table-wrap" style="padding: 20px;">
       <div class="filter-form">
-        
+
         <!-- Row 1: From Date & To Date -->
         <div class="filter-row">
           <div class="filter-field">
@@ -26,11 +26,13 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Account Name</label>
-            <app-searchable-select [(ngModel)]="filters.accountId" [items]="accounts" valueKey="id" labelKey="accountNumber }} - {{ acc" nullLabel="-- All --"></app-searchable-select>
+            <app-searchable-select [(ngModel)]="filters.accountId" [items]="accounts" valueKey="id"
+              labelKey="accountNumber }} - {{ acc" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Beneficiary Name</label>
-            <app-searchable-select [(ngModel)]="filters.beneficiaryNameId" [items]="beneficiaryNames" valueKey="beneficiaryId" labelKey="beneficiaryName" nullLabel="-- All --"></app-searchable-select>
+            <app-searchable-select [(ngModel)]="filters.beneficiaryNameId" [items]="beneficiaryNames"
+              valueKey="beneficiaryId" labelKey="beneficiaryName" nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 
@@ -38,11 +40,14 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Transaction Type</label>
-            <app-searchable-select [(ngModel)]="filters.transactionType" [items]="transactionTypeOptions" valueKey="label" labelKey="label" nullLabel="-- All --"></app-searchable-select>
+            <app-searchable-select [(ngModel)]="filters.transactionType" [items]="transactionTypeOptions"
+              valueKey="label" labelKey="label" nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Beneficiary Type</label>
-            <app-searchable-select [(ngModel)]="filters.beneficiaryType" [items]="beneficiaryTypes" valueKey="beneficiaryTypeName" labelKey="beneficiaryTypeName" nullLabel="-- All --"></app-searchable-select>
+            <app-searchable-select [(ngModel)]="filters.beneficiaryType" [items]="beneficiaryTypes"
+              valueKey="beneficiaryTypeName" labelKey="beneficiaryTypeName"
+              nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 
@@ -50,7 +55,8 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Currency</label>
-            <app-searchable-select [(ngModel)]="filters.currency" [items]="currencyOptions" [isStatic]="true" nullLabel="-- All --"></app-searchable-select>
+            <app-searchable-select [(ngModel)]="filters.currency" [items]="currencyOptions" [isStatic]="true"
+              nullLabel="-- All --"></app-searchable-select>
           </div>
           <div class="filter-field">
             <label>Branch</label>
@@ -62,11 +68,13 @@
         <div class="filter-row">
           <div class="filter-field">
             <label>Search Text</label>
-            <input type="text" class="filter-input search-input" [(ngModel)]="filters.searchTerm" placeholder="Search..." />
+            <input type="text" class="filter-input search-input" [(ngModel)]="filters.searchTerm"
+              placeholder="Search..." />
           </div>
           <div class="filter-field">
             <label>Receipt No</label>
-            <app-searchable-select [(ngModel)]="filters.receiptNo" [items]="receipts" [isStatic]="true" nullLabel="-- All --"></app-searchable-select>
+            <app-searchable-select [(ngModel)]="filters.receiptNo" [items]="receipts" [isStatic]="true"
+              nullLabel="-- All --"></app-searchable-select>
           </div>
         </div>
 

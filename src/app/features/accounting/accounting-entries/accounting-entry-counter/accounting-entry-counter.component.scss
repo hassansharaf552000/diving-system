@@ -256,6 +256,33 @@
   }
 }
 
+// ---- Treasury Balance display in modal ----
+.balance-cell {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 0.03em;
+}
+
+.balance-loading {
+  color: var(--dm-text-muted);
+  font-size: 12px;
+  font-style: italic;
+  animation: pulse-opacity 1s ease-in-out infinite;
+}
+
+.balance-positive {
+  color: #059669;
+}
+
+.balance-zero {
+  color: var(--dm-text-muted);
+}
+
+@keyframes pulse-opacity {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 // ---- Responsive ----
 @media (max-width: 768px) {
   .search-bar {

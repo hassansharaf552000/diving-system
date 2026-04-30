@@ -130,7 +130,7 @@
       <div class="form-row">
         <div class="form-group">
           <label>Branch</label>
-          <input type="text" [(ngModel)]="branchName" placeholder="Leave empty if not applicable">
+          <input type="text" [(ngModel)]="branchName" (ngModelChange)="onBranchChange()" placeholder="Leave empty if not applicable">
         </div>
         <div class="form-group">
           <label>Recorded By</label>
@@ -166,8 +166,12 @@
             </tr>
             <tr class="totals-row">
               <td class="totals-label" colspan="2">Treasury Balance :</td>
-              <td class="num-cell">
-                <input type="number" [(ngModel)]="treasuryBalance" class="denom-input" style="font-weight: bold; width: 100px; padding: 2px 5px; text-align: right;" min="0" placeholder="0">
+              <td class="num-cell balance-cell">
+                <span *ngIf="loadingBalance" class="balance-loading">⏳ loading...</span>
+                <strong *ngIf="!loadingBalance" [class.balance-positive]="treasuryBalance > 0"
+                        [class.balance-zero]="treasuryBalance === 0">
+                  {{ treasuryBalance | number:'1.2-2' }}
+                </strong>
               </td>
             </tr>
             <tr class="totals-row">
