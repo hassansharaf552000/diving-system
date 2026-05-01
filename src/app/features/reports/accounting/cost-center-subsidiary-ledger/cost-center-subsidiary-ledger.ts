@@ -25,7 +25,9 @@ export class CostCenterSubsidiaryLedger implements OnInit {
       toCostCenter: '',
       branch: '',
       currency: '',
-      search: ''
+      search: '',
+      page: 1,
+      pageSize: 50
     };
   })();
 
@@ -83,7 +85,21 @@ export class CostCenterSubsidiaryLedger implements OnInit {
     return cleaned;
   }
 
-  triggerView() {
+  onPageChange(page: number): void {
+    this.filters.page = page;
+    this.triggerView(false);
+  }
+
+  onPageSizeChange(size: number): void {
+    this.filters.pageSize = size;
+    this.filters.page = 1;
+    this.triggerView(false);
+  }
+
+  triggerView(resetPage = true) {
+    if (resetPage) {
+      this.filters.page = 1;
+    }
     this.loading = true;
     this.reportService.getReportData<any>('/api/CostCenterSubsidiaryLedgerReport/data', this.getCleanedFilters()).subscribe({
       next: (res) => {

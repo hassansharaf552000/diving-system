@@ -95,6 +95,7 @@
             <th>File Number</th>
             <th>Service</th>
             <th>Cost Center</th>
+            <th>Description</th>
             <th>Tax Rate</th>
             <th>Tax Serial</th>
             <th>Period</th>
@@ -112,15 +113,26 @@
             <td>{{ line.fileNumber || '-' }}</td>
             <td>{{ line.service || '-' }}</td>
             <td>{{ line.costCenter || '-' }}</td>
+            <td>{{ line.description || '-' }}</td>
             <td>{{ line.taxRate | number:'1.0-2' }}</td>
             <td>{{ line.taxSerial || '-' }}</td>
             <td>{{ line.period || '-' }}</td>
           </tr>
           <tr *ngIf="data.lines.length === 0">
-            <td colspan="13" class="no-data">No records found</td>
+            <td colspan="14" class="no-data">No records found</td>
           </tr>
         </tbody>
       </table>
+      
+      <div style="display: flex; justify-content: flex-end; margin-top: 12px; margin-bottom: 8px;">
+        <app-pagination 
+          [totalItems]="data.totalCount || data.lines?.length || 0" 
+          [currentPage]="filters.page" 
+          [pageSize]="filters.pageSize" 
+          (pageChange)="onPageChange($event)" 
+          (pageSizeChange)="onPageSizeChange($event)">
+        </app-pagination>
+      </div>
     </div>
 
     <!-- SUMMARY -->
