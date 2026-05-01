@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ReportService } from '../../../../core/services/report.service';
-import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-transaction',
@@ -9,8 +8,6 @@ import { AuthService } from '../../../../core/services/auth.service';
   styleUrl: './transaction.scss',
 })
 export class Transaction {
-
-  private auth = inject(AuthService);
 
   filters: any = (() => {
     const today = new Date().toISOString().split('T')[0];
@@ -21,8 +18,7 @@ export class Transaction {
       reportBy: 'TransactionDate',
       type: '',
       receiptNo: '',
-      currency: '',
-      recordBy: this.auth?.currentUser()?.userName || ''
+      currency: ''
     };
   })();
 

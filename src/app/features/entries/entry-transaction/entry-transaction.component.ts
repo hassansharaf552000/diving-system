@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import {
@@ -15,7 +15,7 @@ import { CodeService } from '../../../core/services/code.service';
   templateUrl: './entry-transaction.component.html',
   styleUrl: './entry-transaction.component.scss'
 })
-export class EntryTransactionComponent implements OnInit {
+export class EntryTransactionComponent implements OnInit, OnDestroy {
 
   // Search
   searchTerm = '';
@@ -77,8 +77,13 @@ export class EntryTransactionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    document.body.classList.add('hide-sidebar-mobile');
     this.loadDropdowns();
     this.searchTransactions();
+  }
+
+  ngOnDestroy(): void {
+    document.body.classList.remove('hide-sidebar-mobile');
   }
 
   // ============ HELPERS ============

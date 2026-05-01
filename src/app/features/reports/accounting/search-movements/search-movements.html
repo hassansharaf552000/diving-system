@@ -132,6 +132,16 @@
           </tr>
         </tbody>
       </table>
+      
+      <div style="display: flex; justify-content: flex-end; margin-top: 12px; margin-bottom: 8px;">
+        <app-pagination 
+          [totalItems]="data.totalCount || data.lines?.length || 0" 
+          [currentPage]="filters.page" 
+          [pageSize]="filters.pageSize" 
+          (pageChange)="onPageChange($event)" 
+          (pageSizeChange)="onPageSizeChange($event)">
+        </app-pagination>
+      </div>
     </div>
 
     <!-- SUMMARY -->

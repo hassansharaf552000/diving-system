@@ -14,7 +14,7 @@
   transition: opacity 0.2s ease, visibility 0.2s ease;
   backdrop-filter: blur(3px);
   overflow-y: auto;
-  padding: 40px 0;
+  padding: 0; /* Removed padding, using margin on container instead */
 
   &.show {
     opacity: 1;
@@ -29,8 +29,7 @@
   box-shadow: var(--dm-shadow-lg);
   transform: scale(0.95) translateY(8px);
   transition: transform 0.2s ease;
-  /* Instead of max-height: 90vh, allow it to be natural height but minimum reasonable */
-  margin: auto;
+  margin: 40px auto; /* Replaces auto which caused top cutoff */
   display: flex;
   flex-direction: column;
 }
@@ -69,11 +68,16 @@
   align-items: center;
   color: white;
   flex-shrink: 0;
+  gap: 12px;
 
   h2 {
+    margin: 0;
     font-size: 18px;
     font-weight: 600;
     letter-spacing: -0.2px;
+    line-height: 1.3;
+    flex: 1;
+    word-break: break-word;
   }
 }
 
@@ -90,6 +94,7 @@
   align-items: center;
   justify-content: center;
   transition: background 0.2s;
+  flex-shrink: 0;
 
   &:hover {
     background: rgba(255, 255, 255, 0.22);
@@ -104,13 +109,24 @@
   max-height: 75vh;
 }
 
+@media (max-width: 768px) {
+  .modal-container {
+    margin: 24px auto;
+  }
+  .modal-body {
+    padding: 16px;
+    max-height: calc(100vh - 110px);
+  }
+}
+
 @media (max-width: 576px) {
   .modal-small,
   .modal-medium,
   .modal-large,
   .modal-full {
-    width: 96%;
+    width: 95%;
     max-width: 100%;
+    margin: 16px auto; /* Explicitly pushes modal 16px from top, never off-screen */
   }
   .modal-header {
     padding: 14px 18px;
@@ -118,4 +134,9 @@
       font-size: 16px;
     }
   }
+  .modal-body {
+    padding: 14px;
+    max-height: calc(100vh - 100px);
+  }
 }
+

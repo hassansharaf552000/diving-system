@@ -1,13 +1,14 @@
-﻿<div class="code-page">
+<div class="code-page">
   <div class="code-card">
     <div class="code-toolbar">
       <div class="toolbar-left">
-        <button class="back-btn" (click)="goBack()">←</button>
+        <button class="back-btn desktop-only" (click)="goBack()">←</button>
         <h2>🤿 Entry Transaction</h2>
         <span class="record-count">{{ transactions.length }} records</span>
+
       </div>
       <div class="toolbar-right">
-        <button class="btn-add" (click)="openAdd()">＋ Add New Transaction</button>
+        <button class="btn-add" (click)="openAdd()">＋ Add New</button>
       </div>
     </div>
 
@@ -18,55 +19,80 @@
           placeholder="Search transactions..." (keyup.enter)="searchTransactions()">
       </div>
 
-      <table class="code-table">
-        <thead>
-          <tr>
-            <th>Voucher</th>
-            <th>Date</th>
-            <th>Rep Name</th>
-            <th>Excursion Name</th>
-            <th>Pax (A/C/I)</th>
-            <th>Excursion Supplier</th>
-            <th style="width:90px">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let tx of paginatedTransactions">
-            <td><strong>{{ tx.voucherNumber }}</strong></td>
-            <td>{{ tx.transactionDate | date:'dd-MM-yyyy' }}</td>
-            <td>{{ tx.repName }}</td>
-            <td>{{ tx.excursionName }}</td>
-            <td class="num-cell">{{ tx.adl }} / {{ tx.chd }} / {{ tx.inf }}</td>
-            <td>{{ tx.excursionSupplierName || '-' }}</td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn edit-btn" (click)="openEdit(tx)" title="Edit">✏️</button>
-                <button class="action-btn delete-btn" (click)="confirmDelete(tx)" title="Delete">🗑️</button>
-              </div>
-            </td>
-          </tr>
-          <tr *ngIf="transactions.length === 0">
-            <td colspan="7" class="empty-row">No transactions found</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- ── DESKTOP TABLE ─────────────────────────────── -->
+      <div class="table-scroll-wrap desktop-only">
+        <table class="code-table">
+          <thead>
+            <tr>
+              <th>Voucher</th>
+              <th>Date</th>
+              <th>Rep Name</th>
+              <th>Excursion Name</th>
+              <th>Pax (A/C/I)</th>
+              <th>Excursion Supplier</th>
+              <th style="width:90px">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tx of paginatedTransactions">
+              <td><strong>{{ tx.voucherNumber }}</strong></td>
+              <td>{{ tx.transactionDate | date:'dd-MM-yyyy' }}</td>
+              <td>{{ tx.repName }}</td>
+              <td>{{ tx.excursionName }}</td>
+              <td class="num-cell">{{ tx.adl }} / {{ tx.chd }} / {{ tx.inf }}</td>
+              <td>{{ tx.excursionSupplierName || '-' }}</td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn edit-btn" (click)="openEdit(tx)" title="Edit">✏️</button>
+                  <button class="action-btn delete-btn" (click)="confirmDelete(tx)" title="Delete">🗑️</button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="transactions.length === 0">
+              <td colspan="7" class="empty-row">No transactions found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── MOBILE CARDS ──────────────────────────────── -->
+      <div class="mobile-only">
+        <div class="tx-card" *ngFor="let tx of paginatedTransactions">
+          <div class="tx-card-header">
+            <span class="tx-voucher">🎫 {{ tx.voucherNumber }}</span>
+            <span class="tx-date">{{ tx.transactionDate | date:'dd-MM-yyyy' }}</span>
+          </div>
+          <div class="tx-card-body">
+            <div class="tx-row"><span class="tx-label">Rep</span><span class="tx-value">{{ tx.repName || '-' }}</span></div>
+            <div class="tx-row"><span class="tx-label">Excursion</span><span class="tx-value">{{ tx.excursionName || '-' }}</span></div>
+            <div class="tx-row"><span class="tx-label">Pax (A/C/I)</span><span class="tx-value">{{ tx.adl }} / {{ tx.chd }} / {{ tx.inf }}</span></div>
+            <div class="tx-row"><span class="tx-label">Supplier</span><span class="tx-value">{{ tx.excursionSupplierName || '-' }}</span></div>
+          </div>
+          <div class="tx-card-footer">
+            <button class="action-btn edit-btn" (click)="openEdit(tx)">✏️ Edit</button>
+            <button class="action-btn delete-btn" (click)="confirmDelete(tx)">🗑️ Delete</button>
+          </div>
+        </div>
+        <div class="empty-cards" *ngIf="transactions.length === 0">No transactions found</div>
+      </div>
 
       <div class="table-footer">
         <app-pagination [totalItems]="transactions.length" [currentPage]="currentPage" [pageSize]="pageSize"
           (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"></app-pagination>
-        <app-export-buttons [data]="transactions" [columns]="exportColumns" filename="entry_transactions"
-          importEndpoint="/api/EntryTransactions/import" templateAsset="EntryTransactions_Import_Template.xlsx"
-          (imported)="searchTransactions()"></app-export-buttons>
+        <div class="desktop-only">
+          <app-export-buttons [data]="transactions" [columns]="exportColumns" filename="entry_transactions"
+            importEndpoint="/api/EntryTransactions/import" templateAsset="EntryTransactions_Import_Template.xlsx"
+            (imported)="searchTransactions()"></app-export-buttons>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Add/Edit Modal (reusing the same form structure but editable) -->
+  <!-- ══ ADD / EDIT MODAL ══════════════════════════════════ -->
   <app-modal [title]="isEdit ? 'Edit Transaction' : 'Add New Transaction'" [isOpen]="isModalOpen"
     (closed)="closeModal()" size="large">
     <div class="modal-form">
 
-      <!-- General Form Area -->
       <div class="form-row">
         <div class="form-group">
           <label>Voucher *</label>
@@ -103,12 +129,12 @@
           <app-searchable-select [(ngModel)]="model.hotelId" [items]="hotels" labelKey="hotelName" valueKey="id"
             placeholder="Search hotel..."></app-searchable-select>
         </div>
-        <div class="form-group" style="display: flex; gap: 5px;">
-          <div style="flex: 1;">
+        <div class="form-group inline-pair">
+          <div class="pair-item">
             <label>Room</label>
             <input type="text" [(ngModel)]="model.roomNumber" placeholder="Room">
           </div>
-          <div style="flex: 1;">
+          <div class="pair-item">
             <label>Pick Up</label>
             <input type="time" [(ngModel)]="model.pickUpTime">
           </div>
@@ -128,16 +154,16 @@
             [items]="excursions" labelKey="excursionName" valueKey="id"
             placeholder="Search excursion..."></app-searchable-select>
         </div>
-        <div class="form-group" style="display: flex; gap: 5px;">
-          <div style="flex: 1;">
+        <div class="form-group pax-group">
+          <div class="pax-item">
             <label>ADL</label>
             <input type="number" [(ngModel)]="model.adl" min="0" (change)="recalculatePrices()">
           </div>
-          <div style="flex: 1;">
+          <div class="pax-item">
             <label>CHD</label>
             <input type="number" [(ngModel)]="model.chd" min="0" (change)="recalculatePrices()">
           </div>
-          <div style="flex: 1;">
+          <div class="pax-item">
             <label>INF</label>
             <input type="number" [(ngModel)]="model.inf" min="0">
           </div>
@@ -171,7 +197,7 @@
         </div>
       </div>
 
-      <!-- Matched rate indicator -->
+      <!-- Rate badge -->
       <div *ngIf="matchedRate" class="rate-match-badge">
         ✅ Rates loaded: ADL selling {{ matchedRate.sellingAdlEGP | number:'1.2-2' }} EGP &nbsp;|&nbsp; CHD selling {{
         matchedRate.sellingChdEGP | number:'1.2-2' }} EGP
@@ -180,10 +206,13 @@
         ⚠️ No matching price record found for this combination
       </div>
 
-      <hr style="margin: 15px 0; border: 0; border-top: 1px dashed #ccc;">
+      <hr class="section-divider">
 
-      <!-- Financial edits in modal -->
-      <div class="modal-financial-grid">
+      <!-- ── FINANCIAL GRID ── desktop table / mobile cards ── -->
+      <p class="fin-section-title">Financial Details</p>
+
+      <!-- Desktop -->
+      <div class="modal-financial-grid desktop-only">
         <table class="fin-table">
           <thead>
             <tr>
@@ -221,14 +250,10 @@
             <tr>
               <td>Discount</td>
               <td colspan="2"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEGP" step="0.01"
-                  (change)="onDiscountChange()"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountUSD" step="0.01"
-                  (change)="onDiscountChange()"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEUR" step="0.01"
-                  (change)="onDiscountChange()"></td>
-              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountGBP" step="0.01"
-                  (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEGP" step="0.01" (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountUSD" step="0.01" (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountEUR" step="0.01" (change)="onDiscountChange()"></td>
+              <td><input type="number" class="cell-input num" [(ngModel)]="model.discountGBP" step="0.01" (change)="onDiscountChange()"></td>
               <td class="text-center"><input type="checkbox" [(ngModel)]="model.discountFree"></td>
             </tr>
             <tr>
@@ -253,10 +278,75 @@
         </table>
       </div>
 
+      <!-- Mobile financial cards -->
+      <div class="mobile-only">
+        <div class="fin-cards">
+
+        <div class="fin-card">
+          <div class="fin-card-title">💰 Revenue</div>
+          <div class="fin-card-fields">
+            <div class="fin-field"><label>Date</label><input type="date" [(ngModel)]="model.revenueDate"></div>
+            <div class="fin-field"><label>Rec No</label><input type="text" [(ngModel)]="model.revenueRecNo"></div>
+            <div class="fin-field"><label>EGP</label><input type="number" [(ngModel)]="model.revenueEGP" step="0.01"></div>
+            <div class="fin-field"><label>USD</label><input type="number" [(ngModel)]="model.revenueUSD" step="0.01"></div>
+            <div class="fin-field"><label>EUR</label><input type="number" [(ngModel)]="model.revenueEUR" step="0.01"></div>
+            <div class="fin-field"><label>GBP</label><input type="number" [(ngModel)]="model.revenueGBP" step="0.01"></div>
+            <div class="fin-field fin-check"><label>Free</label><input type="checkbox" [(ngModel)]="model.revenueFree"></div>
+          </div>
+        </div>
+
+        <div class="fin-card">
+          <div class="fin-card-title">↩️ Refund</div>
+          <div class="fin-card-fields">
+            <div class="fin-field"><label>Date</label><input type="date" [(ngModel)]="model.refundDate"></div>
+            <div class="fin-field"><label>Rec No</label><input type="text" [(ngModel)]="model.refundRecNo"></div>
+            <div class="fin-field"><label>EGP</label><input type="number" [(ngModel)]="model.refundEGP" step="0.01"></div>
+            <div class="fin-field"><label>USD</label><input type="number" [(ngModel)]="model.refundUSD" step="0.01"></div>
+            <div class="fin-field"><label>EUR</label><input type="number" [(ngModel)]="model.refundEUR" step="0.01"></div>
+            <div class="fin-field"><label>GBP</label><input type="number" [(ngModel)]="model.refundGBP" step="0.01"></div>
+            <div class="fin-field fin-check"><label>Free</label><input type="checkbox" [(ngModel)]="model.refundFree"></div>
+          </div>
+        </div>
+
+        <div class="fin-card">
+          <div class="fin-card-title">🏷️ Discount</div>
+          <div class="fin-card-fields">
+            <div class="fin-field"><label>EGP</label><input type="number" [(ngModel)]="model.discountEGP" step="0.01" (change)="onDiscountChange()"></div>
+            <div class="fin-field"><label>USD</label><input type="number" [(ngModel)]="model.discountUSD" step="0.01" (change)="onDiscountChange()"></div>
+            <div class="fin-field"><label>EUR</label><input type="number" [(ngModel)]="model.discountEUR" step="0.01" (change)="onDiscountChange()"></div>
+            <div class="fin-field"><label>GBP</label><input type="number" [(ngModel)]="model.discountGBP" step="0.01" (change)="onDiscountChange()"></div>
+            <div class="fin-field fin-check"><label>Free</label><input type="checkbox" [(ngModel)]="model.discountFree"></div>
+          </div>
+        </div>
+
+        <div class="fin-card">
+          <div class="fin-card-title">💵 Selling</div>
+          <div class="fin-card-fields">
+            <div class="fin-field"><label>EGP</label><input type="number" [(ngModel)]="model.sellingEGP" step="0.01"></div>
+            <div class="fin-field"><label>USD</label><input type="number" [(ngModel)]="model.sellingUSD" step="0.01"></div>
+            <div class="fin-field"><label>EUR</label><input type="number" [(ngModel)]="model.sellingEUR" step="0.01"></div>
+            <div class="fin-field"><label>GBP</label><input type="number" [(ngModel)]="model.sellingGBP" step="0.01"></div>
+            <div class="fin-field fin-check"><label>Free</label><input type="checkbox" [(ngModel)]="model.sellingFree"></div>
+          </div>
+        </div>
+
+        <div class="fin-card">
+          <div class="fin-card-title">📦 Cost</div>
+          <div class="fin-card-fields">
+            <div class="fin-field"><label>EGP</label><input type="number" [(ngModel)]="model.costEGP" step="0.01"></div>
+            <div class="fin-field"><label>USD</label><input type="number" [(ngModel)]="model.costUSD" step="0.01"></div>
+            <div class="fin-field"><label>EUR</label><input type="number" [(ngModel)]="model.costEUR" step="0.01"></div>
+            <div class="fin-field"><label>GBP</label><input type="number" [(ngModel)]="model.costGBP" step="0.01"></div>
+            <div class="fin-field fin-check"><label>Free</label><input type="checkbox" [(ngModel)]="model.costFree"></div>
+          </div>
+        </div>
+
+      </div>
+      </div> <!-- /mobile-only wrapper -->
+
     </div>
     <div class="modal-footer">
-      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update' : '＋ Add Transaction'
-        }}</button>
+      <button class="btn-save" (click)="save()" [disabled]="saving">{{ isEdit ? '💾 Update' : '＋ Add Transaction' }}</button>
       <button class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
     </div>
   </app-modal>

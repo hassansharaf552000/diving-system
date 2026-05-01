@@ -1,20 +1,171 @@
 @import '../../codes/code-shared';
 
-/* 
-  Custom styles for Entry Transaction Modal 
-*/
+// ══════════════════════════════════════════
+//  RESPONSIVE HELPERS
+// ══════════════════════════════════════════
+.desktop-only { display: block !important; }
+.mobile-only  { display: none !important;  }
 
-// ---- Modal Adjustments ----
+@media (max-width: 768px) {
+  .desktop-only { display: none !important; }
+  .mobile-only  { display: block !important; }
+}
+
+// ══════════════════════════════════════════
+//  TRANSACTION CARDS  (mobile list view)
+// ══════════════════════════════════════════
+.tx-card {
+  background: var(--dm-surface, #fff);
+  border: 1px solid var(--dm-border, #e2e8f0);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: box-shadow 0.2s;
+
+  &:active { box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+}
+
+.tx-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--dm-accent, #0f3460);
+  color: #fff;
+}
+
+.tx-voucher {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+}
+
+.tx-date {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.tx-card-body {
+  padding: 10px 14px;
+}
+
+.tx-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--dm-border, #f1f5f9);
+  font-size: 13px;
+  gap: 8px;
+
+  &:last-child { border-bottom: none; }
+}
+
+.tx-label {
+  color: var(--dm-text-muted, #6b7280);
+  font-weight: 600;
+  min-width: 90px;
+  flex-shrink: 0;
+}
+
+.tx-value {
+  color: var(--dm-text, #111827);
+  text-align: right;
+  word-break: break-word;
+}
+
+.tx-card-footer {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--dm-hover, #f8fafc);
+  border-top: 1px solid var(--dm-border, #e2e8f0);
+
+  .action-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover { opacity: 0.82; }
+  }
+
+  .edit-btn   { background: #dbeafe; color: #1d4ed8; }
+  .delete-btn { background: #fee2e2; color: #b91c1c; }
+}
+
+.empty-cards {
+  text-align: center;
+  padding: 30px;
+  color: var(--dm-text-muted, #9ca3af);
+  font-style: italic;
+  font-size: 14px;
+}
+
+// ══════════════════════════════════════════
+//  FORM PAIRS  (Room+PickUp / ADL+CHD+INF)
+// ══════════════════════════════════════════
+.inline-pair {
+  display: flex;
+  gap: 8px;
+
+  .pair-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    label { font-size: 12px; }
+  }
+}
+
+.pax-group {
+  display: flex;
+  gap: 8px;
+
+  .pax-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 60px;
+
+    label { font-size: 12px; }
+
+    input { text-align: right; }
+  }
+}
+
+// ══════════════════════════════════════════
+//  MODAL FINANCIAL GRID  (desktop table)
+// ══════════════════════════════════════════
+.fin-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dm-text-muted, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 0 0 10px;
+}
+
+.section-divider {
+  margin: 16px 0;
+  border: 0;
+  border-top: 1px dashed var(--dm-border, #ccc);
+}
 
 .modal-financial-grid {
   overflow-x: auto;
-  
+
   .fin-table {
     min-width: 600px;
     width: 100%;
     border-collapse: collapse;
     font-size: 12px;
-    
+
     th {
       background: #e9ecef;
       padding: 6px;
@@ -27,7 +178,7 @@
     td {
       padding: 4px;
       border: 1px solid #dee2e6;
-      
+
       &.row-header {
         background: #e9ecef;
         font-weight: 600;
@@ -40,29 +191,108 @@
 
     .cell-input {
       width: 100%;
-      border: 1px solid transparent;
+      border: 1px solid #ced4da;
+      border-radius: 2px;
       padding: 4px 6px;
       font-size: 12px;
       box-sizing: border-box;
-      background: transparent;
-      
-      border: 1px solid #ced4da;
-      border-radius: 2px;
       background: white;
 
       &.num {
         text-align: right;
         font-family: 'Consolas', 'Courier New', monospace;
       }
-      
-      &.text-center {
-        text-align: center;
-      }
+
+      &.text-center { text-align: center; }
     }
   }
 }
 
-// ---- Rate Match Badge ----
+// ══════════════════════════════════════════
+//  MOBILE FINANCIAL CARDS
+// ══════════════════════════════════════════
+.fin-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fin-card {
+  border: 1px solid var(--dm-border, #e2e8f0);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.fin-card-title {
+  background: var(--dm-accent, #0f3460);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 14px;
+}
+
+.fin-card-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--dm-surface, #fff);
+}
+
+.fin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--dm-text-muted, #6b7280);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    padding: 8px 10px;
+    border: 1px solid var(--dm-border, #d1d5db);
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--dm-surface, #fff);
+    color: var(--dm-text, #111827);
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: var(--dm-accent, #0f3460);
+      box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.08);
+    }
+  }
+
+  &.fin-check {
+    grid-column: span 2;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    label { text-transform: none; font-size: 13px; }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--dm-accent, #0f3460);
+    }
+  }
+}
+
+// ══════════════════════════════════════════
+//  RATE BADGE
+// ══════════════════════════════════════════
 .rate-match-badge {
   display: flex;
   align-items: center;
@@ -75,10 +305,37 @@
   color: #155724;
   border: 1px solid #c3e6cb;
   margin-bottom: 4px;
+  flex-wrap: wrap;
 
   &.rate-no-match {
     background: #fff3cd;
     color: #856404;
     border-color: #ffc107;
+  }
+}
+
+// ══════════════════════════════════════════
+//  MOBILE FORM OVERRIDES
+// ══════════════════════════════════════════
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .form-group {
+    min-width: 100% !important;
+  }
+
+  .inline-pair {
+    flex-direction: row; // keep side by side on mobile (they are small)
+  }
+
+  .pax-group {
+    flex-direction: row; // keep ADL/CHD/INF in a row
+  }
+
+  .fin-card-fields {
+    grid-template-columns: 1fr 1fr; // 2 cols still fine on phone
   }
 }
