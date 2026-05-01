@@ -21,8 +21,15 @@ export class FileProfitAndLoss implements OnInit {
     fileNumberId: '',
     serviceAccountId: '',
     reportGroup: 'Details',
-    reportBy: 'Month'
+    reportBy: 'Month',
+    page: 1,
+    pageSize: 50
   };
+
+  reportData: any = null;
+  loading = false;
+
+  tableColumns: any[] = [];
 
   agents: CodeAgent[] = [];
   fileNumbers: CodeFileNumber[] = [];
@@ -84,6 +91,94 @@ export class FileProfitAndLoss implements OnInit {
       }
     }
     return cleaned;
+  }
+
+  onPageChange(page: number): void {
+    this.filters.page = page;
+    this.updatePagedRows();
+    this.cdr.detectChanges();
+  }
+
+  onPageSizeChange(size: number): void {
+    this.filters.pageSize = size;
+    this.filters.page = 1;
+    this.updatePagedRows();
+    this.cdr.detectChanges();
+  }
+
+  updatePagedRows() {
+    if (!this.reportData || !this.reportData.allRows) return;
+    const startIndex = (this.filters.page - 1) * this.filters.pageSize;
+    const endIndex = startIndex + this.filters.pageSize;
+    this.reportData.rows = this.reportData.allRows.slice(startIndex, endIndex);
+  }
+
+  fetchData(resetPage = true) {
+    if (resetPage) {
+      this.filters.page = 1;
+    }
+    this.loading = true;
+    this.reportData = null;
+    this.reportService.getReportData<any>('/api/TouristicFileSubsidiaryReport/data', this.getCleanedFilters()).subscribe({
+      next: (res) => {
+        const flatRows: any[] = [];
+        if (res && res.branches) {
+          res.branches.forEach((b: any) => {
+            const branchName = b.branch;
+            const groups = b.months || b.agents || b.files || [];
+            
+            groups.forEach((g: any) => {
+              const groupVal = g.month || g.agentName || g.fileNumber || g.agent || g.file || '-';
+              if (g.services) {
+                g.services.forEach((s: any) => {
+                  flatRows.push({
+                    branch: branchName,
+                    group: groupVal,
+                    accountName: s.accountName,
+                    revenue: s.revenue,
+                    cost: s.expense,
+                    profit: s.pl,
+                    margin: s.plPercent
+                  });
+                });
+              }
+            });
+          });
+        }
+
+        const groupLabel = this.filters.reportBy || 'Group';
+        this.tableColumns = [
+          { key: 'branch',       label: 'Branch' },
+          { key: 'group',        label: groupLabel },
+          { key: 'accountName',  label: 'Account Name' },
+          { key: 'revenue',      label: 'Revenue' },
+          { key: 'cost',         label: 'Cost' },
+          { key: 'profit',       label: 'Profit' },
+          { key: 'margin',       label: 'Margin %' }
+        ];
+
+        this.reportData = {
+          allRows: flatRows,
+          rows: [],
+          totals: {
+            revenue: res?.grandRevenue || 0,
+            cost: res?.grandExpense || 0,
+            profit: res?.grandPL || 0,
+            margin: res?.grandPLPct || 0
+          },
+          totalCount: flatRows.length
+        };
+        
+        this.updatePagedRows();
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load report data', err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   triggerPdf() {

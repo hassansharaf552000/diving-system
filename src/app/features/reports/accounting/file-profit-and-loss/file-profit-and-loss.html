@@ -63,7 +63,7 @@
 
         <!-- Actions -->
         <div class="filter-actions">
-          <button class="btn-view" (click)="triggerPdf()">
+          <button class="btn-view" (click)="fetchData()">
             <i class="fas fa-eye"></i> View
           </button>
           <button class="btn-pdf" (click)="downloadPdf()">
@@ -75,7 +75,82 @@
         </div>
 
       </div>
-    </div>
 
+      <!-- Result Section -->
+      <div class="report-result" *ngIf="reportData && !loading" style="margin-top: 30px;">
+        <ng-container *ngIf="reportData.allRows?.length > 0; else noData">
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th *ngFor="let col of tableColumns">{{ col.label }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of reportData.rows">
+                  <td *ngFor="let col of tableColumns">
+                    {{ (col.key === 'profit' || col.key === 'revenue' || col.key === 'cost' || col.key === 'margin') ? (row[col.key] | number:'1.2-2') : (row[col.key] || '-') }}
+                  </td>
+                </tr>
+                <tr *ngIf="reportData.rows.length === 0">
+                  <td [attr.colspan]="tableColumns.length" class="no-data" style="text-align: center; padding: 20px;">No records match your selected filters.</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div style="display: flex; justify-content: flex-end; margin-top: 12px; margin-bottom: 8px;">
+              <app-pagination 
+                [totalItems]="reportData.totalCount || 0" 
+                [currentPage]="filters.page" 
+                [pageSize]="filters.pageSize" 
+                (pageChange)="onPageChange($event)" 
+                (pageSizeChange)="onPageSizeChange($event)">
+              </app-pagination>
+            </div>
+          </div>
+
+          <!-- SUMMARY -->
+          <div class="summary-container" *ngIf="reportData && reportData.totals">
+            <table class="summary-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Revenue</th>
+                  <th>Cost</th>
+                  <th>Profit</th>
+                  <th>Margin %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="total-row">
+                  <td class="row-label">Total</td>
+                  <td>{{ reportData.totals.revenue | number:'1.2-2' }}</td>
+                  <td>{{ reportData.totals.cost | number:'1.2-2' }}</td>
+                  <td [ngStyle]="{'color': reportData.totals.profit < 0 ? '#dc2626' : (reportData.totals.profit > 0 ? '#16a34a' : 'inherit')}">
+                    {{ reportData.totals.profit | number:'1.2-2' }}
+                  </td>
+                  <td>{{ reportData.totals.margin | number:'1.2-2' }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+
+        <ng-template #noData>
+          <div style="text-align: center; padding: 40px; background: var(--bg-card, #ffffff); border-radius: 8px; border: 1px dashed var(--border-color, #d1d5db);">
+            <i class="fas fa-folder-open" style="font-size: 48px; color: var(--text-muted, #9ca3af); margin-bottom: 15px;"></i>
+            <h3 style="color: var(--text-color, #374151); font-size: 18px; margin-bottom: 8px;">No Data Found</h3>
+            <p style="color: var(--text-muted, #6b7280); font-size: 14px; margin: 0;">No records match your selected filters.</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <div *ngIf="loading" style="text-align: center; padding: 40px;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: var(--primary, #3b82f6);"></i>
+        <p style="margin-top: 10px; color: var(--text-muted, #6b7280);">Loading data...</p>
+      </div>
+
+    </div>
   </div>
 </div>
